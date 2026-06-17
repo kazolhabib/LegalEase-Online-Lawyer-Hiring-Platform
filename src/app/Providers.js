@@ -60,64 +60,168 @@ function CustomThemeProvider({ children }) {
 // Auth Context
 const AuthContext = createContext({
   user: null,
-  login: () => {},
+  loading: true,
+  login: async () => {},
+  register: async () => {},
+  googleLogin: async () => {},
   logout: () => {},
-  switchRole: () => {},
+  updateProfile: async () => {},
+  updateRole: async () => {},
 });
 
 export const useAuth = () => useContext(AuthContext);
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
-
-  const login = (role = 'user') => {
-    let mockUser = {
-      name: 'Kazi Habib',
-      email: 'kazi.habib@gmail.com',
-      role: 'user', // default client
-      avatar: 'https://i.ibb.co.com/8gN0h4R/user-avatar.png'
+    const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const res = await fetch(`${API_URL}/auth/profile`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          if (res.ok) {
+            const userData = await res.json();
+            setUser(userData);
+          } else {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+          }
+        } catch (err) {
+          console.error('Failed to verify token:', err);
+          // Don't log out on network loss, but keep local user if possible
+          const storedUser = localStorage.getItem('user');
+          if (storedUser) {
+            setUser(JSON.parse(storedUser));
+          }
+        }
+      }
+      setLoading(false);
     };
 
-    if (role === 'lawyer') {
-      mockUser = {
-        name: 'Barrister Rafique',
-        email: 'rafique.law@legalease.com',
-        role: 'lawyer',
-        avatar: 'https://i.ibb.co.com/mC3p6v0/lawyer-avatar.png',
-        specialization: 'Corporate & Constitutional Law',
-        fee: 150
-      };
-    } else if (role === 'admin') {
-      mockUser = {
-        name: 'Admin LegalEase',
-        email: 'admin@legalease.online',
-        role: 'admin',
-        avatar: 'https://i.ibb.co.com/gSnHqV3/admin-avatar.png'
-      };
+    checkAuth();
+  }, []);
+
+  const login = async (email, password) => {
+    const res = await fetch(`${API_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.msg || 'Login failed');
     }
 
-    setUser(mockUser);
-    localStorage.setItem('user', JSON.stringify(mockUser));
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    setUser(data.user);
+    return data.user;
+  };
+
+  const register = async (name, email, password) => {
+    const res = await fetch(`${API_URL}/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, email, password })
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.msg || 'Registration failed');
+    }
+
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    setUser(data.user);
+    return data.user;
+  };
+
+  const googleLogin = async (name, email, avatar) => {
+    const res = await fetch(`${API_URL}/auth/google`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, email, avatar })
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.msg || 'Google login failed');
+    }
+
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    setUser(data.user);
+    return data.user;
   };
 
   const logout = () => {
-    setUser(null);
+    localStorage.removeItem('token');
     localStorage.removeItem('user');
+    setUser(null);
   };
 
-  const switchRole = (role) => {
-    login(role);
+  const updateProfile = async (name, avatar) => {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API_URL}/auth/profile`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ name, avatar })
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.msg || 'Failed to update profile');
+    }
+
+    // Update local storage user data keeping other fields
+    const updatedUser = { ...user, name: data.name, avatar: data.avatar };
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+    setUser(updatedUser);
+    return updatedUser;
+  };
+
+  const updateRole = async (role) => {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API_URL}/auth/role`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ role })
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.msg || 'Failed to update role');
+    }
+
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    setUser(data.user);
+    return data.user;
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, switchRole }}>
+    <AuthContext.Provider value={{ user, loading, login, register, googleLogin, logout, updateProfile, updateRole }}>
       {children}
     </AuthContext.Provider>
   );
