@@ -27,9 +27,9 @@ export default function Navbar() {
   };
 
   return (
-    <header className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] pt-[1rem] pb-[0.5rem] z-[50] sticky top-[0rem] bg-transparent">
-      <div className="editorial-container bg-card border-[0.0625rem] border-border/80 shadow-[0_0.25rem_1.875rem_rgba(0,0,0,0.02)] rounded-[1rem] transition-all duration-[300ms]">
-        <div className="flex items-center justify-between px-[1rem] sm:px-[1.5rem] lg:px-[2rem] h-[4rem]">
+    <header className="w-full sticky top-[0rem] z-[50] bg-background/80 backdrop-blur-md border-b-[0.0625rem] border-border/20 transition-all duration-[300ms]">
+      <div className="editorial-container px-[1rem] sm:px-[2rem] lg:px-[3rem]">
+        <div className="flex items-center justify-between h-[4.5rem]">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="flex items-center gap-[0.5rem] group">

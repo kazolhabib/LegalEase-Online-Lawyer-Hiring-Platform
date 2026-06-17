@@ -55,12 +55,12 @@ export default function Home() {
   }, []);
 
   const categories = [
-    { name: 'Corporate Law', count: '124 Lawyers', desc: 'Business formation, mergers, contracts, and IP protection.', icon: '⚖️' },
-    { name: 'Criminal Defense', count: '89 Lawyers', desc: 'DUI, felonies, federal offenses, and litigation.', icon: '🛡️' },
-    { name: 'Family Law', count: '145 Lawyers', desc: 'Divorce, child custody, adoption, and prenups.', icon: '🏠' },
-    { name: 'Intellectual Property', count: '76 Lawyers', desc: 'Patents, trademarks, copyrights, and licensing.', icon: '💡' },
-    { name: 'Civil Litigation', count: '112 Lawyers', desc: 'Property disputes, breaches of contract, and injury claims.', icon: '📜' },
-    { name: 'Tax Consultancy', count: '54 Lawyers', desc: 'Corporate tax, audits, wealth planning, and IRS disputes.', icon: '💵' },
+    { name: 'Corporate Law', count: '124 Lawyers', desc: 'Business formation, mergers, contracts, and IP protection.', icon: '⚖️', num: '01' },
+    { name: 'Criminal Defense', count: '89 Lawyers', desc: 'DUI, felonies, federal offenses, and litigation.', icon: '🛡️', num: '02' },
+    { name: 'Family Law', count: '145 Lawyers', desc: 'Divorce, child custody, adoption, and prenups.', icon: '🏠', num: '03' },
+    { name: 'Intellectual Property', count: '76 Lawyers', desc: 'Patents, trademarks, copyrights, and licensing.', icon: '💡', num: '04' },
+    { name: 'Civil Litigation', count: '112 Lawyers', desc: 'Property disputes, breaches of contract, and injury claims.', icon: '📜', num: '05' },
+    { name: 'Tax Consultancy', count: '54 Lawyers', desc: 'Corporate tax, audits, wealth planning, and IRS disputes.', icon: '💵', num: '06' },
   ];
 
   const featuredLawyers = [
@@ -72,7 +72,7 @@ export default function Home() {
       rating: 4.9,
       reviews: 124,
       status: 'Available',
-      image: 'https://i.ibb.co.com/mC3p6v0/lawyer-avatar.png',
+      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=533',
       badge: 'Gold Partner'
     },
     {
@@ -83,7 +83,7 @@ export default function Home() {
       rating: 4.8,
       reviews: 98,
       status: 'Busy',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200&h=200',
+      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400&h=533',
       badge: 'Highly Rated'
     },
     {
@@ -94,7 +94,7 @@ export default function Home() {
       rating: 5.0,
       reviews: 215,
       status: 'Available',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200&h=200',
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400&h=533',
       badge: 'Senior Council'
     },
     {
@@ -105,7 +105,7 @@ export default function Home() {
       rating: 4.7,
       reviews: 82,
       status: 'Available',
-      image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200&h=200',
+      image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400&h=533',
       badge: 'Rising Star'
     },
     {
@@ -116,7 +116,7 @@ export default function Home() {
       rating: 4.9,
       reviews: 104,
       status: 'Available',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200&h=200',
+      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400&h=533',
       badge: 'Trial Expert'
     },
     {
@@ -127,7 +127,7 @@ export default function Home() {
       rating: 4.9,
       reviews: 147,
       status: 'Available',
-      image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200',
+      image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400&h=533',
       badge: 'Pro Bono Award'
     }
   ];
@@ -135,109 +135,91 @@ export default function Home() {
   return (
     <div className="relative min-h-screen">
       
-      {/* Dynamic Banner Slider Section */}
-      <section className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] pt-[2rem] pb-[3rem] relative z-[10]">
-        <div className="editorial-container bg-card rounded-[2rem] p-[2rem] sm:p-[4rem] border-[0.0625rem] border-border/80 shadow-[0_0.25rem_2.5rem_rgba(0,0,0,0.015)] relative overflow-hidden min-h-[30rem] flex flex-col md:flex-row items-center justify-between gap-[2rem]">
-          
-          {/* Slider Content */}
-          <div className="max-w-[40rem] space-y-[1.5rem] z-[10] text-left transition-all duration-[700ms]">
-            <span className="inline-block px-[0.75rem] py-[0.25rem] rounded-full bg-accent/15 border-[0.0625rem] border-accent/20 text-[0.75rem] text-accent font-semibold uppercase tracking-wider">
+      {/* Editorial Banner Section (No Borders, Full Width Text) */}
+      <section className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] pt-[3rem] pb-[4rem] relative z-[10]">
+        <div className="editorial-container flex flex-col md:flex-row items-center justify-between gap-[3rem]">
+          {/* Content */}
+          <div className="max-w-[42rem] space-y-[1.5rem] text-left">
+            <span className="text-[0.75rem] font-bold uppercase tracking-widest text-accent">
               {slides[activeSlide].subtitle}
             </span>
-            <h1 className="text-[2.25rem] sm:text-[3.5rem] font-extrabold tracking-tight font-sans leading-[1.1] text-primary dark:text-foreground">
+            <h1 className="font-serif text-[2.75rem] sm:text-[4.75rem] font-medium tracking-tight leading-[1.05] text-primary dark:text-foreground italic">
               {slides[activeSlide].title}
             </h1>
-            <p className="text-[0.875rem] sm:text-[1rem] text-slate-500 max-w-[32rem] leading-relaxed font-body">
+            <p className="text-[0.9375rem] text-slate-500 dark:text-slate-400 leading-relaxed max-w-[32rem]">
               {slides[activeSlide].description}
             </p>
             <div className="pt-[1rem]">
               <Link
                 href={slides[activeSlide].ctaLink}
-                className="inline-flex items-center gap-[0.5rem] px-[1.5rem] py-[1rem] rounded-[0.75rem] text-[0.75rem] font-bold bg-primary text-white dark:bg-accent dark:text-navy hover:scale-[1.02] active:scale-[0.98] transition-all"
+                className="inline-block pb-[0.25rem] border-b-[0.125rem] border-accent text-[0.8125rem] font-extrabold text-primary dark:text-foreground tracking-wider uppercase hover:text-accent transition-colors"
               >
-                {slides[activeSlide].ctaText}
-                <svg className="w-[0.875rem] h-[0.875rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
+                {slides[activeSlide].ctaText} &rarr;
               </Link>
             </div>
           </div>
 
-          {/* Slider Icon Graphics */}
-          <div className="hidden md:flex flex-shrink-0 justify-center items-center h-[12rem] w-[12rem] relative z-[10]">
-            <div className="transition-all duration-[700ms] transform hover:rotate-[6deg]">
-              {slides[activeSlide].icon}
-            </div>
+          {/* Large Abstract Icon (No boxed container wrapping) */}
+          <div className="hidden md:flex flex-shrink-0 justify-center items-center h-[14rem] w-[14rem] opacity-90">
+            {slides[activeSlide].icon}
           </div>
+        </div>
 
-          {/* Slider Dots */}
-          <div className="absolute bottom-[1.5rem] left-[2rem] sm:left-[4rem] flex space-x-[0.5rem] z-[20]">
+        {/* Minimal Control panel (Centered dots & slide numbers) */}
+        <div className="editorial-container flex items-center justify-between pt-[2rem] border-t-[0.0625rem] border-border/10 mt-[3rem]">
+          <div className="flex items-center gap-[0.5rem]">
             {slides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActiveSlide(i)}
-                className={`h-[0.625rem] rounded-full transition-all duration-[300ms] ${
-                  activeSlide === i ? 'w-[2rem] bg-accent' : 'w-[0.625rem] bg-slate-400/50'
+                className={`h-[0.125rem] rounded-full transition-all duration-[300ms] ${
+                  activeSlide === i ? 'w-[2.5rem] bg-accent' : 'w-[1.25rem] bg-slate-300 dark:bg-zinc-800'
                 }`}
                 aria-label={`Go to slide ${i + 1}`}
               />
             ))}
           </div>
-
-          {/* Slider Navigation Arrows */}
-          <div className="absolute bottom-[1.5rem] right-[2rem] sm:right-[4rem] flex space-x-[0.75rem] z-[20]">
-            <button
-              onClick={() => setActiveSlide((prev) => (prev - 1 + slides.length) % slides.length)}
-              className="p-[0.625rem] rounded-[0.75rem] border-[0.0625rem] border-border/80 hover:border-accent hover:text-accent transition-all bg-background/50"
-              aria-label="Previous slide"
-            >
-              <svg className="w-[1rem] h-[1rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <button
-              onClick={() => setActiveSlide((prev) => (prev + 1) % slides.length)}
-              className="p-[0.625rem] rounded-[0.75rem] border-[0.0625rem] border-border/80 hover:border-accent hover:text-accent transition-all bg-background/50"
-              aria-label="Next slide"
-            >
-              <svg className="w-[1rem] h-[1rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
-
+          <span className="text-[0.6875rem] font-mono uppercase tracking-wider text-slate-400">
+            Slide 0{activeSlide + 1} / 0{slides.length}
+          </span>
         </div>
       </section>
 
-      {/* Featured Categories Grid */}
+      {/* Featured Categories (Borderless Table/Row Layout) */}
       <section id="categories" className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[4rem] z-[10] border-t-[0.0625rem] border-border/10">
         <div className="editorial-container">
-          <div className="text-center space-y-[0.75rem] mb-[3rem]">
-            <span className="text-[0.625rem] uppercase tracking-widest text-accent font-bold">Specialized Areas</span>
-            <h2 className="text-[1.75rem] sm:text-[2.25rem] font-extrabold font-sans text-primary dark:text-foreground">Explore Legal Specialties</h2>
-            <p className="text-[0.75rem] text-slate-500 max-w-[25rem] mx-auto">Select a legal specialty to discover certified lawyers verified for consultations.</p>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-[1.5rem] mb-[4rem]">
+            <div className="space-y-[0.5rem]">
+              <span className="text-[0.625rem] uppercase tracking-widest text-accent font-bold">Practice Areas</span>
+              <h2 className="font-serif text-[2.25rem] sm:text-[3.25rem] font-normal tracking-tight text-primary dark:text-foreground">Explore Legal Specialties</h2>
+            </div>
+            <p className="text-[0.8125rem] text-slate-500 dark:text-slate-400 max-w-[22rem]">
+              Select a specialized legal area to find dedicated lawyers verified for quick escrow consultancy hiring.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1.5rem]">
+          {/* List Layout with Thin Horizontal Dividers */}
+          <div className="border-t-[0.0625rem] border-border/10">
             {categories.map((cat, i) => (
               <Link 
                 key={i} 
                 href={`/browse?specialization=${encodeURIComponent(cat.name)}`}
-                className="editorial-card p-[1.5rem] rounded-[1.5rem] flex items-start gap-[1rem] group"
+                className="flex flex-col sm:flex-row sm:items-center justify-between py-[1.5rem] border-b-[0.0625rem] border-border/10 group hover:bg-foreground/[0.01] transition-all px-[0.5rem]"
               >
-                <div className="h-[2.5rem] w-[2.5rem] rounded-[0.75rem] bg-accent/10 border-[0.0625rem] border-accent/25 flex items-center justify-center text-[1.25rem] group-hover:scale-[1.05] transition-transform duration-[300ms]">
-                  {cat.icon}
+                <div className="flex items-center gap-[1.5rem]">
+                  <span className="text-[0.875rem] font-mono text-accent font-bold">{cat.num}</span>
+                  <div className="space-y-[0.125rem]">
+                    <h4 className="font-serif font-bold text-[1.125rem] text-primary dark:text-foreground group-hover:text-accent transition-colors">
+                      {cat.name}
+                    </h4>
+                    <p className="text-[0.75rem] text-slate-500 dark:text-slate-400 max-w-[35rem] leading-relaxed">
+                      {cat.desc}
+                    </p>
+                  </div>
                 </div>
-                <div className="space-y-[0.25rem] flex-grow">
-                  <h4 className="font-bold text-[0.875rem] text-primary dark:text-foreground group-hover:text-accent transition-colors">
-                    {cat.name}
-                  </h4>
-                  <p className="text-[0.75rem] text-slate-500 leading-relaxed line-clamp-2">
-                    {cat.desc}
-                  </p>
-                  <span className="inline-block text-[0.6875rem] font-bold text-accent uppercase tracking-wider pt-[0.5rem]">
-                    {cat.count}
-                  </span>
+                <div className="flex items-center gap-[1rem] mt-[0.5rem] sm:mt-[0rem]">
+                  <span className="text-[0.75rem] font-bold text-foreground/80">{cat.count}</span>
+                  <span className="text-accent transform group-hover:translate-x-[0.25rem] transition-transform duration-[200ms]">&rarr;</span>
                 </div>
               </Link>
             ))}
@@ -245,65 +227,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Lawyers Section */}
+      {/* Featured Lawyers Section (Borderless Clean Grid) */}
       <section className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[4rem] z-[10] border-t-[0.0625rem] border-border/10">
         <div className="editorial-container">
-          <div className="text-center space-y-[0.75rem] mb-[3rem]">
-            <span className="text-[0.625rem] uppercase tracking-widest text-accent font-bold">Prestigious Representatives</span>
-            <h2 className="text-[1.75rem] sm:text-[2.25rem] font-extrabold font-sans text-primary dark:text-foreground">Featured Legal Advocates</h2>
-            <p className="text-[0.75rem] text-slate-500 max-w-[25rem] mx-auto">Get consultations and hire certified legal practitioners with proven success records.</p>
+          <div className="text-center space-y-[0.5rem] mb-[4rem]">
+            <span className="text-[0.625rem] uppercase tracking-widest text-accent font-bold">Elite Advocates</span>
+            <h2 className="font-serif text-[2.25rem] sm:text-[3.25rem] font-normal tracking-tight text-primary dark:text-foreground">Featured Legal Advocates</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1.5rem]">
+          {/* Borderless Grid: Image, Text, and Rating Only */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[4rem] gap-y-[3rem]">
             {featuredLawyers.map((lawyer) => (
-              <div key={lawyer.id} className="editorial-card rounded-[1.5rem] overflow-hidden flex flex-col justify-between">
-                {/* Header Info */}
-                <div className="p-[1.5rem] space-y-[1rem]">
-                  <div className="flex items-center gap-[1rem]">
-                    <div className="relative flex-shrink-0">
-                      <img 
-                        src={lawyer.image} 
-                        alt={lawyer.name} 
-                        className="h-[3.5rem] w-[3.5rem] rounded-[1rem] object-cover border-[0.0625rem] border-accent/25"
-                      />
-                      <span className={`absolute -bottom-[0.25rem] -right-[0.25rem] h-[0.875rem] w-[0.875rem] rounded-full border-[0.125rem] border-card ${
-                        lawyer.status === 'Available' ? 'bg-emerald-500' : 'bg-rose-500'
-                      }`} />
-                    </div>
-                    <div className="space-y-[0.125rem]">
-                      <span className="inline-block px-[0.375rem] py-[0.125rem] rounded-[0.25rem] bg-accent/10 border-[0.0625rem] border-accent/20 text-[0.5625rem] text-accent uppercase font-bold tracking-wider leading-none">
-                        {lawyer.badge}
-                      </span>
-                      <h4 className="font-bold text-[0.875rem] text-primary dark:text-foreground line-clamp-1">{lawyer.name}</h4>
-                      <p className="text-[0.6875rem] text-slate-500 leading-none">{lawyer.specialization}</p>
-                    </div>
-                  </div>
+              <div key={lawyer.id} className="group flex flex-col">
+                {/* Editorial Portrait Photo */}
+                <div className="relative aspect-[3/4] overflow-hidden bg-slate-100 dark:bg-zinc-900 mb-[1.25rem]">
+                  <img 
+                    src={lawyer.image} 
+                    alt={lawyer.name} 
+                    className="h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-[700ms] ease-out"
+                  />
+                  <span className={`absolute bottom-[1rem] right-[1rem] h-[0.5rem] w-[0.5rem] rounded-full ${
+                    lawyer.status === 'Available' ? 'bg-emerald-500' : 'bg-rose-500'
+                  }`} />
+                  <span className="absolute top-[1rem] left-[1rem] px-[0.5rem] py-[0.25rem] bg-accent text-white dark:text-navy text-[0.5625rem] uppercase font-bold tracking-widest">
+                    {lawyer.badge}
+                  </span>
+                </div>
 
-                  {/* Rating & Fee */}
-                  <div className="flex items-center justify-between pt-[0.75rem] border-t-[0.0625rem] border-border/20 text-[0.75rem]">
+                {/* Info below */}
+                <div className="space-y-[0.5rem]">
+                  <div className="flex items-baseline justify-between">
+                    <h4 className="font-serif font-bold text-[1.25rem] tracking-tight text-primary dark:text-foreground group-hover:text-accent transition-colors duration-[300ms] line-clamp-1">
+                      {lawyer.name}
+                    </h4>
+                    <span className="text-[0.875rem] font-bold text-accent">${lawyer.rate}/hr</span>
+                  </div>
+                  <p className="text-[0.75rem] uppercase tracking-wider text-slate-500 font-medium">
+                    {lawyer.specialization}
+                  </p>
+                  
+                  {/* Rating */}
+                  <div className="flex items-center justify-between pt-[0.5rem] border-t-[0.0625rem] border-border/10 text-[0.75rem]">
                     <div className="flex items-center gap-[0.25rem]">
                       <span className="text-amber-500">★</span>
                       <span className="font-bold text-foreground">{lawyer.rating}</span>
-                      <span className="text-slate-500">({lawyer.reviews} reviews)</span>
+                      <span className="text-slate-500">({lawyer.reviews})</span>
                     </div>
-                    <div>
-                      <span className="text-slate-500">Hourly Fee: </span>
-                      <span className="font-extrabold text-accent">${lawyer.rate}</span>
-                    </div>
+                    <Link
+                      href={`/lawyers/${lawyer.id}`}
+                      className="font-bold text-accent uppercase tracking-wider text-[0.6875rem] pb-[0.125rem] border-b-[0.0625rem] border-transparent hover:border-accent transition-all"
+                    >
+                      View Profile &rarr;
+                    </Link>
                   </div>
-                </div>
-
-                {/* Action Button */}
-                <div className="px-[1.5rem] pb-[1.5rem]">
-                  <Link
-                    href={`/lawyers/${lawyer.id}`}
-                    className="w-full py-[0.625rem] rounded-[0.75rem] font-bold text-[0.625rem] uppercase tracking-wider text-center border-[0.0625rem] border-border/80 hover:bg-accent hover:text-navy hover:border-accent transition-all flex items-center justify-center gap-[0.25rem] bg-background/50"
-                  >
-                    View Profile
-                    <svg className="w-[0.75rem] h-[0.75rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
                 </div>
               </div>
             ))}
@@ -314,7 +290,7 @@ export default function Home() {
       {/* Extra Section: Trust & Escrow Setup */}
       <section id="trust" className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[4rem] z-[10] border-t-[0.0625rem] border-border/10">
         <div className="editorial-container">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-[1.5rem]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-[3rem]">
             {[
               {
                 title: '100% Verified Credentials',
@@ -332,8 +308,8 @@ export default function Home() {
                 icon: '🔒'
               }
             ].map((item, i) => (
-              <div key={i} className="editorial-card p-[1.5rem] rounded-[1.5rem] space-y-[0.75rem]">
-                <span className="text-[1.5rem] inline-block">{item.icon}</span>
+              <div key={i} className="space-y-[0.75rem]">
+                <span className="text-[2.25rem] inline-block">{item.icon}</span>
                 <h4 className="font-extrabold text-[0.75rem] uppercase tracking-wider text-primary dark:text-foreground">{item.title}</h4>
                 <p className="text-[0.75rem] text-slate-500 leading-relaxed">{item.desc}</p>
               </div>
@@ -344,6 +320,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 

@@ -19,8 +19,8 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] pb-[2rem] pt-[3rem] mt-[4rem] bg-transparent relative z-[10]">
-      <div className="editorial-container bg-card rounded-[1.5rem] p-[2rem] sm:p-[3rem] border-[0.0625rem] border-border/80 shadow-[0_0.25rem_1.875rem_rgba(0,0,0,0.015)] space-y-[3rem]">
+    <footer className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[4rem] mt-[4rem] border-t-[0.0625rem] border-border/20 bg-transparent relative z-[10]">
+      <div className="editorial-container space-y-[3rem]">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[2rem]">
           
           {/* Logo & Intro */}

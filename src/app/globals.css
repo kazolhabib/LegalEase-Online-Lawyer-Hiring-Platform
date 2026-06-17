@@ -51,14 +51,15 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-muted: var(--muted);
   
-  --font-sans: 'Outfit', var(--font-geist-sans), sans-serif;
-  --font-body: 'Inter', var(--font-geist-sans), sans-serif;
+  --font-sans: var(--font-outfit), 'Outfit', sans-serif;
+  --font-body: var(--font-inter), 'Inter', sans-serif;
+  --font-serif: var(--font-serif), Georgia, serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter), 'Inter', sans-serif;
   transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow-x: hidden;
 }
@@ -76,20 +77,6 @@ body {
   background: linear-gradient(135deg, #a9844c 0%, #c5a880 50%, #8b6833 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-/* Luxury Card Shadow & Hover */
-.editorial-card {
-  background: var(--card-bg);
-  border: 0.0625rem solid var(--card-border);
-  box-shadow: 0 0.25rem 1.875rem rgba(0, 0, 0, 0.015);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.editorial-card:hover {
-  transform: translateY(-0.3125rem);
-  border-color: var(--accent);
-  box-shadow: 0 0.75rem 2.5rem rgba(169, 132, 76, 0.08);
 }
 
 /* Custom Scrollbar using REM only */
