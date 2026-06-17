@@ -154,7 +154,7 @@ export default function Home() {
                 href={slides[activeSlide].ctaLink}
                 className="inline-block pb-[0.25rem] border-b-[0.125rem] border-accent text-[0.8125rem] font-extrabold text-primary dark:text-foreground tracking-wider uppercase hover:text-accent transition-colors"
               >
-                {slides[activeSlide].ctaText} &rarr;
+                {slides[activeSlide].ctaText} →
               </Link>
             </div>
           </div>
@@ -219,7 +219,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center gap-[1rem] mt-[0.5rem] sm:mt-[0rem]">
                   <span className="text-[0.75rem] font-bold text-foreground/80">{cat.count}</span>
-                  <span className="text-accent transform group-hover:translate-x-[0.25rem] transition-transform duration-[200ms]">&rarr;</span>
+                  <span className="text-accent transform group-hover:translate-x-[0.25rem] transition-transform duration-[200ms]">→</span>
                 </div>
               </Link>
             ))}
@@ -277,7 +277,7 @@ export default function Home() {
                       href={`/lawyers/${lawyer.id}`}
                       className="font-bold text-accent uppercase tracking-wider text-[0.6875rem] pb-[0.125rem] border-b-[0.0625rem] border-transparent hover:border-accent transition-all"
                     >
-                      View Profile &rarr;
+                      View Profile →
                     </Link>
                   </div>
                 </div>
