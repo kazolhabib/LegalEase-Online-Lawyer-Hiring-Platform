@@ -21,20 +21,20 @@
 }
 
 .dark {
-  --background: #0c0e17; /* Premium Dark Indigo-Slate */
+  --background: #09090b; /* Premium Matte Obsidian Black */
   --foreground: #f4f4f5;
   
-  --card-bg: #141724; /* Elegant Deep Indigo-Slate Card */
+  --card-bg: #121215; /* Rich Charcoal Card */
   --card-border: rgba(169, 132, 76, 0.15); /* Refined Gold Border */
   
   --primary: #f4f4f5;
-  --primary-foreground: #0c0e17;
+  --primary-foreground: #09090b;
   
   --accent: #c5a880; /* Light Champagne Gold */
-  --accent-foreground: #0c0e17;
+  --accent-foreground: #09090b;
   
   --muted: #a1a1aa;
-  --muted-foreground: #1b1e2b;
+  --muted-foreground: #18181b;
 }
 
 @theme inline {
