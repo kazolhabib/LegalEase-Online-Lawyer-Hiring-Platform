@@ -128,6 +128,28 @@ export default function Home() {
       status: 'Available',
       image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400&h=533',
       badge: 'Pro Bono Award'
+    },
+    {
+      _id: '7',
+      user: { name: 'Barrister Nihad Kabir', avatar: '' },
+      specialization: 'Corporate & Labor Law',
+      rate: 200,
+      ratingAverage: 4.8,
+      reviewsCount: 115,
+      status: 'Available',
+      image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400&h=533',
+      badge: 'Senior Counsel'
+    },
+    {
+      _id: '8',
+      user: { name: 'Advocate Syeda Rizwana Hasan', avatar: '' },
+      specialization: 'Environmental & Family Law',
+      rate: 140,
+      ratingAverage: 4.9,
+      reviewsCount: 92,
+      status: 'Available',
+      image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400&h=533',
+      badge: 'Mediation Expert'
     }
   ];
 
@@ -141,7 +163,7 @@ export default function Home() {
   useEffect(() => {
     const fetchLawyers = async () => {
       try {
-        const res = await fetch(`${API_URL}/lawyers?limit=6`);
+        const res = await fetch(`${API_URL}/lawyers?limit=8`);
         if (res.ok) {
           const data = await res.json();
           if (data.lawyers && data.lawyers.length > 0) {
@@ -277,7 +299,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Lawyers Section (Dynamic, Cardless Grid) */}
+      {/* Featured Lawyers Section (Dynamic, Premium Full-Image Grid) */}
       <section className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[4rem] z-[10] border-t-[0.0625rem] border-border/10">
         <div className="editorial-container">
           <div className="text-center space-y-[0.5rem] mb-[4rem]">
@@ -286,13 +308,14 @@ export default function Home() {
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[4rem] gap-y-[3rem]">
-              {[1, 2, 3, 4, 5, 6].map((idx) => (
-                <div key={idx} className="flex flex-col space-y-[1.25rem] animate-pulse">
-                  <div className="aspect-[3/4] bg-slate-200 dark:bg-zinc-800" />
-                  <div className="h-[1.25rem] bg-slate-200 dark:bg-zinc-800 w-3/4" />
-                  <div className="h-[0.75rem] bg-slate-200 dark:bg-zinc-800 w-1/2" />
-                  <div className="h-[1.5rem] bg-slate-200 dark:bg-zinc-800 w-full" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[2rem] w-full">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((idx) => (
+                <div key={idx} className="relative aspect-[3/4] bg-slate-200 dark:bg-zinc-800 rounded-[2rem] border border-border/30 p-[1rem] animate-pulse max-w-[24rem] sm:max-w-none w-full mx-auto">
+                  <div className="absolute bottom-[1rem] left-[1rem] right-[1rem] bg-slate-300/60 dark:bg-zinc-900/60 border border-border/10 p-[1.125rem] rounded-[1.5rem] space-y-[0.5rem]">
+                    <div className="h-[0.5625rem] bg-slate-400 dark:bg-zinc-700 rounded w-1/4" />
+                    <div className="h-[1.25rem] bg-slate-400 dark:bg-zinc-700 rounded w-3/4" />
+                    <div className="h-[0.75rem] bg-slate-400 dark:bg-zinc-700 rounded w-1/2" />
+                  </div>
                 </div>
               ))}
             </div>
@@ -308,7 +331,7 @@ export default function Home() {
                   }
                 }
               }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[4rem] gap-y-[3rem]"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[2rem] w-full"
             >
               {featuredLawyers.map((lawyer) => (
                 <motion.div 
@@ -317,47 +340,65 @@ export default function Home() {
                     hidden: { opacity: 0, y: 30 },
                     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
                   }}
-                  className="group flex flex-col"
+                  className="relative aspect-[3/4] rounded-[2rem] overflow-hidden border border-border/30 hover:border-accent/40 shadow-sm hover:shadow-[0_1.5rem_3.5rem_rgba(169,132,76,0.15)] dark:hover:shadow-[0_1.5rem_3.5rem_rgba(0,0,0,0.6)] hover:-translate-y-1.5 transition-all duration-500 group cursor-pointer max-w-[24rem] sm:max-w-none w-full mx-auto"
                 >
-                  {/* Editorial Portrait Photo */}
-                  <div className="relative aspect-[3/4] overflow-hidden bg-slate-100 dark:bg-zinc-900 mb-[1.25rem]">
-                    <img 
-                      src={lawyer.image} 
-                      alt={lawyer.user?.name} 
-                      className="h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-[700ms] ease-out"
-                    />
-                    <span className={`absolute bottom-[1rem] right-[1rem] h-[0.5rem] w-[0.5rem] rounded-full ${
-                      lawyer.status === 'Available' ? 'bg-emerald-500' : 'bg-rose-500'
+                  {/* Portrait Background Photo */}
+                  <img 
+                    src={lawyer.image} 
+                    alt={lawyer.user?.name} 
+                    className="absolute inset-0 h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[750ms] ease-out -z-10"
+                  />
+                  
+                  {/* Bottom Vignette Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-90 transition-opacity duration-300 -z-10" />
+
+                  {/* Status Pill */}
+                  <div className="absolute top-[1rem] left-[1rem] flex items-center gap-[0.375rem] px-[0.625rem] py-[0.3125rem] rounded-full bg-black/40 backdrop-blur-md border border-white/10 shadow-sm z-[10] transition-all duration-350 group-hover:left-[1.125rem]">
+                    <span className={`h-[0.375rem] w-[0.375rem] rounded-full ${
+                      lawyer.status === 'Available' ? 'bg-emerald-400 animate-pulse' : 'bg-rose-400'
                     }`} />
-                    <span className="absolute top-[1rem] left-[1rem] px-[0.5rem] py-[0.25rem] bg-accent text-white dark:text-navy text-[0.5625rem] uppercase font-bold tracking-widest">
-                      {lawyer.badge || 'Rising Star'}
+                    <span className="text-[0.5rem] font-black uppercase tracking-wider text-white">
+                      {lawyer.status}
                     </span>
                   </div>
 
-                  {/* Info below */}
-                  <div className="space-y-[0.5rem]">
-                    <div className="flex items-baseline justify-between">
-                      <h4 className="font-serif font-bold text-[1.25rem] tracking-tight text-primary dark:text-foreground group-hover:text-accent transition-colors duration-[300ms] line-clamp-1">
+                  {/* Price Tag */}
+                  <div className="absolute top-[1rem] right-[1rem] px-[0.75rem] py-[0.3125rem] rounded-full bg-accent/90 backdrop-blur-md text-white dark:text-navy text-[0.6875rem] font-black tracking-wide shadow-sm flex items-center gap-[0.125rem] z-[10] transition-all duration-350 group-hover:right-[1.125rem]">
+                    <span>${lawyer.rate}</span>
+                    <span className="text-[0.5rem] font-medium opacity-80">/hr</span>
+                  </div>
+
+                  {/* Floating Information Panel */}
+                  <div className="absolute bottom-[1rem] left-[1rem] right-[1rem] backdrop-blur-xl bg-black/60 dark:bg-zinc-950/70 border border-white/10 p-[1.125rem] rounded-[1.5rem] transition-all duration-500 ease-out z-[10] shadow-[0_1rem_2rem_rgba(0,0,0,0.3)] group-hover:bottom-[1.125rem] group-hover:left-[0.875rem] group-hover:right-[0.875rem]">
+                    <span className="text-[0.5625rem] uppercase tracking-widest text-accent font-black block mb-[0.125rem]">
+                      {lawyer.specialization}
+                    </span>
+                    
+                    <div className="flex items-center gap-[0.5rem] flex-wrap">
+                      <h4 className="font-serif font-bold text-[1.25rem] tracking-tight text-white group-hover:text-accent transition-colors duration-[300ms] line-clamp-1 leading-snug">
                         {lawyer.user?.name}
                       </h4>
-                      <span className="text-[0.875rem] font-bold text-accent">${lawyer.rate}/hr</span>
+                      {lawyer.badge && (
+                        <span className="inline-flex items-center gap-[0.125rem] text-[0.5rem] uppercase tracking-widest text-amber-400 font-extrabold bg-amber-400/10 px-[0.375rem] py-[0.125rem] rounded">
+                          ★ {lawyer.badge.split(' ')[0]}
+                        </span>
+                      )}
                     </div>
-                    <p className="text-[0.75rem] uppercase tracking-wider text-slate-500 font-medium">
-                      {lawyer.specialization}
-                    </p>
-                    
-                    {/* Rating */}
-                    <div className="flex items-center justify-between pt-[0.5rem] border-t-[0.0625rem] border-border/10 text-[0.75rem]">
-                      <div className="flex items-center gap-[0.25rem]">
-                        <span className="text-amber-500">★</span>
-                        <span className="font-bold text-foreground">{lawyer.ratingAverage?.toFixed(1) || '5.0'}</span>
-                        <span className="text-slate-500">({lawyer.reviewsCount || 0})</span>
-                      </div>
+
+                    <div className="flex items-center gap-[0.25rem] text-[0.75rem] mt-[0.375rem]">
+                      <span className="text-amber-400 text-[0.875rem]">★</span>
+                      <span className="font-bold text-white/90">{lawyer.ratingAverage?.toFixed(1) || '5.0'}</span>
+                      <span className="text-white/60">({lawyer.reviewsCount || 0} reviews)</span>
+                    </div>
+
+                    {/* Sliding Action Button on Hover */}
+                    <div className="max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-out group-hover:max-h-[3rem] group-hover:opacity-100 group-hover:mt-[0.875rem]">
                       <Link
                         href={`/lawyers/${lawyer._id}`}
-                        className="font-bold text-accent uppercase tracking-wider text-[0.6875rem] pb-[0.125rem] border-b-[0.0625rem] border-transparent hover:border-accent transition-all"
+                        className="w-full py-[0.625rem] rounded-[0.75rem] bg-accent text-white dark:text-navy font-bold text-[0.725rem] uppercase tracking-widest flex items-center justify-center gap-[0.5rem] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-md shadow-accent/10"
                       >
-                        View Profile →
+                        <span>View Profile</span>
+                        <span>→</span>
                       </Link>
                     </div>
                   </div>
