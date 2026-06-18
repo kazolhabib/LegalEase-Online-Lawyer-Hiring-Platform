@@ -191,9 +191,14 @@ export default function Footer() {
               <button
                 type="submit"
                 disabled={subscribed}
-                className="w-full py-[0.625rem] rounded-[0.75rem] text-[0.8125rem] font-bold bg-primary text-white dark:bg-accent dark:text-navy hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:bg-emerald-600 disabled:text-white uppercase tracking-widest cursor-pointer shadow-sm flex items-center justify-center"
+                className="relative w-full py-[0.625rem] rounded-[0.75rem] text-[0.8125rem] font-bold bg-primary text-white dark:bg-accent dark:text-navy hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:bg-emerald-600 disabled:text-white uppercase tracking-widest cursor-pointer shadow-sm flex items-center justify-center group overflow-hidden disabled:pointer-events-none"
               >
-                {subscribed ? 'Joined ✓' : 'Subscribe'}
+                {/* Sliding Accent Background */}
+                <span className="absolute inset-0 bg-accent dark:bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                
+                <span className="relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-navy">
+                  {subscribed ? 'Joined ✓' : 'Subscribe'}
+                </span>
               </button>
             </form>
           </div>

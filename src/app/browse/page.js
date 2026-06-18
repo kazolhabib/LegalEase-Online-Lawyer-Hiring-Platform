@@ -194,9 +194,14 @@ function BrowseLawyersContent() {
             </div>
             <button
               onClick={() => fetchLawyers(1)}
-              className="w-full mt-[0.5rem] py-[0.375rem] rounded-[0.5rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.6875rem] font-bold hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer"
+              className="relative w-full mt-[0.5rem] py-[0.375rem] rounded-[0.5rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.6875rem] font-bold hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer group overflow-hidden"
             >
-              Apply Price Range
+              {/* Sliding Accent Background */}
+              <span className="absolute inset-0 bg-accent dark:bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+              
+              <span className="relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-navy">
+                Apply Price Range
+              </span>
             </button>
           </div>
 
@@ -240,9 +245,14 @@ function BrowseLawyersContent() {
               </p>
               <button
                 onClick={handleResetFilters}
-                className="mt-[1rem] px-[1.5rem] py-[0.5rem] text-[0.6875rem] font-bold bg-primary text-white dark:bg-accent dark:text-navy rounded-[0.5rem] hover:scale-105 transition-all cursor-pointer"
+                className="relative mt-[1rem] px-[1.5rem] py-[0.5rem] text-[0.6875rem] font-bold bg-primary text-white dark:bg-accent dark:text-navy rounded-[0.5rem] hover:scale-105 transition-all cursor-pointer group overflow-hidden"
               >
-                Clear Filters
+                {/* Sliding Accent Background */}
+                <span className="absolute inset-0 bg-accent dark:bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                
+                <span className="relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-navy">
+                  Clear Filters
+                </span>
               </button>
             </div>
           ) : (
@@ -321,9 +331,14 @@ function BrowseLawyersContent() {
               <button
                 disabled={pagination.currentPage === 1 || loading}
                 onClick={() => fetchLawyers(pagination.currentPage - 1)}
-                className="px-[1rem] py-[0.5rem] border border-border text-[0.6875rem] font-bold uppercase tracking-wider rounded-[0.5rem] hover:bg-foreground/5 disabled:opacity-30 cursor-pointer"
+                className="relative px-[1rem] py-[0.5rem] border border-border text-[0.6875rem] font-bold uppercase tracking-wider rounded-[0.5rem] hover:bg-foreground/5 disabled:opacity-30 cursor-pointer group overflow-hidden disabled:pointer-events-none"
               >
-                ← Previous
+                {/* Sliding Accent Background */}
+                <span className="absolute inset-0 bg-accent scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                
+                <span className="relative z-10 transition-colors duration-300 group-hover:text-white dark:group-hover:text-navy">
+                  ← Previous
+                </span>
               </button>
               
               <span className="text-[0.6875rem] font-semibold text-slate-400">
@@ -333,9 +348,14 @@ function BrowseLawyersContent() {
               <button
                 disabled={pagination.currentPage === pagination.totalPages || loading}
                 onClick={() => fetchLawyers(pagination.currentPage + 1)}
-                className="px-[1rem] py-[0.5rem] border border-border text-[0.6875rem] font-bold uppercase tracking-wider rounded-[0.5rem] hover:bg-foreground/5 disabled:opacity-30 cursor-pointer"
+                className="relative px-[1rem] py-[0.5rem] border border-border text-[0.6875rem] font-bold uppercase tracking-wider rounded-[0.5rem] hover:bg-foreground/5 disabled:opacity-30 cursor-pointer group overflow-hidden disabled:pointer-events-none"
               >
-                Next →
+                {/* Sliding Accent Background */}
+                <span className="absolute inset-0 bg-accent scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                
+                <span className="relative z-10 transition-colors duration-300 group-hover:text-white dark:group-hover:text-navy">
+                  Next →
+                </span>
               </button>
             </div>
           )}

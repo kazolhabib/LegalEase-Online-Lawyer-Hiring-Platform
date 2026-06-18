@@ -499,10 +499,15 @@ export default function Home() {
                     <div className="max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-out group-hover:max-h-[3rem] group-hover:opacity-100 group-hover:mt-[0.875rem]">
                       <Link
                         href={`/lawyers/${lawyer._id}`}
-                        className="w-full py-[0.625rem] rounded-[0.75rem] bg-accent text-white dark:text-navy font-bold text-[0.725rem] uppercase tracking-widest flex items-center justify-center gap-[0.5rem] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-md shadow-accent/10"
+                        className="relative w-full py-[0.625rem] rounded-[0.75rem] bg-accent text-white dark:text-navy font-bold text-[0.725rem] uppercase tracking-widest flex items-center justify-center gap-[0.5rem] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-md shadow-accent/10 group/btn overflow-hidden"
                       >
-                        <span>View Profile</span>
-                        <span>→</span>
+                        {/* Sliding Accent Background */}
+                        <span className="absolute inset-0 bg-primary dark:bg-white scale-x-0 origin-left group-hover/btn:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                        
+                        <span className="relative z-10 transition-colors duration-300 group-hover/btn:text-white dark:group-hover/btn:text-navy flex items-center justify-center gap-[0.5rem]">
+                          <span>View Profile</span>
+                          <span>→</span>
+                        </span>
                       </Link>
                     </div>
                   </div>

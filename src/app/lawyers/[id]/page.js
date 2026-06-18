@@ -389,9 +389,14 @@ export default function LawyerDetailsPage({ params }) {
               user.role === 'user' ? (
                 <button
                   onClick={() => setShowHireModal(true)}
-                  className="px-[2.5rem] py-[0.875rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.8125rem] font-bold uppercase tracking-wider rounded-[0.75rem] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-accent/10 cursor-pointer"
+                  className="relative px-[2.5rem] py-[0.875rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.8125rem] font-bold uppercase tracking-wider rounded-[0.75rem] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-accent/10 cursor-pointer group overflow-hidden"
                 >
-                  Initiate Hiring Case
+                  {/* Sliding Accent Background */}
+                  <span className="absolute inset-0 bg-accent dark:bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                  
+                  <span className="relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-navy">
+                    Initiate Hiring Case
+                  </span>
                 </button>
               ) : (
                 <div className="text-[0.75rem] text-slate-400 italic">
@@ -401,9 +406,14 @@ export default function LawyerDetailsPage({ params }) {
             ) : (
               <Link
                 href="/login"
-                className="inline-block px-[2.5rem] py-[0.875rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.8125rem] font-bold uppercase tracking-wider rounded-[0.75rem] hover:scale-[1.02] transition-all cursor-pointer"
+                className="relative inline-flex items-center justify-center px-[2.5rem] py-[0.875rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.8125rem] font-bold uppercase tracking-wider rounded-[0.75rem] hover:scale-[1.02] transition-all cursor-pointer group overflow-hidden"
               >
-                Sign In to Hire Attorney
+                {/* Sliding Accent Background */}
+                <span className="absolute inset-0 bg-accent dark:bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                
+                <span className="relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-navy">
+                  Sign In to Hire Attorney
+                </span>
               </Link>
             )}
           </div>
@@ -510,9 +520,14 @@ export default function LawyerDetailsPage({ params }) {
                 <button
                   type="submit"
                   disabled={submittingReview}
-                  className="w-full py-[0.625rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.75rem] font-bold rounded-[0.5rem] hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer disabled:opacity-50"
+                  className="relative w-full py-[0.625rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.75rem] font-bold rounded-[0.5rem] hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer disabled:opacity-50 group overflow-hidden disabled:pointer-events-none"
                 >
-                  {submittingReview ? 'Publishing...' : 'Publish Feedback'}
+                  {/* Sliding Accent Background */}
+                  <span className="absolute inset-0 bg-accent dark:bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                  
+                  <span className="relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-navy">
+                    {submittingReview ? 'Publishing...' : 'Publish Feedback'}
+                  </span>
                 </button>
               </form>
             ) : (
@@ -586,16 +601,26 @@ export default function LawyerDetailsPage({ params }) {
                   <div className="flex gap-[0.75rem] pt-[0.5rem]">
                     <button
                       onClick={() => setShowHireModal(false)}
-                      className="w-full py-[0.625rem] border border-border text-foreground text-[0.75rem] font-bold rounded-[0.5rem] hover:bg-foreground/5 cursor-pointer"
+                      className="relative w-full py-[0.625rem] border border-border text-foreground text-[0.75rem] font-bold rounded-[0.5rem] hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer group overflow-hidden"
                     >
-                      Cancel
+                      {/* Sliding Accent Background */}
+                      <span className="absolute inset-0 bg-accent scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                      
+                      <span className="relative z-10 transition-colors duration-300 group-hover:text-white dark:group-hover:text-navy">
+                        Cancel
+                      </span>
                     </button>
                     <button
                       onClick={handleHireSubmit}
                       disabled={hiring}
-                      className="w-full py-[0.625rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.75rem] font-bold rounded-[0.5rem] hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer disabled:opacity-50"
+                      className="relative w-full py-[0.625rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.75rem] font-bold rounded-[0.5rem] hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer disabled:opacity-50 group overflow-hidden disabled:pointer-events-none"
                     >
-                      {hiring ? 'Submitting...' : 'Confirm Hire'}
+                      {/* Sliding Accent Background */}
+                      <span className="absolute inset-0 bg-accent dark:bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                      
+                      <span className="relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-navy">
+                        {hiring ? 'Submitting...' : 'Confirm Hire'}
+                      </span>
                     </button>
                   </div>
                 </>
