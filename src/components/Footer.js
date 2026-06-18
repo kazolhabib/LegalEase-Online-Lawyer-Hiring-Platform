@@ -23,9 +23,48 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[6rem] md:py-[8rem] mt-[6.5rem] border-t-[0.0625rem] border-border/15 bg-slate-50/[0.04] dark:bg-zinc-950/[0.04] backdrop-blur-sm relative z-[10]">
+    <footer className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[6rem] md:py-[5rem] mt-[6.5rem] border-t-[0.0625rem] border-border/15 bg-slate-50/[0.04] dark:bg-zinc-950/[0.04] backdrop-blur-sm relative z-[10] overflow-hidden group">
       {/* Editorial Gradient Line at the top of the footer */}
       <div className="absolute top-0 left-0 right-0 h-[0.0625rem] bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+
+      {/* Ambient Glow Effects */}
+      <div className="absolute top-[-10rem] left-[10%] w-[20rem] h-[20rem] bg-accent/5 rounded-full blur-[8rem] pointer-events-none -z-10" />
+      <div className="absolute bottom-[-10rem] right-[15%] w-[25rem] h-[25rem] bg-accent/5 rounded-full blur-[10rem] pointer-events-none -z-10" />
+
+      {/* Large Legal Scale watermark overlay */}
+      <svg 
+        className="absolute bottom-[-5rem] right-[-2rem] md:right-[5%] w-[22rem] h-[22rem] md:w-[32rem] md:h-[32rem] text-accent/[0.04] dark:text-accent/[0.025] pointer-events-none select-none -z-10 transition-transform duration-[1500ms] ease-out group-hover:scale-105 group-hover:-rotate-1" 
+        fill="none" 
+        viewBox="0 0 100 100" 
+        stroke="currentColor" 
+        strokeWidth={0.5}
+      >
+        {/* Center Pillar */}
+        <path d="M50 85 L50 15" />
+        {/* Pillar Base */}
+        <path d="M35 85 L65 85" />
+        <path d="M40 82 L60 82" />
+        {/* Pillar Capital */}
+        <path d="M45 15 L55 15" />
+        <path d="M42 18 L58 18" />
+        {/* Balance Beam (horizontal) */}
+        <path d="M22 22 L78 22" />
+        {/* Center Pivot Point */}
+        <circle cx="50" cy="22" r="1.5" fill="currentColor" />
+        {/* Left Scale strings & Pan */}
+        <path d="M22 22 L14 45 L30 45 Z" />
+        <path d="M12 45 L32 45 A 10 3 0 0 0 12 45" />
+        <path d="M22 45 L22 62" />
+        <path d="M17 62 L27 62" />
+        {/* Right Scale strings & Pan */}
+        <path d="M78 22 L70 45 L86 45 Z" />
+        <path d="M68 45 L88 45 A 10 3 0 0 0 68 45" />
+        <path d="M78 45 L78 62" />
+        <path d="M73 62 L83 62" />
+        {/* Geometry balance rings */}
+        <circle cx="50" cy="50" r="32" strokeDasharray="1 5" strokeWidth={0.25} />
+        <circle cx="50" cy="50" r="18" strokeDasharray="1 8" strokeWidth={0.2} />
+      </svg>
 
       <div className="editorial-container space-y-[5rem]">
         {/* Main Grid */}
