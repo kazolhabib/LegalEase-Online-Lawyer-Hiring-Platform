@@ -178,7 +178,7 @@ export default function Home() {
     <div className="relative min-h-screen">
       
       {/* Hero Banner Section with Framer Motion Fade-in */}
-      <section className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] pt-[5rem] md:pt-[6.5rem] pb-[5.5rem] md:pb-[8rem] relative z-[10] overflow-hidden">
+      <section className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] pt-[9.5rem] md:pt-[11rem] pb-[5.5rem] md:pb-[6.25rem] relative z-[10] overflow-x-clip mt-[-4.5rem]">
         {/* Glowing ambient backgrounds */}
         <div className="absolute top-[-5rem] left-[15%] w-[35rem] h-[35rem] bg-accent/5 dark:bg-accent/[0.03] rounded-full blur-[10rem] pointer-events-none -z-10" />
         <div className="absolute bottom-[2rem] right-[5%] w-[30rem] h-[30rem] bg-accent/5 dark:bg-accent/[0.02] rounded-full blur-[9rem] pointer-events-none -z-10" />
@@ -253,82 +253,164 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Large Interactive Arched Visual Composition */}
+          {/* Large Interactive Premium Visual Composition */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.95, x: 15 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 0.75, ease: "easeOut" }}
             className="hidden md:flex flex-shrink-0 justify-center items-center relative py-[2rem]"
           >
-            {/* Arched main image */}
-            <div className="w-[22rem] h-[28rem] rounded-t-[11rem] rounded-b-[2.5rem] overflow-hidden border border-accent/20 relative shadow-[0_2rem_4rem_rgba(169,132,76,0.06)] dark:shadow-[0_2rem_4rem_rgba(0,0,0,0.5)] group">
-              <img 
-                src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=600&h=800" 
-                alt="Pillars of Justice" 
-                className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-105"
+            {/* Ambient glow behind the image */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
+              <div className="w-[32rem] h-[32rem] bg-accent/[0.06] dark:bg-accent/[0.04] rounded-full blur-[6rem]" />
+            </div>
+
+            {/* Rotating golden orbit ring */}
+            <div className="absolute inset-[-2rem] flex items-center justify-center pointer-events-none">
+              <div className="w-[30rem] h-[36rem] rounded-[50%] border border-accent/[0.12] dark:border-accent/[0.08] animate-[spin_45s_linear_infinite]" />
+            </div>
+            <div className="absolute inset-[-1rem] flex items-center justify-center pointer-events-none">
+              <div className="w-[28rem] h-[34rem] rounded-[50%] border border-dashed border-accent/[0.08] dark:border-accent/[0.05] animate-[spin_60s_linear_infinite_reverse]" />
+            </div>
+
+            {/* Decorative corner accents */}
+            <div className="absolute top-[0.5rem] left-[1rem] w-[3rem] h-[3rem] border-t-[0.125rem] border-l-[0.125rem] border-accent/25 rounded-tl-[1rem] pointer-events-none" />
+            <div className="absolute bottom-[0.5rem] right-[1rem] w-[3rem] h-[3rem] border-b-[0.125rem] border-r-[0.125rem] border-accent/25 rounded-br-[1rem] pointer-events-none" />
+
+            {/* Main arched image with premium frame */}
+            <div className="relative group">
+              {/* Outer golden gradient border frame */}
+              <div className="absolute inset-[-0.1875rem] rounded-t-[13rem] rounded-b-[2.75rem] bg-gradient-to-br from-accent/40 via-accent/15 to-accent/40 dark:from-accent/30 dark:via-accent/10 dark:to-accent/30 blur-[0.0625rem]" />
+              
+              <div className="relative w-[26rem] h-[32rem] rounded-t-[13rem] rounded-b-[2.75rem] overflow-hidden border border-accent/25 dark:border-accent/15 shadow-[0_2rem_5rem_rgba(169,132,76,0.1),0_0_0_0.0625rem_rgba(169,132,76,0.08)] dark:shadow-[0_2rem_5rem_rgba(0,0,0,0.6),0_0_0_0.0625rem_rgba(169,132,76,0.05)]">
+                <img 
+                  src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=700&h=940" 
+                  alt="Pillars of Justice" 
+                  className="w-full h-full object-cover transition-transform duration-[2500ms] ease-out group-hover:scale-[1.06]"
+                />
+                {/* Multi-layer gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/5 to-transparent opacity-75" />
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/[0.04] via-transparent to-accent/[0.06] opacity-0 group-hover:opacity-100 transition-opacity duration-[1500ms]" />
+                
+                {/* Inner vignette ring */}
+                <div className="absolute inset-0 shadow-[inset_0_0_4rem_rgba(0,0,0,0.15)] dark:shadow-[inset_0_0_4rem_rgba(0,0,0,0.4)] rounded-t-[13rem] rounded-b-[2.75rem] pointer-events-none" />
+              </div>
+
+              {/* Floating accent dots decorations */}
+              <motion.div 
+                animate={{ y: -10 }}
+                transition={{ duration: 0.9, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1] }}
+                className="absolute top-[2rem] right-[-0.75rem] w-[0.5rem] h-[0.5rem] rounded-full bg-accent/40 shadow-[0_0_0.75rem_rgba(169,132,76,0.3)] will-change-transform"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80" />
+              <motion.div 
+                animate={{ y: 12 }}
+                transition={{ duration: 1.1, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.15 }}
+                className="absolute bottom-[6rem] left-[-0.5rem] w-[0.375rem] h-[0.375rem] rounded-full bg-accent/30 shadow-[0_0_0.5rem_rgba(169,132,76,0.2)] will-change-transform"
+              />
+              <motion.div 
+                animate={{ y: -8 }}
+                transition={{ duration: 0.8, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.3 }}
+                className="absolute top-[10rem] right-[-1.25rem] w-[0.25rem] h-[0.25rem] rounded-full bg-accent/50 will-change-transform"
+              />
             </div>
 
             {/* Overlapping glass card: Active Lawyer Profile */}
-            <div className="absolute bottom-[4rem] left-[-3rem] backdrop-blur-xl bg-card/85 dark:bg-zinc-900/70 border border-border/50 p-[1.25rem] rounded-[1.5rem] shadow-lg max-w-[14.5rem] space-y-[0.75rem] text-left animate-[bounce_5s_infinite_ease-in-out]">
+            <motion.div 
+              animate={{ y: -10 }}
+              transition={{ duration: 1.2, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1] }}
+              className="absolute bottom-[4rem] left-[-3rem] backdrop-blur-2xl bg-card/90 dark:bg-zinc-900/75 border border-border/40 dark:border-white/[0.08] p-[1.25rem] rounded-[1.25rem] shadow-[0_1rem_3rem_rgba(0,0,0,0.08)] dark:shadow-[0_1rem_3rem_rgba(0,0,0,0.5)] max-w-[14.5rem] space-y-[0.75rem] text-left will-change-transform"
+            >
               <div className="flex items-center gap-[0.75rem]">
-                <img 
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150&h=150" 
-                  alt="Elite Advocate Profile" 
-                  className="h-[2.5rem] w-[2.5rem] rounded-full object-cover border border-accent/30 flex-shrink-0"
-                />
+                <div className="relative flex-shrink-0">
+                  <div className="absolute inset-[-0.125rem] rounded-full bg-gradient-to-br from-accent/50 to-accent/20" />
+                  <img 
+                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150&h=150" 
+                    alt="Elite Advocate Profile" 
+                    className="relative h-[2.5rem] w-[2.5rem] rounded-full object-cover"
+                  />
+                </div>
                 <div className="min-w-0">
                   <h4 className="font-serif font-bold text-[0.875rem] text-primary dark:text-foreground truncate">Rokeya Rahman</h4>
                   <p className="text-[0.625rem] uppercase text-accent font-black tracking-wider truncate">Family & Civil Law</p>
                 </div>
               </div>
-              <div className="flex items-center justify-between text-[0.6875rem] pt-[0.5rem] border-t border-border/10 text-slate-500 dark:text-slate-400">
-                <span>Rate: $120/hr</span>
+              <div className="flex items-center justify-between text-[0.6875rem] pt-[0.5rem] border-t border-accent/10 text-slate-500 dark:text-slate-400">
+                <span className="font-semibold">Rate: $120/hr</span>
                 <span className="text-amber-500 font-bold flex items-center gap-[0.125rem]">★ 5.0</span>
               </div>
-            </div>
+            </motion.div>
 
             {/* Overlapping badge 1: Online status */}
-            <div className="absolute top-[4rem] right-[-2rem] backdrop-blur-md bg-emerald-500/10 dark:bg-emerald-500/5 border border-emerald-500/25 px-[1rem] py-[0.5rem] rounded-full shadow-md flex items-center gap-[0.5rem] animate-[pulse_3s_infinite_ease-in-out]">
-              <span className="h-[0.5rem] w-[0.5rem] rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[0.6875rem] font-black text-emerald-600 dark:text-emerald-500 uppercase tracking-widest">
+            <motion.div 
+              animate={{ y: -8 }}
+              transition={{ duration: 1, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.2 }}
+              className="absolute top-[4rem] right-[-2rem] backdrop-blur-xl bg-emerald-500/[0.08] dark:bg-emerald-500/[0.05] border border-emerald-500/20 px-[1rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(16,185,129,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
+            >
+              <span className="relative flex h-[0.5rem] w-[0.5rem]">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-[0.5rem] w-[0.5rem] bg-emerald-500" />
+              </span>
+              <span className="text-[0.6875rem] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
                 148 Experts Online
               </span>
-            </div>
+            </motion.div>
 
             {/* Overlapping badge 2: Escrow Secure wallet */}
-            <div className="absolute bottom-[9rem] right-[-3rem] backdrop-blur-md bg-accent/10 border border-accent/25 px-[1.125rem] py-[0.5rem] rounded-full shadow-md flex items-center gap-[0.5rem]">
+            <motion.div 
+              animate={{ y: 10 }}
+              transition={{ duration: 1.1, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.35 }}
+              className="absolute bottom-[9rem] right-[-3rem] backdrop-blur-xl bg-accent/[0.08] dark:bg-accent/[0.05] border border-accent/20 px-[1.125rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(169,132,76,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
+            >
               <svg className="w-[0.875rem] h-[0.875rem] text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
               </svg>
               <span className="text-[0.6875rem] font-black text-accent uppercase tracking-widest">
                 Escrow Active
               </span>
-            </div>
+            </motion.div>
+
+            {/* Small decorative scale icon floating */}
+            <motion.div 
+              animate={{ rotate: 8, y: -8 }}
+              transition={{ duration: 1.4, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.5 }}
+              className="absolute top-[14rem] left-[-1.5rem] w-[2.25rem] h-[2.25rem] rounded-[0.625rem] bg-accent/[0.08] dark:bg-accent/[0.05] border border-accent/15 backdrop-blur-md flex items-center justify-center shadow-sm will-change-transform"
+            >
+              <span className="text-[0.875rem]">⚖️</span>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Featured Categories (Borderless Grid) */}
-      <section id="categories" className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[4rem] z-[10] border-t-[0.0625rem] border-border/10">
-        <div className="editorial-container">
+      {/* Featured Categories — Premium Editorial Grid */}
+      <section id="categories" className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[5rem] md:py-[6.5rem] z-[10] border-t-[0.0625rem] border-border/10">
+        {/* Ambient section glow */}
+        <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[45rem] h-[45rem] bg-accent/[0.03] dark:bg-accent/[0.02] rounded-full blur-[12rem] pointer-events-none" />
+
+        <div className="editorial-container relative">
+          {/* Section Header */}
           <motion.div 
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col lg:flex-row lg:items-end justify-between gap-[1.5rem] mb-[4rem]"
+            className="text-center mb-[4.5rem]"
           >
-            <div className="space-y-[0.5rem]">
-              <span className="text-[0.625rem] uppercase tracking-widest text-accent font-bold">Practice Areas</span>
-              <h2 className="font-serif text-[2.25rem] sm:text-[3.25rem] font-normal tracking-tight text-primary dark:text-foreground">Explore Legal Specialties</h2>
-            </div>
-            <p className="text-[0.8125rem] text-slate-500 dark:text-slate-400 max-w-[22rem]">
+            <span className="text-[0.625rem] uppercase tracking-[0.3em] text-accent font-extrabold block mb-[0.75rem]">Practice Areas</span>
+            <h2 className="font-serif text-[2.5rem] sm:text-[3.75rem] font-normal tracking-tight text-primary dark:text-foreground leading-[1.1]">
+              Explore Legal <span className="italic text-editorial-gradient font-medium">Specialties</span>
+            </h2>
+            <p className="text-[0.875rem] text-slate-500 dark:text-slate-400 max-w-[28rem] mx-auto mt-[1.25rem] leading-relaxed">
               Select a specialized legal area to find dedicated lawyers verified for quick escrow consultancy hiring.
             </p>
+            {/* Decorative accent line */}
+            <div className="flex items-center justify-center gap-[0.5rem] mt-[2rem]">
+              <div className="h-[0.0625rem] w-[2.5rem] bg-accent/30" />
+              <div className="h-[0.375rem] w-[0.375rem] rounded-full bg-accent/50" />
+              <div className="h-[0.0625rem] w-[2.5rem] bg-accent/30" />
+            </div>
           </motion.div>
 
+          {/* Cards Grid */}
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -336,58 +418,63 @@ export default function Home() {
             variants={{
               visible: {
                 transition: {
-                  staggerChildren: 0.08
+                  staggerChildren: 0.1
                 }
               }
             }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2rem] w-full"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1.5rem] lg:gap-[1.75rem] w-full"
           >
             {categories.map((cat, i) => (
               <motion.div
                 key={i}
                 variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
+                  hidden: { opacity: 0, y: 25 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] } }
                 }}
                 className="h-full flex"
               >
                 <Link 
                   href={`/browse?specialization=${encodeURIComponent(cat.name)}`}
-                  className="relative flex flex-col justify-between p-[1.75rem] bg-card/60 dark:bg-zinc-900/30 backdrop-blur-md border border-border/50 rounded-[1.5rem] hover:-translate-y-1.5 hover:border-accent/40 hover:bg-card hover:shadow-[0_1.25rem_2.5rem_rgba(169,132,76,0.06)] dark:hover:shadow-[0_1.25rem_2.5rem_rgba(0,0,0,0.4)] transition-all duration-[400ms] group overflow-hidden w-full"
+                  className="relative flex flex-col justify-between p-[2rem] bg-card/50 dark:bg-zinc-900/25 backdrop-blur-lg border border-border/40 dark:border-white/[0.06] rounded-[1.25rem] hover:-translate-y-2 hover:border-accent/30 hover:shadow-[0_1.5rem_3.5rem_rgba(169,132,76,0.08)] dark:hover:shadow-[0_1.5rem_3.5rem_rgba(0,0,0,0.5)] transition-all duration-500 group overflow-hidden w-full"
                 >
-                  {/* Hover glow highlight */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-accent/0 to-accent/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  {/* Top accent border glow on hover */}
+                  <div className="absolute top-0 left-[10%] right-[10%] h-[0.125rem] bg-gradient-to-r from-transparent via-accent/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
-                  <div className="space-y-[1.25rem]">
+                  {/* Hover background glow */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/[0.02] via-transparent to-accent/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  
+                  <div className="relative space-y-[1.5rem]">
                     {/* Header row: Icon & Number */}
                     <div className="flex items-center justify-between">
-                      <div className="h-[2.75rem] w-[2.75rem] rounded-[1rem] bg-accent/10 border border-accent/20 flex items-center justify-center text-[1.25rem] shadow-sm group-hover:scale-105 transition-transform">
+                      <div className="h-[3.25rem] w-[3.25rem] rounded-[1rem] bg-gradient-to-br from-accent/15 to-accent/5 dark:from-accent/10 dark:to-accent/[0.03] border border-accent/20 dark:border-accent/10 flex items-center justify-center text-[1.5rem] shadow-[0_0.25rem_1rem_rgba(169,132,76,0.06)] group-hover:scale-110 group-hover:shadow-[0_0.5rem_1.5rem_rgba(169,132,76,0.12)] transition-all duration-500">
                         {cat.icon}
                       </div>
-                      <span className="text-[0.8125rem] font-mono text-accent/50 font-bold group-hover:text-accent transition-colors duration-300">
+                      <span className="text-[1.5rem] font-mono text-accent/15 font-black group-hover:text-accent/40 transition-colors duration-500 select-none">
                         {cat.num}
                       </span>
                     </div>
 
                     {/* Content: Title & Description */}
-                    <div className="space-y-[0.5rem]">
-                      <h4 className="font-serif font-bold text-[1.25rem] text-primary dark:text-foreground group-hover:text-accent transition-colors">
+                    <div className="space-y-[0.625rem]">
+                      <h4 className="font-serif font-bold text-[1.3rem] text-primary dark:text-foreground group-hover:text-accent transition-colors duration-400 leading-snug">
                         {cat.name}
                       </h4>
-                      <p className="text-[0.75rem] text-slate-500 dark:text-slate-400 leading-relaxed min-h-[3.25rem]">
+                      {/* Expanding accent divider */}
+                      <div className="w-[1.5rem] h-[0.0625rem] bg-accent/25 group-hover:w-[3rem] group-hover:bg-accent/60 transition-all duration-500 ease-out" />
+                      <p className="text-[0.8125rem] text-slate-500 dark:text-slate-400 leading-relaxed">
                         {cat.desc}
                       </p>
                     </div>
                   </div>
 
                   {/* Footer: Count & Explore */}
-                  <div className="flex items-center justify-between pt-[1.25rem] mt-[1.25rem] border-t border-border/10">
-                    <span className="inline-block bg-accent/10 dark:bg-accent/5 border border-accent/20 dark:border-accent/10 text-accent text-[0.625rem] uppercase font-black tracking-widest px-[0.625rem] py-[0.25rem] rounded-md shadow-sm">
+                  <div className="relative flex items-center justify-between pt-[1.25rem] mt-[1.5rem] border-t border-border/10 dark:border-white/[0.04]">
+                    <span className="inline-flex items-center gap-[0.25rem] bg-accent/[0.07] dark:bg-accent/[0.04] border border-accent/15 dark:border-accent/[0.08] text-accent text-[0.625rem] uppercase font-black tracking-widest px-[0.75rem] py-[0.3125rem] rounded-full">
                       {cat.count}
                     </span>
-                    <span className="text-[0.6875rem] font-bold text-accent uppercase tracking-widest flex items-center gap-[0.25rem]">
+                    <span className="text-[0.6875rem] font-bold text-accent/70 group-hover:text-accent uppercase tracking-widest flex items-center gap-[0.375rem] transition-colors duration-300">
                       <span>Explore</span>
-                      <span className="transform group-hover:translate-x-[0.25rem] transition-transform duration-[200ms]">→</span>
+                      <span className="transform group-hover:translate-x-[0.375rem] transition-transform duration-300 ease-out">→</span>
                     </span>
                   </div>
                 </Link>

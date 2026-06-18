@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme, useAuth } from '../app/Providers';
@@ -17,6 +17,16 @@ export default function Navbar() {
   const { user, login, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -31,7 +41,11 @@ export default function Navbar() {
   };
 
   return (
-    <header className="w-full sticky top-[0rem] z-[50] bg-background/80 backdrop-blur-md border-b-[0.0625rem] border-border/20 transition-all duration-[300ms] px-[1rem] sm:px-[2rem] lg:px-[3rem]">
+    <header className={`w-full sticky top-[0rem] z-[50] transition-all duration-500 ease-out px-[1rem] sm:px-[2rem] lg:px-[3rem] ${
+      scrolled 
+        ? 'bg-background/75 dark:bg-background/70 backdrop-blur-xl border-b-[0.0625rem] border-border/20 shadow-[0_0.25rem_2rem_rgba(0,0,0,0.04)] dark:shadow-[0_0.25rem_2rem_rgba(0,0,0,0.25)]' 
+        : 'bg-transparent border-b-[0.0625rem] border-transparent'
+    }`}>
       <div className="editorial-container">
         <div className="flex items-center justify-between h-[4.5rem]">
           {/* Logo */}

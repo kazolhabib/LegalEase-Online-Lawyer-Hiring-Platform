@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth, useTheme } from '../Providers';
@@ -16,8 +16,9 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const googleInitializedRef = useRef(false);
 
-  const handleGoogleCallback = async (response) => {
+  const handleGoogleCallback = useCallback(async (response) => {
     const idToken = response.credential;
     setSubmitting(true);
     setError('');
@@ -29,32 +30,42 @@ export default function LoginPage() {
     } finally {
       setSubmitting(false);
     }
-  };
+  }, [googleLogin, router]);
 
-  const initGoogleSignIn = () => {
-    if (window.google) {
-      window.google.accounts.id.initialize({
-        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '810619721461-16ub90cr5ivqb12s8o5mvjm8mss0n9kq.apps.googleusercontent.com',
-        callback: handleGoogleCallback,
-      });
-      window.google.accounts.id.renderButton(
-        document.getElementById("google-signin-btn"),
-        { 
-          theme: theme === 'dark' ? 'filled_black' : 'outline', 
-          size: 'large', 
-          text: 'continue_with',
-          shape: 'rectangular',
-          width: 320
-        }
-      );
+  const renderGoogleButton = useCallback(() => {
+    if (!window.google) return;
+    const btnEl = document.getElementById("google-signin-btn");
+    if (!btnEl) return;
+    
+    window.google.accounts.id.renderButton(btnEl, { 
+      theme: theme === 'dark' ? 'filled_black' : 'outline', 
+      size: 'large', 
+      text: 'continue_with',
+      shape: 'rectangular',
+      width: 320
+    });
+  }, [theme]);
+
+  const initGoogleSignIn = useCallback(() => {
+    if (!window.google || googleInitializedRef.current) {
+      // Already initialized, just re-render button (e.g. for theme change)
+      renderGoogleButton();
+      return;
     }
-  };
+    
+    window.google.accounts.id.initialize({
+      client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '810619721461-16ub90cr5ivqb12s8o5mvjm8mss0n9kq.apps.googleusercontent.com',
+      callback: handleGoogleCallback,
+    });
+    googleInitializedRef.current = true;
+    renderGoogleButton();
+  }, [handleGoogleCallback, renderGoogleButton]);
 
   useEffect(() => {
     if (window.google) {
       initGoogleSignIn();
     }
-  }, [theme]);
+  }, [theme, initGoogleSignIn]);
 
   useEffect(() => {
     // If already logged in, redirect to home

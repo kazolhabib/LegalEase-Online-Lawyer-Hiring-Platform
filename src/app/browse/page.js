@@ -19,6 +19,7 @@ function BrowseLawyersContent() {
   const [rateMin, setRateMin] = useState('');
   const [rateMax, setRateMax] = useState('');
   const [sort, setSort] = useState('dateJoined');
+  const [filtersReady, setFiltersReady] = useState(false);
   
   // Pagination & Data States
   const [lawyers, setLawyers] = useState([]);
@@ -30,12 +31,14 @@ function BrowseLawyersContent() {
   });
   const [loading, setLoading] = useState(true);
 
-  // Initialize filters from URL parameters
+  // Initialize filters from URL parameters FIRST, then mark ready
   useEffect(() => {
     const urlSearch = searchParams.get('search');
     const urlSpec = searchParams.get('specialization');
     if (urlSearch) setSearch(urlSearch);
     if (urlSpec) setSpecialization(urlSpec);
+    // Mark filters as ready so fetch can proceed
+    setFiltersReady(true);
   }, [searchParams]);
 
   // Fetch lawyers when filters or page change
@@ -73,9 +76,10 @@ function BrowseLawyersContent() {
   };
 
   useEffect(() => {
-    // Re-fetch on filter/sort changes (reset to page 1)
+    // Only fetch after URL params have been applied
+    if (!filtersReady) return;
     fetchLawyers(1);
-  }, [specialization, status, sort]);
+  }, [filtersReady, specialization, status, sort]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
