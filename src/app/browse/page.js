@@ -303,9 +303,10 @@ function BrowseLawyersContent() {
                       </div>
                       <Link
                         href={`/lawyers/${lawyer._id}`}
-                        className="font-bold text-accent uppercase tracking-wider text-[0.625rem] hover:underline"
+                        className="relative font-bold text-accent uppercase tracking-wider text-[0.625rem] group/btn inline-flex items-center pb-[2px]"
                       >
-                        View Profile →
+                        <span>View Profile →</span>
+                        <span className="absolute bottom-0 left-0 w-full h-[0.0625rem] bg-accent origin-left scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 ease-out" />
                       </Link>
                     </div>
                   </div>
