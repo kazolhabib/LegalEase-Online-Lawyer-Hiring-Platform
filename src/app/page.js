@@ -220,12 +220,169 @@ export default function Home() {
     fetchLawyers();
   }, []);
 
+  const renderHeroVisual = (index) => {
+    switch(index) {
+      case 0:
+        return (
+          <div className="relative backdrop-blur-xl bg-card/65 dark:bg-zinc-900/35 border border-border/50 rounded-[2.25rem] p-[2rem] w-full max-w-[26rem] md:w-[22rem] lg:w-[26rem] shadow-[0_2rem_5rem_rgba(169,132,76,0.08)] dark:shadow-[0_2rem_5rem_rgba(0,0,0,0.5)] space-y-[1.25rem] select-none text-left">
+            {/* Corner Decorative Orbs */}
+            <div className="absolute -top-[2rem] -right-[2rem] w-[8rem] h-[8rem] bg-accent/10 rounded-full blur-xl pointer-events-none" />
+            
+            {/* Header: Verified Label */}
+            <div className="flex items-center justify-between">
+              <span className="inline-flex items-center gap-[0.375rem] px-[0.75rem] py-[0.25rem] rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 text-[0.625rem] font-black tracking-widest uppercase">
+                <span className="h-[0.375rem] w-[0.375rem] rounded-full bg-emerald-500 animate-pulse" />
+                Verified Attorney
+              </span>
+              <span className="text-[0.6875rem] text-slate-400 font-mono">ID: #4829</span>
+            </div>
+
+            {/* Profile Info */}
+            <div className="flex items-center gap-[1.25rem] pt-[0.25rem]">
+              <div className="h-[4.5rem] w-[4.5rem] rounded-full overflow-hidden border-[0.125rem] border-accent/30 shadow-sm flex-shrink-0">
+                <img 
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=250&h=250" 
+                  alt="Elite Advocate" 
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="space-y-[0.25rem] min-w-0">
+                <h4 className="font-serif font-bold text-[1.25rem] text-primary dark:text-foreground truncate">
+                  Advocate Rokeya Rahman
+                </h4>
+                <p className="text-[0.6875rem] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-extrabold">
+                  Family & Corporate Law
+                </p>
+                <div className="flex items-center gap-[0.25rem] text-[0.75rem]">
+                  <span className="text-amber-400">★</span>
+                  <span className="font-bold text-primary dark:text-foreground">5.0</span>
+                  <span className="text-slate-400">(148 Reviews)</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Detail stats */}
+            <div className="grid grid-cols-2 gap-[1rem] p-[1.25rem] bg-background/50 dark:bg-zinc-950/40 rounded-[1.25rem] border border-border/30 text-center">
+              <div>
+                <span className="text-[0.625rem] uppercase tracking-wider text-slate-400 block mb-[0.125rem]">Hourly Rate</span>
+                <span className="font-serif font-bold text-[1.125rem] text-primary dark:text-foreground">$120<span className="text-[0.75rem] font-normal text-slate-400">/hr</span></span>
+              </div>
+              <div>
+                <span className="text-[0.625rem] uppercase tracking-wider text-slate-400 block mb-[0.125rem]">Experience</span>
+                <span className="font-serif font-bold text-[1.125rem] text-primary dark:text-foreground">12+ Years</span>
+              </div>
+            </div>
+
+            {/* CTA Mockup */}
+            <div className="w-full py-[0.75rem] rounded-[1rem] bg-accent/15 border border-accent/25 text-accent font-bold text-[0.75rem] uppercase tracking-widest text-center">
+              Hire Counsel
+            </div>
+          </div>
+        );
+      case 1:
+        return (
+          <div className="relative backdrop-blur-xl bg-card/65 dark:bg-zinc-900/35 border border-border/50 rounded-[2.25rem] p-[2rem] w-full max-w-[26rem] md:w-[22rem] lg:w-[26rem] shadow-[0_2rem_5rem_rgba(169,132,76,0.08)] dark:shadow-[0_2rem_5rem_rgba(0,0,0,0.5)] space-y-[1.25rem] select-none text-left">
+            {/* Video Call Mockup */}
+            <div className="relative w-full aspect-[4/3] rounded-[1.5rem] overflow-hidden border border-border/40 shadow-inner">
+              <img 
+                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=300" 
+                alt="Barrister Rafique-ul Huq" 
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+              
+              {/* Top floating call badge */}
+              <div className="absolute top-[0.875rem] left-[0.875rem] flex items-center gap-[0.375rem] px-[0.625rem] py-[0.25rem] rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[0.5625rem] font-bold text-white uppercase tracking-wider">
+                <span className="h-[0.3125rem] w-[0.3125rem] rounded-full bg-red-500 animate-pulse" />
+                Secure Video Consult
+              </div>
+
+              {/* Bottom Lawyer details */}
+              <div className="absolute bottom-[0.875rem] left-[0.875rem] right-[0.875rem]">
+                <span className="text-[0.5625rem] uppercase tracking-widest text-accent font-black block">Consultation Call</span>
+                <span className="font-serif text-[1rem] font-bold text-white block">Barrister Rafique-ul Huq</span>
+              </div>
+            </div>
+
+            {/* Video Call Controls */}
+            <div className="flex items-center justify-center gap-[1rem] pt-[0.25rem]">
+              <div className="h-[2.5rem] w-[2.5rem] rounded-full bg-foreground/5 dark:bg-white/10 hover:bg-foreground/10 flex items-center justify-center text-[1rem] cursor-pointer">
+                🎤
+              </div>
+              <div className="h-[2.5rem] w-[2.5rem] rounded-full bg-foreground/5 dark:bg-white/10 hover:bg-foreground/10 flex items-center justify-center text-[1rem] cursor-pointer">
+                📹
+              </div>
+              <div className="h-[2.5rem] w-[2.5rem] rounded-full bg-rose-500/20 text-rose-500 hover:bg-rose-500 hover:text-white flex items-center justify-center text-[1rem] cursor-pointer transition-colors duration-200">
+                📞
+              </div>
+              <div className="h-[2.5rem] w-[2.5rem] rounded-full bg-accent text-white dark:text-navy hover:scale-105 flex items-center justify-center text-[1rem] cursor-pointer transition-transform shadow-sm">
+                💬
+              </div>
+            </div>
+          </div>
+        );
+      case 2:
+        return (
+          <div className="relative backdrop-blur-xl bg-card/65 dark:bg-zinc-900/35 border border-border/50 rounded-[2.25rem] p-[2rem] w-full max-w-[26rem] md:w-[22rem] lg:w-[26rem] shadow-[0_2rem_5rem_rgba(169,132,76,0.08)] dark:shadow-[0_2rem_5rem_rgba(0,0,0,0.5)] space-y-[1.25rem] select-none text-left">
+            {/* Stripe Escrow Tracker */}
+            <div className="flex items-center justify-between">
+              <span className="text-[0.625rem] uppercase tracking-[0.2em] text-accent font-extrabold">Stripe Protection</span>
+              <span className="inline-flex items-center gap-[0.25rem] text-[0.625rem] text-emerald-500 font-bold uppercase">
+                <span>🔒</span> Escrow Active
+              </span>
+            </div>
+
+            {/* Locked Funds details */}
+            <div className="space-y-[0.375rem] py-[0.5rem] border-b border-border/15">
+              <span className="text-[0.75rem] text-slate-400 block font-body">Contract Retainer Held</span>
+              <h4 className="font-serif font-bold text-[2rem] text-primary dark:text-foreground leading-none">
+                $1,200.00
+              </h4>
+            </div>
+
+            {/* Retainer Milestones */}
+            <div className="space-y-[0.875rem] pt-[0.25rem]">
+              <div className="flex items-start gap-[0.75rem]">
+                <span className="h-[1.125rem] w-[1.125rem] rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-500 flex items-center justify-center text-[0.625rem] font-bold mt-[0.125rem]">✓</span>
+                <div>
+                  <h5 className="text-[0.8125rem] font-bold text-primary dark:text-foreground">Client Deposited Retainer</h5>
+                  <p className="text-[0.6875rem] text-slate-400">Funds locked securely in Stripe escrow wallet</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-[0.75rem]">
+                <span className="h-[1.125rem] w-[1.125rem] rounded-full bg-accent/20 text-accent flex items-center justify-center text-[0.625rem] font-bold mt-[0.125rem] animate-pulse">•</span>
+                <div>
+                  <h5 className="text-[0.8125rem] font-bold text-primary dark:text-foreground">Consultation & Work in Progress</h5>
+                  <p className="text-[0.6875rem] text-slate-400">Attorneys compiling legal briefs and advice</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-[0.75rem]">
+                <span className="h-[1.125rem] w-[1.125rem] rounded-full bg-foreground/5 dark:bg-white/5 text-slate-400 flex items-center justify-center text-[0.625rem] font-bold mt-[0.125rem] opacity-40">-</span>
+                <div className="opacity-40">
+                  <h5 className="text-[0.8125rem] font-bold text-primary dark:text-foreground">Release Retainer to Attorney</h5>
+                  <p className="text-[0.6875rem] text-slate-400">Released once consultation completed & accepted</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="relative min-h-screen">
       
       {/* Hero Banner Section with Framer Motion Fade-in */}
-      <section className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] pt-[3rem] pb-[4rem] relative z-[10]">
-        <div className="editorial-container flex flex-col md:flex-row items-center justify-between gap-[3rem]">
+      <section className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] pt-[4rem] md:pt-[5rem] pb-[5rem] md:pb-[7rem] relative z-[10] overflow-hidden">
+        {/* Glowing ambient backgrounds */}
+        <div className="absolute top-[-5rem] left-[15%] w-[35rem] h-[35rem] bg-accent/5 dark:bg-accent/[0.03] rounded-full blur-[10rem] pointer-events-none -z-10" />
+        <div className="absolute bottom-[2rem] right-[5%] w-[30rem] h-[30rem] bg-accent/5 dark:bg-accent/[0.02] rounded-full blur-[9rem] pointer-events-none -z-10" />
+
+        <div className="editorial-container flex flex-col md:flex-row items-center justify-between gap-[3rem] md:gap-[4rem]">
           {/* Content */}
           <motion.div 
             key={activeSlide}
@@ -243,37 +400,38 @@ export default function Home() {
             <p className="text-[0.9375rem] text-slate-500 dark:text-slate-400 leading-relaxed max-w-[32rem]">
               {slides[activeSlide].description}
             </p>
-            <div className="pt-[1rem]">
+            <div className="pt-[1.5rem]">
               <Link
                 href={slides[activeSlide].ctaLink}
-                className="inline-block pb-[0.25rem] border-b-[0.125rem] border-accent text-[0.8125rem] font-extrabold text-primary dark:text-foreground tracking-wider uppercase hover:text-accent transition-colors"
+                className="inline-flex items-center gap-[0.75rem] px-[2rem] py-[0.875rem] rounded-[1.25rem] bg-primary text-white dark:bg-accent dark:text-navy font-bold text-[0.875rem] uppercase tracking-widest hover:scale-[1.03] active:scale-[0.97] hover:shadow-[0_1rem_2.5rem_rgba(169,132,76,0.15)] dark:hover:shadow-[0_1rem_2.5rem_rgba(0,0,0,0.3)] transition-all duration-300 shadow-md cursor-pointer group"
               >
-                {slides[activeSlide].ctaText} →
+                <span>{slides[activeSlide].ctaText}</span>
+                <span className="transform group-hover:translate-x-[0.25rem] transition-transform duration-300">→</span>
               </Link>
             </div>
           </motion.div>
 
-          {/* Large Abstract Icon */}
+          {/* Large Interactive Visual */}
           <motion.div 
-            key={`icon-${activeSlide}`}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 0.9, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            className="hidden md:flex flex-shrink-0 justify-center items-center h-[14rem] w-[14rem]"
+            key={`visual-${activeSlide}`}
+            initial={{ opacity: 0, scale: 0.95, y: 15 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: "easeOut" }}
+            className="hidden md:flex flex-shrink-0 justify-center items-center w-full max-w-[26rem] md:w-[22rem] lg:w-[26rem]"
           >
-            {slides[activeSlide].icon}
+            {renderHeroVisual(activeSlide)}
           </motion.div>
         </div>
 
         {/* Minimal Control panel */}
         <div className="editorial-container flex items-center justify-between pt-[2rem] border-t-[0.0625rem] border-border/10 mt-[3rem]">
-          <div className="flex items-center gap-[0.5rem]">
+          <div className="flex items-center gap-[0.75rem]">
             {slides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActiveSlide(i)}
-                className={`h-[0.125rem] rounded-full transition-all duration-[300ms] ${
-                  activeSlide === i ? 'w-[2.5rem] bg-accent' : 'w-[1.25rem] bg-slate-300 dark:bg-zinc-800'
+                className={`h-[0.25rem] rounded-full transition-all duration-300 cursor-pointer ${
+                  activeSlide === i ? 'w-[3rem] bg-accent' : 'w-[0.75rem] bg-slate-300 dark:bg-zinc-800 hover:bg-slate-400'
                 }`}
                 aria-label={`Go to slide ${i + 1}`}
               />
