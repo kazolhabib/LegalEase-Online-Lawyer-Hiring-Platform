@@ -23,7 +23,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[6rem] md:py-[5rem] mt-[6.5rem] border-t-[0.0625rem] border-border/15 bg-slate-50/[0.04] dark:bg-zinc-950/[0.04] backdrop-blur-sm relative z-[10] overflow-hidden group">
+    <footer className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[6rem] md:py-[5rem] mt-[6.5rem] border-t-[0.0625rem] border-border/15 bg-slate-50/[0.04] dark:bg-zinc-950/[0.04] backdrop-blur-sm relative z-[10] overflow-hidden group/footer">
       {/* Editorial Gradient Line at the top of the footer */}
       <div className="absolute top-0 left-0 right-0 h-[0.0625rem] bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
@@ -33,7 +33,7 @@ export default function Footer() {
 
       {/* Large Legal Scale watermark overlay */}
       <svg 
-        className="absolute bottom-[-5rem] right-[-2rem] md:right-[5%] w-[22rem] h-[22rem] md:w-[32rem] md:h-[32rem] text-accent/[0.04] dark:text-accent/[0.025] pointer-events-none select-none -z-10 transition-transform duration-[1500ms] ease-out group-hover:scale-105 group-hover:-rotate-1" 
+        className="absolute bottom-[-5rem] right-[-2rem] md:right-[5%] w-[22rem] h-[22rem] md:w-[32rem] md:h-[32rem] text-accent/[0.04] dark:text-accent/[0.025] pointer-events-none select-none -z-10 transition-transform duration-[1500ms] ease-out group-hover/footer:scale-105 group-hover/footer:-rotate-1" 
         fill="none" 
         viewBox="0 0 100 100" 
         stroke="currentColor" 
@@ -85,23 +85,6 @@ export default function Footer() {
             <p className="text-[0.875rem] text-slate-500 dark:text-zinc-400 leading-relaxed font-body">
               Connecting individuals, entrepreneurs, and businesses with highly qualified verified attorneys. Access premium legal representation simplified.
             </p>
-            
-            {/* Contact Details */}
-            <div className="space-y-[0.625rem] pt-[0.5rem] text-[0.8125rem] text-slate-500 dark:text-zinc-400 font-body">
-              <p className="flex items-center gap-[0.625rem]">
-                <svg className="w-[1rem] h-[1rem] text-accent/80 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.143-5.12-3.439-6.264-6.264l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                </svg>
-                <span>+1 (800) 555-LEGAL</span>
-              </p>
-              <p className="flex items-center gap-[0.625rem]">
-                <svg className="w-[1rem] h-[1rem] text-accent/80 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 1115 0z" />
-                </svg>
-                <span>One World Trade Center, Suite 85A, NY</span>
-              </p>
-            </div>
             
             {/* Social icons */}
             <div className="flex space-x-[0.5rem] pt-[0.5rem]">
