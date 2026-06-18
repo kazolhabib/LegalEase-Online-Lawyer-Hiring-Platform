@@ -2,11 +2,11 @@
 
 **LegalEase** is a full-stack digital marketplace that connects clients and businesses with verified legal professionals. Users can browse, discover, and hire lawyers across multiple specializations, while lawyers can manage their services and track inbound cases. An admin dashboard provides complete oversight of users, transactions, and platform analytics.
 
-🔗 **Live URL:** [https://legalease-online-lawyer-hiring.vercel.app](https://legalease-online-lawyer-hiring.vercel.app)
+ **Live URL:** [https://legalease-online-lawyer-hiring.vercel.app](https://legalease-online-lawyer-hiring.vercel.app)
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 - **JWT Authentication** – Secure email/password login and Google OAuth with role-based access (User, Lawyer, Admin).
 - **Browse & Search Lawyers** – Advanced search with filters for specialization, fee range, availability, and sorting with paginated results.
@@ -21,7 +21,7 @@
 
 ---
 
-## 📦 NPM Packages Used
+## NPM Packages Used
 
 ### Client-Side (Next.js)
 
@@ -49,7 +49,7 @@
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -101,13 +101,13 @@ npm run dev
 
 ---
 
-## 🔗 Links
+## Links
 
 - **Client Repository:** [GitHub – Client](https://github.com/kazolhabib/LegalEase-Online-Lawyer-Hiring-Platform)
 - **Server Repository:** [GitHub – Server](https://github.com/kazolhabib/LegalEase-Online-Lawyer-Hiring-Platform-Server)
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the ISC License.
