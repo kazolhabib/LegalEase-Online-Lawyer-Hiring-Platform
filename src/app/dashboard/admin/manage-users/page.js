@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect } from 'react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
 
 export default function AdminManageUsersPage() {
   const [users, setUsers] = useState([]);
@@ -145,11 +145,19 @@ export default function AdminManageUsersPage() {
                 <tr key={item._id} className="hover:bg-foreground/[0.01] transition-colors">
                   <td className="px-[1rem] py-[1rem]">
                     <div className="flex items-center gap-[0.75rem]">
-                      <img
-                        src={item.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150&h=150'}
-                        alt={item.name}
-                        className="h-[2rem] w-[2rem] object-cover rounded-[0.5rem]"
-                      />
+                      {item.avatar && !item.avatar.includes('unsplash.com/photo-1535713875002-d1d0cf377fde') ? (
+                        <img
+                          src={item.avatar}
+                          alt={item.name}
+                          className="h-[2rem] w-[2rem] object-cover rounded-[0.5rem]"
+                        />
+                      ) : (
+                        <div className="h-[2rem] w-[2rem] rounded-[0.5rem] bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
+                          <svg className="w-[1rem] h-[1rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          </svg>
+                        </div>
+                      )}
                       <span className="font-bold text-foreground">{item.name}</span>
                     </div>
                   </td>

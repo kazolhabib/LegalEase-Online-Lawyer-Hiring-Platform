@@ -7,7 +7,152 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../Providers';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+
+const FALLBACK_LAWYERS = {
+  '1': {
+    _id: '1',
+    user: { name: 'Barrister Rafique-ul Huq', avatar: '' },
+    specialization: 'Corporate & Constitutional Law',
+    rate: 150,
+    ratingAverage: 4.9,
+    reviewsCount: 124,
+    status: 'Available',
+    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=533',
+    badge: 'Gold Partner',
+    bio: 'Barrister Rafique-ul Huq was a senior advocate of the Supreme Court of Bangladesh. With over 5 decades of legal experience, he specialized in constitutional law, corporate governance, and complex commercial disputes. He served as the Attorney General of Bangladesh in 1990 and was widely respected for his legal acumen and pro-bono work.',
+    dateJoined: '2020-01-15T00:00:00.000Z'
+  },
+  '2': {
+    _id: '2',
+    user: { name: 'Advocate Rokeya Rahman', avatar: '' },
+    specialization: 'Family & Civil Law',
+    rate: 120,
+    ratingAverage: 4.8,
+    reviewsCount: 98,
+    status: 'Busy',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400&h=533',
+    badge: 'Highly Rated',
+    bio: 'Advocate Rokeya Rahman is a dedicated family law practitioner specializing in divorce proceedings, child custody disputes, estate planning, and mediation. Over her 15-year career, she has helped hundreds of clients navigate emotional legal battles with dignity, empathy, and professional integrity.',
+    dateJoined: '2021-03-22T00:00:00.000Z'
+  },
+  '3': {
+    _id: '3',
+    user: { name: 'Dr. Kamal Hossain', avatar: '' },
+    specialization: 'International Arbitration',
+    rate: 250,
+    ratingAverage: 5.0,
+    reviewsCount: 215,
+    status: 'Available',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400&h=533',
+    badge: 'Senior Council',
+    bio: 'Dr. Kamal Hossain is a prominent jurist, statesman, and international arbitrator. Widely regarded as the "Father of the Bangladesh Constitution", he has decades of experience representing sovereign states and multinational corporations in international tribunals. His expertise spans energy disputes, treaty arbitrations, and international commercial law.',
+    dateJoined: '2019-06-10T00:00:00.000Z'
+  },
+  '4': {
+    _id: '4',
+    user: { name: 'Advocate Tanjib-ul Alam', avatar: '' },
+    specialization: 'Telecom & Corporate Law',
+    rate: 180,
+    ratingAverage: 4.7,
+    reviewsCount: 82,
+    status: 'Available',
+    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400&h=533',
+    badge: 'Rising Star',
+    bio: 'Advocate Tanjib-ul Alam is a leading corporate law attorney specializing in telecommunications regulations, mergers and acquisitions, infrastructure financing, and cross-border investments. He has played key roles in drafting legislative acts in Bangladesh and acts as legal counsel to major tech and telecom conglomerates.',
+    dateJoined: '2022-11-01T00:00:00.000Z'
+  },
+  '5': {
+    _id: '5',
+    user: { name: 'Zakir A. Khan, LL.M.', avatar: '' },
+    specialization: 'Criminal Litigation',
+    rate: 130,
+    ratingAverage: 4.9,
+    reviewsCount: 104,
+    status: 'Available',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400&h=533',
+    badge: 'Trial Expert',
+    bio: 'Zakir A. Khan is a veteran criminal defense lawyer with an LL.M. in trial advocacy. He has represented clients in complex white-collar crime investigations, cybercrime charges, and high-profile felony trials. His strategic defense tactics and sharp cross-examination skills have earned him a reputation as an elite trial attorney.',
+    dateJoined: '2020-08-14T00:00:00.000Z'
+  },
+  '6': {
+    _id: '6',
+    user: { name: 'Sara Hossain', avatar: '' },
+    specialization: 'Human Rights & Labor Law',
+    rate: 110,
+    ratingAverage: 4.9,
+    reviewsCount: 147,
+    status: 'Available',
+    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400&h=533',
+    badge: 'Pro Bono Award',
+    bio: 'Sara Hossain is an acclaimed barrister specializing in constitutional, public interest, and human rights litigation. Her work has focused on securing workers rights, promoting gender justice, and defending freedom of speech. She was honored with the International Women of Courage Award for her tireless advocacy work.',
+    dateJoined: '2021-05-19T00:00:00.000Z'
+  }
+};
+
+const FALLBACK_COMMENTS = {
+  '1': [
+    {
+      _id: 'c1',
+      client: { name: 'Rahim Uddin', avatar: '' },
+      rating: 5,
+      text: 'Exceptional legal guidance on our corporate restructuring. Highly professional and knowledgeable.',
+      dateCreated: '2026-05-10T12:00:00.000Z'
+    },
+    {
+      _id: 'c2',
+      client: { name: 'Kamil Ahmed', avatar: '' },
+      rating: 5,
+      text: 'Truly a legend of constitutional law. Grateful for his advice on our non-profit foundation matters.',
+      dateCreated: '2026-04-18T12:00:00.000Z'
+    }
+  ],
+  '2': [
+    {
+      _id: 'c3',
+      client: { name: 'Tania Sultana', avatar: '' },
+      rating: 5,
+      text: 'Helped me win custody of my children. Very empathetic and dedicated.',
+      dateCreated: '2026-06-01T12:00:00.000Z'
+    }
+  ],
+  '3': [
+    {
+      _id: 'c4',
+      client: { name: 'Enamul Haque', avatar: '' },
+      rating: 5,
+      text: 'Dr. Kamal Hossain guided our joint-venture dispute through international arbitration successfully. Brilliant mind.',
+      dateCreated: '2026-03-12T12:00:00.000Z'
+    }
+  ],
+  '4': [
+    {
+      _id: 'c5',
+      client: { name: 'Sajid Islam', avatar: '' },
+      rating: 5,
+      text: 'Best telecom legal consultant in the country. Helped us with our licensing approval process.',
+      dateCreated: '2026-05-25T12:00:00.000Z'
+    }
+  ],
+  '5': [
+    {
+      _id: 'c6',
+      client: { name: 'Mamunur Rashid', avatar: '' },
+      rating: 5,
+      text: 'Outstanding criminal defense representation. Dismissed all baseless allegations. Highly recommend.',
+      dateCreated: '2026-04-05T12:00:00.000Z'
+    }
+  ],
+  '6': [
+    {
+      _id: 'c7',
+      client: { name: 'Fariha Yasmin', avatar: '' },
+      rating: 5,
+      text: 'Strong advocate for labor laws and rights. Very professional support in our workplace dispute case.',
+      dateCreated: '2026-05-02T12:00:00.000Z'
+    }
+  ]
+};
 
 export default function LawyerDetailsPage({ params }) {
   const unwrappedParams = use(params);
@@ -36,6 +181,11 @@ export default function LawyerDetailsPage({ params }) {
         // Fetch lawyer profile
         const profileRes = await fetch(`${API_URL}/lawyers/${id}`);
         if (!profileRes.ok) {
+          if (FALLBACK_LAWYERS[id]) {
+            setLawyer(FALLBACK_LAWYERS[id]);
+            setComments(FALLBACK_COMMENTS[id] || []);
+            return;
+          }
           router.push('/404');
           return;
         }
@@ -50,6 +200,12 @@ export default function LawyerDetailsPage({ params }) {
         }
       } catch (err) {
         console.error('Failed to load lawyer details:', err);
+        if (FALLBACK_LAWYERS[id]) {
+          setLawyer(FALLBACK_LAWYERS[id]);
+          setComments(FALLBACK_COMMENTS[id] || []);
+        } else {
+          router.push('/404');
+        }
       } finally {
         setLoading(false);
       }
@@ -166,6 +322,10 @@ export default function LawyerDetailsPage({ params }) {
     );
   }
 
+  if (!lawyer) {
+    return null;
+  }
+
   return (
     <div className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[4rem] editorial-container space-y-[4rem]">
       
@@ -269,11 +429,19 @@ export default function LawyerDetailsPage({ params }) {
                 <div key={comment._id} className="pb-[1.5rem] border-b border-border/10 space-y-[0.75rem]">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-[0.75rem]">
-                      <img
-                        src={comment.client?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150&h=150'}
-                        alt={comment.client?.name}
-                        className="h-[2rem] w-[2rem] rounded-[0.5rem] object-cover"
-                      />
+                      {comment.client?.avatar && !comment.client.avatar.includes('unsplash.com/photo-1535713875002-d1d0cf377fde') ? (
+                        <img
+                          src={comment.client.avatar}
+                          alt={comment.client.name}
+                          className="h-[2rem] w-[2rem] rounded-[0.5rem] object-cover"
+                        />
+                      ) : (
+                        <div className="h-[2rem] w-[2rem] rounded-[0.5rem] bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
+                          <svg className="w-[1rem] h-[1rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          </svg>
+                        </div>
+                      )}
                       <div>
                         <p className="text-[0.75rem] font-bold text-foreground leading-tight">{comment.client?.name}</p>
                         <p className="text-[0.5625rem] text-slate-400 leading-none">

@@ -22,11 +22,19 @@ export default function DashboardIndexPage() {
       {/* Account Info card layout */}
       <div className="border border-border/80 rounded-[1rem] p-[2rem] bg-background/20 max-w-[32rem] space-y-[1.5rem]">
         <div className="flex items-center gap-[1.5rem]">
-          <img
-            src={user.avatar}
-            alt={user.name}
-            className="h-[5rem] w-[5rem] rounded-[1rem] object-cover border border-border"
-          />
+          {user.avatar && user.avatar.trim() !== '' && !user.avatar.includes('unsplash.com/photo-1535713875002-d1d0cf377fde') ? (
+            <img
+              src={user.avatar}
+              alt={user.name}
+              className="h-[5rem] w-[5rem] rounded-[1rem] object-cover border border-border"
+            />
+          ) : (
+            <div className="h-[5rem] w-[5rem] rounded-[1rem] bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
+              <svg className="w-[2.5rem] h-[2.5rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+          )}
           <div>
             <h3 className="font-serif text-[1.5rem] font-bold text-primary dark:text-foreground">{user.name}</h3>
             <p className="text-[0.8125rem] text-slate-500">{user.email}</p>

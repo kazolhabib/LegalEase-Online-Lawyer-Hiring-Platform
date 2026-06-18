@@ -7,6 +7,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme, useAuth } from '../app/Providers';
 
+const hasCustomAvatar = (avatarUrl) => {
+  return avatarUrl && avatarUrl.trim() !== '' && !avatarUrl.includes('unsplash.com/photo-1535713875002-d1d0cf377fde');
+};
+
 export default function Navbar() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
@@ -118,11 +122,19 @@ export default function Navbar() {
             {user ? (
               <div className="flex items-center gap-[0.5rem]">
                 <Link href="/dashboard" className="flex items-center gap-[0.5rem] group">
-                  <img
-                    src={user.avatar}
-                    alt={user.name}
-                    className="h-[2rem] w-[2rem] rounded-[0.75rem] object-cover border-[0.0625rem] border-accent/20 group-hover:border-accent transition-all duration-[300ms]"
-                  />
+                  {hasCustomAvatar(user.avatar) ? (
+                    <img
+                      src={user.avatar}
+                      alt={user.name}
+                      className="h-[2rem] w-[2rem] rounded-[0.75rem] object-cover border-[0.0625rem] border-accent/20 group-hover:border-accent transition-all duration-[300ms]"
+                    />
+                  ) : (
+                    <div className="h-[2rem] w-[2rem] rounded-[0.75rem] bg-accent/10 border border-accent/20 flex items-center justify-center text-accent group-hover:border-accent transition-all duration-[300ms]">
+                      <svg className="w-[1rem] h-[1rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                  )}
                   <div className="hidden sm:block text-left">
                     <p className="text-[0.6875rem] font-bold text-foreground leading-tight group-hover:text-accent transition-colors">{user.name}</p>
                     <p className="text-[0.5625rem] text-muted capitalize leading-none">{user.role}</p>

@@ -6,7 +6,8 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../Providers';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY || '';
 
 export default function LawyerManageProfilePage() {
   const router = useRouter();
@@ -19,9 +20,11 @@ export default function LawyerManageProfilePage() {
   const [image, setImage] = useState('');
   const [status, setStatus] = useState('Available');
   const [badge, setBadge] = useState('Rising Star');
+  const [profileId, setProfileId] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -36,6 +39,7 @@ export default function LawyerManageProfilePage() {
           // Find profile where user matches logged in user ID
           const myProfile = data.lawyers?.find(l => l.user?._id === user.id || l.user?._id === user._id);
           if (myProfile) {
+            setProfileId(myProfile._id);
             setBio(myProfile.bio || '');
             setSpecialization(myProfile.specialization || 'Corporate Law');
             setRate(myProfile.rate || '');
@@ -53,6 +57,41 @@ export default function LawyerManageProfilePage() {
 
     fetchProfile();
   }, [user]);
+
+  // imgBB Image Upload handler
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    setError('');
+
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const apiKey = IMGBB_API_KEY || '44ab28a8a2352b2a2d1afc1f09e68bda';
+      const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setImage(data.data.display_url);
+        setSuccess('Image uploaded successfully!');
+        setTimeout(() => setSuccess(''), 3000);
+      } else {
+        console.error('imgBB upload failed:', data);
+        setError(`Image upload failed: ${data.error?.message || 'Check your API Key.'}`);
+      }
+    } catch (err) {
+      console.error('imgBB upload error:', err);
+      setError('Image upload service error. You can paste a direct URL instead.');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,6 +123,7 @@ export default function LawyerManageProfilePage() {
 
       const data = await res.json();
       if (res.ok) {
+        setProfileId(data._id);
         setSuccess('Legal profile configured successfully!');
         setTimeout(() => {
           router.push('/dashboard');
@@ -94,6 +134,43 @@ export default function LawyerManageProfilePage() {
     } catch (err) {
       console.error('Submit lawyer profile error:', err);
       setError('Server connection error. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleDeleteProfile = async () => {
+    if (!profileId) return;
+    if (!window.confirm('Are you sure you want to permanently delete your legal profile? This will remove your listing from the platform.')) {
+      return;
+    }
+    setError('');
+    setSuccess('');
+    setSubmitting(true);
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_URL}/lawyers/${profileId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (res.ok) {
+        setSuccess('Profile deleted successfully. You can create a new one anytime.');
+        setProfileId(null);
+        setBio('');
+        setSpecialization('Corporate Law');
+        setRate('');
+        setImage('');
+        setStatus('Available');
+        setBadge('Rising Star');
+      } else {
+        const data = await res.json();
+        setError(data.msg || 'Failed to delete profile.');
+      }
+    } catch (err) {
+      console.error('Delete profile error:', err);
+      setError('Server error deleting profile.');
     } finally {
       setSubmitting(false);
     }
@@ -155,8 +232,30 @@ export default function LawyerManageProfilePage() {
             />
           </div>
 
-          <div className="space-y-[0.375rem]">
-            <label className="text-[0.625rem] uppercase tracking-wider font-extrabold text-slate-500">Profile Image URL</label>
+          {/* Image Upload Section */}
+          <div className="space-y-[0.5rem]">
+            <label className="text-[0.625rem] uppercase tracking-wider font-extrabold text-slate-500">Profile Image (imgBB Upload)</label>
+            
+            <div className="flex items-center gap-[0.75rem]">
+              <label
+                className={`flex-shrink-0 px-[1rem] py-[0.5rem] rounded-[0.5rem] text-[0.6875rem] font-bold uppercase tracking-wider cursor-pointer transition-all ${
+                  uploading
+                    ? 'bg-slate-200 dark:bg-zinc-800 text-slate-400 cursor-wait'
+                    : 'bg-accent/10 text-accent border border-accent/20 hover:bg-accent hover:text-navy'
+                }`}
+              >
+                {uploading ? 'Uploading...' : '📁 Choose Image'}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  disabled={uploading}
+                  className="hidden"
+                />
+              </label>
+              <span className="text-[0.625rem] text-slate-400">or paste URL below</span>
+            </div>
+
             <input
               type="text"
               value={image}
@@ -165,6 +264,18 @@ export default function LawyerManageProfilePage() {
               required
               className="w-full px-[1rem] py-[0.75rem] text-[0.8125rem] rounded-[0.75rem] border border-border bg-background/50 focus:outline-none focus:ring-[0.0625rem] focus:ring-accent focus:border-accent text-foreground transition-all"
             />
+
+            {/* Image Preview */}
+            {image && (
+              <div className="mt-[0.5rem]">
+                <img
+                  src={image}
+                  alt="Profile Preview"
+                  className="h-[6rem] w-[4.5rem] object-cover rounded-[0.5rem] border border-border/50"
+                  onError={(e) => { e.target.style.display = 'none'; }}
+                />
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-[1rem]">
@@ -217,12 +328,26 @@ export default function LawyerManageProfilePage() {
             </button>
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || uploading}
               className="w-full py-[0.75rem] rounded-[0.75rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.8125rem] font-bold hover:scale-[1.01] active:scale-[0.99] transition-all shadow-[0_0.25rem_1rem_rgba(0,0,0,0.05)] disabled:opacity-50 cursor-pointer"
             >
               {submitting ? 'Submitting...' : 'Save Profile'}
             </button>
           </div>
+
+          {/* Delete Profile Button */}
+          {profileId && (
+            <div className="pt-[1.5rem] border-t border-border/10">
+              <button
+                type="button"
+                onClick={handleDeleteProfile}
+                disabled={submitting}
+                className="w-full py-[0.625rem] rounded-[0.75rem] border border-red-500/20 text-red-500 text-[0.75rem] font-bold hover:bg-red-500 hover:text-white transition-all cursor-pointer disabled:opacity-50"
+              >
+                Delete Legal Profile Permanently
+              </button>
+            </div>
+          )}
 
         </form>
       )}

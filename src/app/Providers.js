@@ -71,7 +71,7 @@ const AuthContext = createContext({
 
 export const useAuth = () => useContext(AuthContext);
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -149,13 +149,13 @@ function AuthProvider({ children }) {
     return data.user;
   };
 
-  const googleLogin = async (name, email, avatar) => {
+  const googleLogin = async (idToken) => {
     const res = await fetch(`${API_URL}/auth/google`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ name, email, avatar })
+      body: JSON.stringify({ idToken })
     });
 
     const data = await res.json();
