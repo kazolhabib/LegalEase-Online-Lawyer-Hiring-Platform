@@ -62,43 +62,49 @@ export default function DashboardLayout({ children }) {
   ];
 
   return (
-    <div className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[3rem] editorial-container flex flex-col md:flex-row gap-[3rem]">
-      
-      {/* Sidebar Navigation */}
-      <aside className="w-full md:w-[15rem] flex-shrink-0 space-y-[2rem]">
-        <div className="space-y-[0.5rem] border-b border-border/10 pb-[1.5rem]">
-          <h3 className="font-serif text-[1.5rem] font-bold text-primary dark:text-foreground">Console</h3>
-          <div className="flex items-center gap-[0.5rem]">
-            <span className="h-[0.5rem] w-[0.5rem] bg-accent rounded-full" />
-            <span className="text-[0.625rem] uppercase font-bold tracking-widest text-slate-500 capitalize">{user.role} workspace</span>
+    <div className="relative w-full overflow-hidden">
+      {/* Ambient Backlight Glows */}
+      <div className="absolute top-[10%] left-[-12rem] w-[28rem] h-[28rem] bg-accent/5 dark:bg-accent/[0.03] rounded-full blur-[9rem] pointer-events-none -z-10" />
+      <div className="absolute bottom-[10%] right-[-15rem] w-[35rem] h-[35rem] bg-accent/5 dark:bg-accent/[0.02] rounded-full blur-[11rem] pointer-events-none -z-10" />
+
+      <div className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[3rem] editorial-container flex flex-col md:flex-row gap-[3rem] relative z-10">
+        
+        {/* Sidebar Navigation */}
+        <aside className="w-full md:w-[15rem] flex-shrink-0 space-y-[2rem]">
+          <div className="space-y-[0.5rem] border-b border-border/10 pb-[1.5rem]">
+            <h3 className="font-serif text-[1.5rem] font-bold text-primary dark:text-foreground">Console</h3>
+            <div className="flex items-center gap-[0.5rem]">
+              <span className="h-[0.5rem] w-[0.5rem] bg-accent rounded-full" />
+              <span className="text-[0.625rem] uppercase font-bold tracking-widest text-slate-500 capitalize">{user.role} workspace</span>
+            </div>
           </div>
-        </div>
 
-        <nav className="flex flex-col gap-[0.25rem]">
-          {navItems.map((item) => {
-            const isActive = pathname === item.path;
-            return (
-              <Link
-                key={item.name}
-                href={item.path}
-                className={`w-full text-left px-[1rem] py-[0.625rem] rounded-[0.5rem] text-[0.75rem] font-semibold transition-all ${
-                  isActive
-                    ? 'bg-primary text-white dark:bg-accent dark:text-navy'
-                    : 'text-foreground/75 hover:bg-foreground/5 hover:text-foreground'
-                }`}
-              >
-                {item.name}
-              </Link>
-            );
-          })}
-        </nav>
-      </aside>
+          <nav className="flex flex-col gap-[0.25rem]">
+            {navItems.map((item) => {
+              const isActive = pathname === item.path;
+              return (
+                <Link
+                  key={item.name}
+                  href={item.path}
+                  className={`w-full text-left px-[1rem] py-[0.625rem] rounded-[0.5rem] text-[0.75rem] font-semibold transition-all ${
+                    isActive
+                      ? 'bg-primary text-white dark:bg-accent dark:text-navy'
+                      : 'text-foreground/75 hover:bg-foreground/5 hover:text-foreground'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
+          </nav>
+        </aside>
 
-      {/* Main Content Area */}
-      <main className="flex-grow w-full overflow-x-auto min-h-[50vh]">
-        {children}
-      </main>
+        {/* Main Content Area */}
+        <main className="flex-grow w-full overflow-x-auto min-h-[50vh]">
+          {children}
+        </main>
 
+      </div>
     </div>
   );
 }
