@@ -533,20 +533,21 @@ export default function Home() {
       </section>
 
       {/* Extra Section: Trust & Escrow Setup */}
-      <section id="trust" className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[5rem] md:py-[6rem] z-[10] border-t-[0.0625rem] border-border/10 bg-gradient-to-b from-transparent to-slate-50/20 dark:to-zinc-950/10">
+      <section id="trust" className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[5rem] md:py-[6.5rem] z-[10] border-t-[0.0625rem] border-border/10 bg-transparent">
         <div className="editorial-container">
-          <div className="text-center space-y-[0.5rem] mb-[4rem]">
-            <span className="text-[0.625rem] uppercase tracking-widest text-accent font-bold">Secure Marketplace</span>
-            <h2 className="font-serif text-[2.25rem] sm:text-[3rem] font-normal tracking-tight text-primary dark:text-foreground">Built on Trust & Security</h2>
+          <div className="text-center space-y-[0.5rem] mb-[5rem]">
+            <span className="text-[0.625rem] uppercase tracking-[0.25em] text-accent font-extrabold block">Secure Marketplace</span>
+            <h2 className="font-serif text-[2.25rem] sm:text-[3.25rem] font-normal tracking-tight text-primary dark:text-foreground">Built on Trust & Security</h2>
+            <div className="h-[0.0625rem] w-[3.5rem] bg-accent/30 mx-auto mt-[1.5rem]" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-[2rem] lg:gap-[3rem]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
             {[
               {
                 title: '100% Verified Credentials',
                 desc: 'Every attorney undergoes a strict background check, bar registration authentication, and license check.',
                 icon: (
-                  <svg className="w-[2rem] h-[2rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <svg className="w-[2.25rem] h-[2.25rem] text-accent transition-transform duration-500 ease-out group-hover:scale-105 group-hover:-translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.25}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
                   </svg>
                 )
@@ -555,7 +556,7 @@ export default function Home() {
                 title: 'Secure Stripe Escrow',
                 desc: 'Funds are securely locked in escrow. The lawyer is paid only after they accept and complete your consultation.',
                 icon: (
-                  <svg className="w-[2rem] h-[2rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <svg className="w-[2.25rem] h-[2.25rem] text-accent transition-transform duration-500 ease-out group-hover:scale-105 group-hover:-translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.25}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
                   </svg>
                 )
@@ -564,7 +565,7 @@ export default function Home() {
                 title: 'Confidential Counsel',
                 desc: 'Premium security protocols protect all communications, comments, files, and consultation history.',
                 icon: (
-                  <svg className="w-[2rem] h-[2rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <svg className="w-[2.25rem] h-[2.25rem] text-accent transition-transform duration-500 ease-out group-hover:scale-105 group-hover:-translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.25}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                   </svg>
                 )
@@ -572,30 +573,30 @@ export default function Home() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="relative flex flex-col p-[2rem] sm:p-[2.5rem] bg-card/60 dark:bg-zinc-900/30 backdrop-blur-md border border-border/50 rounded-[2rem] hover:-translate-y-2 hover:border-accent/40 hover:bg-card hover:shadow-[0_1.5rem_3rem_rgba(169,132,76,0.06)] dark:hover:shadow-[0_1.5rem_3rem_rgba(0,0,0,0.4)] transition-all duration-[450ms] group cursor-default"
+                className="group flex flex-col items-start p-[2.5rem] border-b md:border-b-0 md:border-r border-border/10 last:border-b-0 last:border-r-0 transition-all duration-[450ms] select-none"
               >
-                {/* Accent glow on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/[0.03] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem] -z-10" />
-
-                {/* Index number watermark */}
-                <span className="absolute top-[2rem] right-[2rem] font-mono text-[0.875rem] font-black text-accent/20 dark:text-accent/10 group-hover:text-accent/40 transition-colors duration-500 select-none">
-                  0{i + 1}
-                </span>
-
-                {/* Icon Container with glowing ring */}
-                <div className="relative flex items-center justify-center w-[4.5rem] h-[4.5rem] rounded-[1.5rem] bg-accent/5 text-accent border border-accent/15 dark:border-accent/5 group-hover:bg-accent group-hover:text-white dark:group-hover:text-navy group-hover:border-accent group-hover:scale-105 transition-all duration-[400ms] shadow-sm">
+                {/* Float-up Icon */}
+                <div className="mb-[1.75rem] flex items-center justify-center">
                   {item.icon}
                 </div>
 
-                {/* Content */}
-                <div className="space-y-[0.75rem] mt-[1.75rem]">
-                  <h3 className="font-serif font-bold text-[1.35rem] tracking-tight text-primary dark:text-foreground group-hover:text-accent transition-colors duration-300">
-                    {item.title}
-                  </h3>
-                  <p className="text-[0.875rem] text-slate-500 dark:text-zinc-400 leading-relaxed font-body">
-                    {item.desc}
-                  </p>
-                </div>
+                {/* Subtitle / Numbering */}
+                <span className="font-serif italic text-[0.875rem] text-accent/60 block mb-[0.375rem] transition-colors duration-300 group-hover:text-accent">
+                  0{i + 1}.
+                </span>
+
+                {/* Title */}
+                <h3 className="font-serif font-bold text-[1.45rem] tracking-tight text-primary dark:text-foreground transition-colors duration-300 group-hover:text-accent">
+                  {item.title}
+                </h3>
+
+                {/* Expanding divider line */}
+                <div className="w-[2rem] h-[0.0625rem] bg-accent/30 my-[1.25rem] group-hover:w-[4rem] group-hover:bg-accent/70 transition-all duration-500 ease-out" />
+
+                {/* Description */}
+                <p className="text-[0.875rem] text-slate-500 dark:text-zinc-400 leading-relaxed font-body">
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
