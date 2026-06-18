@@ -8,11 +8,21 @@ import { motion } from 'framer-motion';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
 
+const initialCategories = [
+  { name: 'Corporate Law', count: '... Lawyers', desc: 'Business formation, mergers, contracts, and IP protection.', icon: '⚖️', num: '01' },
+  { name: 'Criminal Defense', count: '... Lawyers', desc: 'DUI, felonies, federal offenses, and litigation.', icon: '🛡️', num: '02' },
+  { name: 'Family Law', count: '... Lawyers', desc: 'Divorce, child custody, adoption, and prenups.', icon: '🏠', num: '03' },
+  { name: 'Intellectual Property', count: '... Lawyers', desc: 'Patents, trademarks, copyrights, and licensing.', icon: '💡', num: '04' },
+  { name: 'Civil Litigation', count: '... Lawyers', desc: 'Property disputes, breaches of contract, and injury claims.', icon: '📜', num: '05' },
+  { name: 'Tax Consultancy', count: '... Lawyers', desc: 'Corporate tax, audits, wealth planning, and IRS disputes.', icon: '💵', num: '06' },
+];
+
 export default function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [featuredLawyers, setFeaturedLawyers] = useState([]);
   const [topExperts, setTopExperts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState(initialCategories);
 
   const slides = [
     {
@@ -51,15 +61,6 @@ export default function Home() {
         </svg>
       )
     }
-  ];
-
-  const categories = [
-    { name: 'Corporate Law', count: '124 Lawyers', desc: 'Business formation, mergers, contracts, and IP protection.', icon: '⚖️', num: '01' },
-    { name: 'Criminal Defense', count: '89 Lawyers', desc: 'DUI, felonies, federal offenses, and litigation.', icon: '🛡️', num: '02' },
-    { name: 'Family Law', count: '145 Lawyers', desc: 'Divorce, child custody, adoption, and prenups.', icon: '🏠', num: '03' },
-    { name: 'Intellectual Property', count: '76 Lawyers', desc: 'Patents, trademarks, copyrights, and licensing.', icon: '💡', num: '04' },
-    { name: 'Civil Litigation', count: '112 Lawyers', desc: 'Property disputes, breaches of contract, and injury claims.', icon: '📜', num: '05' },
-    { name: 'Tax Consultancy', count: '54 Lawyers', desc: 'Corporate tax, audits, wealth planning, and IRS disputes.', icon: '💵', num: '06' },
   ];
 
   const fallbackLawyers = [
@@ -159,6 +160,32 @@ export default function Home() {
     }, 6000);
     return () => clearInterval(timer);
   }, [slides.length]);
+
+  useEffect(() => {
+    const fetchCategoryCounts = async () => {
+      try {
+        const updatedCategories = await Promise.all(
+          initialCategories.map(async (cat) => {
+            const res = await fetch(`${API_URL}/lawyers?specialization=${encodeURIComponent(cat.name)}&limit=1`);
+            if (res.ok) {
+              const data = await res.json();
+              const count = data.pagination?.totalCount ?? 0;
+              return {
+                ...cat,
+                count: `${count} ${count === 1 ? 'Lawyer' : 'Lawyers'}`
+              };
+            }
+            return cat;
+          })
+        );
+        setCategories(updatedCategories);
+      } catch (err) {
+        console.error('Failed to fetch category counts:', err);
+      }
+    };
+
+    fetchCategoryCounts();
+  }, []);
 
   useEffect(() => {
     const fetchLawyers = async () => {
@@ -271,27 +298,47 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="border-t-[0.0625rem] border-border/10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2rem] w-full">
             {categories.map((cat, i) => (
               <Link 
                 key={i} 
                 href={`/browse?specialization=${encodeURIComponent(cat.name)}`}
-                className="flex flex-col sm:flex-row sm:items-center justify-between py-[1.5rem] border-b-[0.0625rem] border-border/10 group hover:bg-foreground/[0.01] transition-all px-[0.5rem]"
+                className="relative flex flex-col justify-between p-[1.75rem] bg-card/60 dark:bg-zinc-900/30 backdrop-blur-md border border-border/50 rounded-[1.5rem] hover:-translate-y-1.5 hover:border-accent/40 hover:bg-card hover:shadow-[0_1.25rem_2.5rem_rgba(169,132,76,0.06)] dark:hover:shadow-[0_1.25rem_2.5rem_rgba(0,0,0,0.4)] transition-all duration-[400ms] group overflow-hidden"
               >
-                <div className="flex items-center gap-[1.5rem]">
-                  <span className="text-[0.875rem] font-mono text-accent font-bold">{cat.num}</span>
-                  <div className="space-y-[0.125rem]">
-                    <h4 className="font-serif font-bold text-[1.125rem] text-primary dark:text-foreground group-hover:text-accent transition-colors">
+                {/* Hover glow highlight */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-accent/0 to-accent/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="space-y-[1.25rem]">
+                  {/* Header row: Icon & Number */}
+                  <div className="flex items-center justify-between">
+                    <div className="h-[2.75rem] w-[2.75rem] rounded-[1rem] bg-accent/10 border border-accent/20 flex items-center justify-center text-[1.25rem] shadow-sm group-hover:scale-105 transition-transform">
+                      {cat.icon}
+                    </div>
+                    <span className="text-[0.8125rem] font-mono text-accent/50 font-bold group-hover:text-accent transition-colors duration-300">
+                      {cat.num}
+                    </span>
+                  </div>
+
+                  {/* Content: Title & Description */}
+                  <div className="space-y-[0.5rem]">
+                    <h4 className="font-serif font-bold text-[1.25rem] text-primary dark:text-foreground group-hover:text-accent transition-colors">
                       {cat.name}
                     </h4>
-                    <p className="text-[0.75rem] text-slate-500 dark:text-slate-400 max-w-[35rem] leading-relaxed">
+                    <p className="text-[0.75rem] text-slate-500 dark:text-slate-400 leading-relaxed min-h-[3.25rem]">
                       {cat.desc}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-[1rem] mt-[0.5rem] sm:mt-[0rem]">
-                  <span className="text-[0.75rem] font-bold text-foreground/80">{cat.count}</span>
-                  <span className="text-accent transform group-hover:translate-x-[0.25rem] transition-transform duration-[200ms]">→</span>
+
+                {/* Footer: Count & Explore */}
+                <div className="flex items-center justify-between pt-[1.25rem] mt-[1.25rem] border-t border-border/10">
+                  <span className="inline-block bg-accent/10 dark:bg-accent/5 border border-accent/20 dark:border-accent/10 text-accent text-[0.625rem] uppercase font-black tracking-widest px-[0.625rem] py-[0.25rem] rounded-md shadow-sm">
+                    {cat.count}
+                  </span>
+                  <span className="text-[0.6875rem] font-bold text-accent uppercase tracking-widest flex items-center gap-[0.25rem]">
+                    <span>Explore</span>
+                    <span className="transform group-hover:translate-x-[0.25rem] transition-transform duration-[200ms]">→</span>
+                  </span>
                 </div>
               </Link>
             ))}
