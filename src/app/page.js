@@ -206,17 +206,27 @@ export default function Home() {
             <div className="flex flex-wrap items-center gap-[1rem] pt-[0.5rem]">
               <Link
                 href="/browse"
-                className="inline-flex items-center gap-[0.75rem] px-[2.25rem] py-[0.9375rem] rounded-[1.25rem] bg-primary text-white dark:bg-accent dark:text-navy font-bold text-[0.875rem] uppercase tracking-widest hover:scale-[1.03] active:scale-[0.97] hover:shadow-[0_1rem_2.5rem_rgba(169,132,76,0.15)] dark:hover:shadow-[0_1rem_2.5rem_rgba(0,0,0,0.3)] transition-all duration-300 shadow-md cursor-pointer group"
+                className="relative inline-flex items-center gap-[0.75rem] px-[2.25rem] py-[0.9375rem] rounded-[1.25rem] bg-primary text-white dark:bg-accent dark:text-navy font-bold text-[0.875rem] uppercase tracking-widest hover:scale-[1.03] active:scale-[0.97] hover:shadow-[0_1rem_2.5rem_rgba(169,132,76,0.15)] dark:hover:shadow-[0_1rem_2.5rem_rgba(0,0,0,0.3)] transition-all duration-300 shadow-md cursor-pointer group overflow-hidden"
               >
-                <span>Browse Lawyers</span>
-                <span className="transform group-hover:translate-x-[0.25rem] transition-transform duration-300">→</span>
+                {/* Sliding Accent Background */}
+                <span className="absolute inset-0 bg-accent dark:bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                
+                <span className="relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-navy flex items-center gap-[0.75rem]">
+                  <span>Browse Lawyers</span>
+                  <span className="transform group-hover:translate-x-[0.25rem] transition-transform duration-300">→</span>
+                </span>
               </Link>
               
               <Link
                 href="#categories"
-                className="inline-flex items-center gap-[0.5rem] px-[2.25rem] py-[0.9375rem] rounded-[1.25rem] border border-border hover:border-accent bg-transparent text-primary dark:text-foreground font-bold text-[0.875rem] uppercase tracking-widest hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 cursor-pointer"
+                className="relative inline-flex items-center gap-[0.5rem] px-[2.25rem] py-[0.9375rem] rounded-[1.25rem] border border-border hover:border-accent bg-transparent text-primary dark:text-foreground font-bold text-[0.875rem] uppercase tracking-widest hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 cursor-pointer group overflow-hidden"
               >
-                Specializations
+                {/* Sliding background fill */}
+                <span className="absolute inset-0 bg-accent scale-y-0 origin-bottom group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                
+                <span className="relative z-10 transition-colors duration-300 group-hover:text-white dark:group-hover:text-navy">
+                  Specializations
+                </span>
               </Link>
             </div>
 

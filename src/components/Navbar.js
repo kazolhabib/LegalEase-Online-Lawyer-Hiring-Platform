@@ -151,15 +151,21 @@ export default function Navbar() {
               <div className="flex items-center gap-[0.25rem]">
                 <Link
                   href="/login"
-                  className="text-[0.75rem] font-bold px-[0.75rem] py-[0.5rem] text-foreground/80 hover:text-accent transition-all"
+                  className="relative text-[0.75rem] font-bold px-[0.75rem] py-[0.5rem] text-foreground/80 hover:text-accent transition-all group/signin pb-[2px] inline-flex items-center"
                 >
-                  Sign In
+                  <span>Sign In</span>
+                  <span className="absolute bottom-0 left-[0.75rem] right-[0.75rem] h-[0.0625rem] bg-accent origin-left scale-x-0 group-hover/signin:scale-x-100 transition-transform duration-300 ease-out" />
                 </Link>
                 <Link
                   href="/register"
-                  className="text-[0.75rem] font-bold px-[1rem] py-[0.5rem] rounded-[0.75rem] bg-primary text-white dark:bg-accent dark:text-navy hover:scale-[1.02] transition-all shadow-[0_0.125rem_0.5rem_rgba(0,0,0,0.05)]"
+                  className="relative text-[0.75rem] font-bold px-[1rem] py-[0.5rem] rounded-[0.75rem] bg-primary text-white dark:bg-accent dark:text-navy hover:scale-[1.02] transition-all shadow-[0_0.125rem_0.5rem_rgba(0,0,0,0.05)] group overflow-hidden inline-flex items-center justify-center"
                 >
-                  Get Started
+                  {/* Sliding Accent Background */}
+                  <span className="absolute inset-0 bg-accent dark:bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                  
+                  <span className="relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-navy">
+                    Get Started
+                  </span>
                 </Link>
               </div>
             )}
