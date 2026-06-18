@@ -18,50 +18,10 @@ const initialCategories = [
 ];
 
 export default function Home() {
-  const [activeSlide, setActiveSlide] = useState(0);
   const [featuredLawyers, setFeaturedLawyers] = useState([]);
   const [topExperts, setTopExperts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState(initialCategories);
-
-  const slides = [
-    {
-      title: "Find & Hire Expert Legal Counsel",
-      subtitle: "The Premier Legal Marketplace",
-      description: "Get matched with top-tier verified lawyers in corporate, criminal, and family law. Safe, secure, and professional.",
-      ctaText: "Browse Lawyers",
-      ctaLink: "/browse",
-      icon: (
-        <svg className="w-[8rem] h-[8rem] text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-        </svg>
-      )
-    },
-    {
-      title: "Confidential Online Consultations",
-      subtitle: "Secure & Professional",
-      description: "Schedule consultations and talk to elite legal attorneys securely from your home. Client-attorney privilege guaranteed.",
-      ctaText: "Explore Specializations",
-      ctaLink: "#categories",
-      icon: (
-        <svg className="w-[8rem] h-[8rem] text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 009 11V5a2 2 0 00-2-2H5a2 2 0 00-2 2v6c0 3.517 1.009 6.799 2.753 9.571m3.44-2.04A13.93 13.93 0 0112 16.5c.348 0 .692.012 1.033.037m3.44-2.04A13.921 13.921 0 0015 11V5a2 2 0 00-2-2h-2m2 0h2a2 2 0 012 2v6c0 3.517-1.009 6.799-2.753 9.57m-3.44-2.04A13.916 13.916 0 0015 11" />
-        </svg>
-      )
-    },
-    {
-      title: "Secure Payments & Verified Work",
-      subtitle: "Escrow Protection System",
-      description: "Your hiring fees are safely held in escrow using Stripe and released only when your work is completed and accepted.",
-      ctaText: "Why Choose Us",
-      ctaLink: "#trust",
-      icon: (
-        <svg className="w-[8rem] h-[8rem] text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-        </svg>
-      )
-    }
-  ];
 
   const fallbackLawyers = [
     {
@@ -154,12 +114,6 @@ export default function Home() {
     }
   ];
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % slides.length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, [slides.length]);
 
   useEffect(() => {
     const fetchCategoryCounts = async () => {
@@ -220,164 +174,11 @@ export default function Home() {
     fetchLawyers();
   }, []);
 
-  const renderHeroVisual = (index) => {
-    switch(index) {
-      case 0:
-        return (
-          <div className="relative backdrop-blur-xl bg-card/65 dark:bg-zinc-900/35 border border-border/50 rounded-[2.25rem] p-[2rem] w-full max-w-[26rem] md:w-[22rem] lg:w-[26rem] shadow-[0_2rem_5rem_rgba(169,132,76,0.08)] dark:shadow-[0_2rem_5rem_rgba(0,0,0,0.5)] space-y-[1.25rem] select-none text-left">
-            {/* Corner Decorative Orbs */}
-            <div className="absolute -top-[2rem] -right-[2rem] w-[8rem] h-[8rem] bg-accent/10 rounded-full blur-xl pointer-events-none" />
-            
-            {/* Header: Verified Label */}
-            <div className="flex items-center justify-between">
-              <span className="inline-flex items-center gap-[0.375rem] px-[0.75rem] py-[0.25rem] rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 text-[0.625rem] font-black tracking-widest uppercase">
-                <span className="h-[0.375rem] w-[0.375rem] rounded-full bg-emerald-500 animate-pulse" />
-                Verified Attorney
-              </span>
-              <span className="text-[0.6875rem] text-slate-400 font-mono">ID: #4829</span>
-            </div>
-
-            {/* Profile Info */}
-            <div className="flex items-center gap-[1.25rem] pt-[0.25rem]">
-              <div className="h-[4.5rem] w-[4.5rem] rounded-full overflow-hidden border-[0.125rem] border-accent/30 shadow-sm flex-shrink-0">
-                <img 
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=250&h=250" 
-                  alt="Elite Advocate" 
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="space-y-[0.25rem] min-w-0">
-                <h4 className="font-serif font-bold text-[1.25rem] text-primary dark:text-foreground truncate">
-                  Advocate Rokeya Rahman
-                </h4>
-                <p className="text-[0.6875rem] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-extrabold">
-                  Family & Corporate Law
-                </p>
-                <div className="flex items-center gap-[0.25rem] text-[0.75rem]">
-                  <span className="text-amber-400">★</span>
-                  <span className="font-bold text-primary dark:text-foreground">5.0</span>
-                  <span className="text-slate-400">(148 Reviews)</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Detail stats */}
-            <div className="grid grid-cols-2 gap-[1rem] p-[1.25rem] bg-background/50 dark:bg-zinc-950/40 rounded-[1.25rem] border border-border/30 text-center">
-              <div>
-                <span className="text-[0.625rem] uppercase tracking-wider text-slate-400 block mb-[0.125rem]">Hourly Rate</span>
-                <span className="font-serif font-bold text-[1.125rem] text-primary dark:text-foreground">$120<span className="text-[0.75rem] font-normal text-slate-400">/hr</span></span>
-              </div>
-              <div>
-                <span className="text-[0.625rem] uppercase tracking-wider text-slate-400 block mb-[0.125rem]">Experience</span>
-                <span className="font-serif font-bold text-[1.125rem] text-primary dark:text-foreground">12+ Years</span>
-              </div>
-            </div>
-
-            {/* CTA Mockup */}
-            <div className="w-full py-[0.75rem] rounded-[1rem] bg-accent/15 border border-accent/25 text-accent font-bold text-[0.75rem] uppercase tracking-widest text-center">
-              Hire Counsel
-            </div>
-          </div>
-        );
-      case 1:
-        return (
-          <div className="relative backdrop-blur-xl bg-card/65 dark:bg-zinc-900/35 border border-border/50 rounded-[2.25rem] p-[2rem] w-full max-w-[26rem] md:w-[22rem] lg:w-[26rem] shadow-[0_2rem_5rem_rgba(169,132,76,0.08)] dark:shadow-[0_2rem_5rem_rgba(0,0,0,0.5)] space-y-[1.25rem] select-none text-left">
-            {/* Video Call Mockup */}
-            <div className="relative w-full aspect-[4/3] rounded-[1.5rem] overflow-hidden border border-border/40 shadow-inner">
-              <img 
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=300" 
-                alt="Barrister Rafique-ul Huq" 
-                className="h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-              
-              {/* Top floating call badge */}
-              <div className="absolute top-[0.875rem] left-[0.875rem] flex items-center gap-[0.375rem] px-[0.625rem] py-[0.25rem] rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[0.5625rem] font-bold text-white uppercase tracking-wider">
-                <span className="h-[0.3125rem] w-[0.3125rem] rounded-full bg-red-500 animate-pulse" />
-                Secure Video Consult
-              </div>
-
-              {/* Bottom Lawyer details */}
-              <div className="absolute bottom-[0.875rem] left-[0.875rem] right-[0.875rem]">
-                <span className="text-[0.5625rem] uppercase tracking-widest text-accent font-black block">Consultation Call</span>
-                <span className="font-serif text-[1rem] font-bold text-white block">Barrister Rafique-ul Huq</span>
-              </div>
-            </div>
-
-            {/* Video Call Controls */}
-            <div className="flex items-center justify-center gap-[1rem] pt-[0.25rem]">
-              <div className="h-[2.5rem] w-[2.5rem] rounded-full bg-foreground/5 dark:bg-white/10 hover:bg-foreground/10 flex items-center justify-center text-[1rem] cursor-pointer">
-                🎤
-              </div>
-              <div className="h-[2.5rem] w-[2.5rem] rounded-full bg-foreground/5 dark:bg-white/10 hover:bg-foreground/10 flex items-center justify-center text-[1rem] cursor-pointer">
-                📹
-              </div>
-              <div className="h-[2.5rem] w-[2.5rem] rounded-full bg-rose-500/20 text-rose-500 hover:bg-rose-500 hover:text-white flex items-center justify-center text-[1rem] cursor-pointer transition-colors duration-200">
-                📞
-              </div>
-              <div className="h-[2.5rem] w-[2.5rem] rounded-full bg-accent text-white dark:text-navy hover:scale-105 flex items-center justify-center text-[1rem] cursor-pointer transition-transform shadow-sm">
-                💬
-              </div>
-            </div>
-          </div>
-        );
-      case 2:
-        return (
-          <div className="relative backdrop-blur-xl bg-card/65 dark:bg-zinc-900/35 border border-border/50 rounded-[2.25rem] p-[2rem] w-full max-w-[26rem] md:w-[22rem] lg:w-[26rem] shadow-[0_2rem_5rem_rgba(169,132,76,0.08)] dark:shadow-[0_2rem_5rem_rgba(0,0,0,0.5)] space-y-[1.25rem] select-none text-left">
-            {/* Stripe Escrow Tracker */}
-            <div className="flex items-center justify-between">
-              <span className="text-[0.625rem] uppercase tracking-[0.2em] text-accent font-extrabold">Stripe Protection</span>
-              <span className="inline-flex items-center gap-[0.25rem] text-[0.625rem] text-emerald-500 font-bold uppercase">
-                <span>🔒</span> Escrow Active
-              </span>
-            </div>
-
-            {/* Locked Funds details */}
-            <div className="space-y-[0.375rem] py-[0.5rem] border-b border-border/15">
-              <span className="text-[0.75rem] text-slate-400 block font-body">Contract Retainer Held</span>
-              <h4 className="font-serif font-bold text-[2rem] text-primary dark:text-foreground leading-none">
-                $1,200.00
-              </h4>
-            </div>
-
-            {/* Retainer Milestones */}
-            <div className="space-y-[0.875rem] pt-[0.25rem]">
-              <div className="flex items-start gap-[0.75rem]">
-                <span className="h-[1.125rem] w-[1.125rem] rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-500 flex items-center justify-center text-[0.625rem] font-bold mt-[0.125rem]">✓</span>
-                <div>
-                  <h5 className="text-[0.8125rem] font-bold text-primary dark:text-foreground">Client Deposited Retainer</h5>
-                  <p className="text-[0.6875rem] text-slate-400">Funds locked securely in Stripe escrow wallet</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-[0.75rem]">
-                <span className="h-[1.125rem] w-[1.125rem] rounded-full bg-accent/20 text-accent flex items-center justify-center text-[0.625rem] font-bold mt-[0.125rem] animate-pulse">•</span>
-                <div>
-                  <h5 className="text-[0.8125rem] font-bold text-primary dark:text-foreground">Consultation & Work in Progress</h5>
-                  <p className="text-[0.6875rem] text-slate-400">Attorneys compiling legal briefs and advice</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-[0.75rem]">
-                <span className="h-[1.125rem] w-[1.125rem] rounded-full bg-foreground/5 dark:bg-white/5 text-slate-400 flex items-center justify-center text-[0.625rem] font-bold mt-[0.125rem] opacity-40">-</span>
-                <div className="opacity-40">
-                  <h5 className="text-[0.8125rem] font-bold text-primary dark:text-foreground">Release Retainer to Attorney</h5>
-                  <p className="text-[0.6875rem] text-slate-400">Released once consultation completed & accepted</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
-
   return (
     <div className="relative min-h-screen">
       
       {/* Hero Banner Section with Framer Motion Fade-in */}
-      <section className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] pt-[4rem] md:pt-[5rem] pb-[5rem] md:pb-[7rem] relative z-[10] overflow-hidden">
+      <section className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] pt-[5rem] md:pt-[6.5rem] pb-[5.5rem] md:pb-[8rem] relative z-[10] overflow-hidden">
         {/* Glowing ambient backgrounds */}
         <div className="absolute top-[-5rem] left-[15%] w-[35rem] h-[35rem] bg-accent/5 dark:bg-accent/[0.03] rounded-full blur-[10rem] pointer-events-none -z-10" />
         <div className="absolute bottom-[2rem] right-[5%] w-[30rem] h-[30rem] bg-accent/5 dark:bg-accent/[0.02] rounded-full blur-[9rem] pointer-events-none -z-10" />
@@ -385,61 +186,117 @@ export default function Home() {
         <div className="editorial-container flex flex-col md:flex-row items-center justify-between gap-[3rem] md:gap-[4rem]">
           {/* Content */}
           <motion.div 
-            key={activeSlide}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-[42rem] space-y-[1.5rem] text-left"
+            transition={{ duration: 0.65 }}
+            className="max-w-[42rem] space-y-[1.75rem] text-left"
           >
-            <span className="text-[0.75rem] font-bold uppercase tracking-widest text-accent">
-              {slides[activeSlide].subtitle}
+            <span className="text-[0.6875rem] uppercase tracking-[0.25em] text-accent font-extrabold block">
+              The Premier Legal Marketplace
             </span>
-            <h1 className="font-serif text-[2.75rem] sm:text-[4.75rem] font-medium tracking-tight leading-[1.05] text-primary dark:text-foreground italic">
-              {slides[activeSlide].title}
+            <h1 className="font-serif text-[3rem] sm:text-[4.75rem] font-medium tracking-tight leading-[1.05] text-primary dark:text-foreground italic">
+              Find & Hire <br />
+              <span className="text-editorial-gradient not-italic font-bold">Elite Legal Counsel</span>
             </h1>
             <p className="text-[0.9375rem] text-slate-500 dark:text-slate-400 leading-relaxed max-w-[32rem]">
-              {slides[activeSlide].description}
+              Get matched with top-tier verified lawyers in corporate, criminal, and family law. Safe, secure, and professional escrow consultancy.
             </p>
-            <div className="pt-[1.5rem]">
+            
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap items-center gap-[1rem] pt-[0.5rem]">
               <Link
-                href={slides[activeSlide].ctaLink}
-                className="inline-flex items-center gap-[0.75rem] px-[2rem] py-[0.875rem] rounded-[1.25rem] bg-primary text-white dark:bg-accent dark:text-navy font-bold text-[0.875rem] uppercase tracking-widest hover:scale-[1.03] active:scale-[0.97] hover:shadow-[0_1rem_2.5rem_rgba(169,132,76,0.15)] dark:hover:shadow-[0_1rem_2.5rem_rgba(0,0,0,0.3)] transition-all duration-300 shadow-md cursor-pointer group"
+                href="/browse"
+                className="inline-flex items-center gap-[0.75rem] px-[2.25rem] py-[0.9375rem] rounded-[1.25rem] bg-primary text-white dark:bg-accent dark:text-navy font-bold text-[0.875rem] uppercase tracking-widest hover:scale-[1.03] active:scale-[0.97] hover:shadow-[0_1rem_2.5rem_rgba(169,132,76,0.15)] dark:hover:shadow-[0_1rem_2.5rem_rgba(0,0,0,0.3)] transition-all duration-300 shadow-md cursor-pointer group"
               >
-                <span>{slides[activeSlide].ctaText}</span>
+                <span>Browse Lawyers</span>
                 <span className="transform group-hover:translate-x-[0.25rem] transition-transform duration-300">→</span>
               </Link>
+              
+              <Link
+                href="#categories"
+                className="inline-flex items-center gap-[0.5rem] px-[2.25rem] py-[0.9375rem] rounded-[1.25rem] border border-border hover:border-accent bg-transparent text-primary dark:text-foreground font-bold text-[0.875rem] uppercase tracking-widest hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 cursor-pointer"
+              >
+                Specializations
+              </Link>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="flex flex-wrap items-center gap-[1.5rem] pt-[1.75rem] border-t border-border/10">
+              <span className="flex items-center gap-[0.5rem] text-[0.75rem] font-bold tracking-wider uppercase text-slate-500 dark:text-zinc-400 font-body">
+                <svg className="w-[1rem] h-[1rem] text-accent flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.25}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                </svg>
+                Stripe Escrow Wallet
+              </span>
+              <span className="flex items-center gap-[0.5rem] text-[0.75rem] font-bold tracking-wider uppercase text-slate-500 dark:text-zinc-400 font-body">
+                <svg className="w-[1rem] h-[1rem] text-accent flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.25}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0110 21a3.745 3.745 0 01-3.296-1.043 3.745 3.745 0 01-3.296-1.043A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.745 3.745 0 013.296-1.043A3.745 3.745 0 0114 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                </svg>
+                Bar Verified
+              </span>
+              <span className="flex items-center gap-[0.5rem] text-[0.75rem] font-bold tracking-wider uppercase text-slate-500 dark:text-zinc-400 font-body">
+                <svg className="w-[1rem] h-[1rem] text-accent flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.25}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+                100% Confidential
+              </span>
             </div>
           </motion.div>
 
-          {/* Large Interactive Visual */}
+          {/* Large Interactive Arched Visual Composition */}
           <motion.div 
-            key={`visual-${activeSlide}`}
-            initial={{ opacity: 0, scale: 0.95, y: 15 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.65, ease: "easeOut" }}
-            className="hidden md:flex flex-shrink-0 justify-center items-center w-full max-w-[26rem] md:w-[22rem] lg:w-[26rem]"
+            initial={{ opacity: 0, scale: 0.95, x: 15 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 0.75, ease: "easeOut" }}
+            className="hidden md:flex flex-shrink-0 justify-center items-center relative py-[2rem]"
           >
-            {renderHeroVisual(activeSlide)}
-          </motion.div>
-        </div>
-
-        {/* Minimal Control panel */}
-        <div className="editorial-container flex items-center justify-between pt-[2rem] border-t-[0.0625rem] border-border/10 mt-[3rem]">
-          <div className="flex items-center gap-[0.75rem]">
-            {slides.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveSlide(i)}
-                className={`h-[0.25rem] rounded-full transition-all duration-300 cursor-pointer ${
-                  activeSlide === i ? 'w-[3rem] bg-accent' : 'w-[0.75rem] bg-slate-300 dark:bg-zinc-800 hover:bg-slate-400'
-                }`}
-                aria-label={`Go to slide ${i + 1}`}
+            {/* Arched main image */}
+            <div className="w-[22rem] h-[28rem] rounded-t-[11rem] rounded-b-[2.5rem] overflow-hidden border border-accent/20 relative shadow-[0_2rem_4rem_rgba(169,132,76,0.06)] dark:shadow-[0_2rem_4rem_rgba(0,0,0,0.5)] group">
+              <img 
+                src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=600&h=800" 
+                alt="Pillars of Justice" 
+                className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-105"
               />
-            ))}
-          </div>
-          <span className="text-[0.6875rem] font-mono uppercase tracking-wider text-slate-400">
-            Slide 0{activeSlide + 1} / 0{slides.length}
-          </span>
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80" />
+            </div>
+
+            {/* Overlapping glass card: Active Lawyer Profile */}
+            <div className="absolute bottom-[4rem] left-[-3rem] backdrop-blur-xl bg-card/85 dark:bg-zinc-900/70 border border-border/50 p-[1.25rem] rounded-[1.5rem] shadow-lg max-w-[14.5rem] space-y-[0.75rem] text-left animate-[bounce_5s_infinite_ease-in-out]">
+              <div className="flex items-center gap-[0.75rem]">
+                <img 
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150&h=150" 
+                  alt="Elite Advocate Profile" 
+                  className="h-[2.5rem] w-[2.5rem] rounded-full object-cover border border-accent/30 flex-shrink-0"
+                />
+                <div className="min-w-0">
+                  <h4 className="font-serif font-bold text-[0.875rem] text-primary dark:text-foreground truncate">Rokeya Rahman</h4>
+                  <p className="text-[0.625rem] uppercase text-accent font-black tracking-wider truncate">Family & Civil Law</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between text-[0.6875rem] pt-[0.5rem] border-t border-border/10 text-slate-500 dark:text-slate-400">
+                <span>Rate: $120/hr</span>
+                <span className="text-amber-500 font-bold flex items-center gap-[0.125rem]">★ 5.0</span>
+              </div>
+            </div>
+
+            {/* Overlapping badge 1: Online status */}
+            <div className="absolute top-[4rem] right-[-2rem] backdrop-blur-md bg-emerald-500/10 dark:bg-emerald-500/5 border border-emerald-500/25 px-[1rem] py-[0.5rem] rounded-full shadow-md flex items-center gap-[0.5rem] animate-[pulse_3s_infinite_ease-in-out]">
+              <span className="h-[0.5rem] w-[0.5rem] rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[0.6875rem] font-black text-emerald-600 dark:text-emerald-500 uppercase tracking-widest">
+                148 Experts Online
+              </span>
+            </div>
+
+            {/* Overlapping badge 2: Escrow Secure wallet */}
+            <div className="absolute bottom-[9rem] right-[-3rem] backdrop-blur-md bg-accent/10 border border-accent/25 px-[1.125rem] py-[0.5rem] rounded-full shadow-md flex items-center gap-[0.5rem]">
+              <svg className="w-[0.875rem] h-[0.875rem] text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+              <span className="text-[0.6875rem] font-black text-accent uppercase tracking-widest">
+                Escrow Active
+              </span>
+            </div>
+          </motion.div>
         </div>
       </section>
 
