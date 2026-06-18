@@ -31,8 +31,8 @@ export default function Navbar() {
   };
 
   return (
-    <header className="w-full sticky top-[0rem] z-[50] bg-background/80 backdrop-blur-md border-b-[0.0625rem] border-border/20 transition-all duration-[300ms]">
-      <div className="editorial-container px-[1rem] sm:px-[2rem] lg:px-[3rem]">
+    <header className="w-full sticky top-[0rem] z-[50] bg-background/80 backdrop-blur-md border-b-[0.0625rem] border-border/20 transition-all duration-[300ms] px-[1rem] sm:px-[2rem] lg:px-[3rem]">
+      <div className="editorial-container">
         <div className="flex items-center justify-between h-[4.5rem]">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
