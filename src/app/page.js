@@ -303,7 +303,13 @@ export default function Home() {
       {/* Featured Categories (Borderless Grid) */}
       <section id="categories" className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[4rem] z-[10] border-t-[0.0625rem] border-border/10">
         <div className="editorial-container">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-[1.5rem] mb-[4rem]">
+          <motion.div 
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col lg:flex-row lg:items-end justify-between gap-[1.5rem] mb-[4rem]"
+          >
             <div className="space-y-[0.5rem]">
               <span className="text-[0.625rem] uppercase tracking-widest text-accent font-bold">Practice Areas</span>
               <h2 className="font-serif text-[2.25rem] sm:text-[3.25rem] font-normal tracking-tight text-primary dark:text-foreground">Explore Legal Specialties</h2>
@@ -311,63 +317,89 @@ export default function Home() {
             <p className="text-[0.8125rem] text-slate-500 dark:text-slate-400 max-w-[22rem]">
               Select a specialized legal area to find dedicated lawyers verified for quick escrow consultancy hiring.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2rem] w-full">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              visible: {
+                transition: {
+                  staggerChildren: 0.08
+                }
+              }
+            }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2rem] w-full"
+          >
             {categories.map((cat, i) => (
-              <Link 
-                key={i} 
-                href={`/browse?specialization=${encodeURIComponent(cat.name)}`}
-                className="relative flex flex-col justify-between p-[1.75rem] bg-card/60 dark:bg-zinc-900/30 backdrop-blur-md border border-border/50 rounded-[1.5rem] hover:-translate-y-1.5 hover:border-accent/40 hover:bg-card hover:shadow-[0_1.25rem_2.5rem_rgba(169,132,76,0.06)] dark:hover:shadow-[0_1.25rem_2.5rem_rgba(0,0,0,0.4)] transition-all duration-[400ms] group overflow-hidden"
+              <motion.div
+                key={i}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
+                }}
+                className="h-full flex"
               >
-                {/* Hover glow highlight */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-accent/0 to-accent/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <div className="space-y-[1.25rem]">
-                  {/* Header row: Icon & Number */}
-                  <div className="flex items-center justify-between">
-                    <div className="h-[2.75rem] w-[2.75rem] rounded-[1rem] bg-accent/10 border border-accent/20 flex items-center justify-center text-[1.25rem] shadow-sm group-hover:scale-105 transition-transform">
-                      {cat.icon}
+                <Link 
+                  href={`/browse?specialization=${encodeURIComponent(cat.name)}`}
+                  className="relative flex flex-col justify-between p-[1.75rem] bg-card/60 dark:bg-zinc-900/30 backdrop-blur-md border border-border/50 rounded-[1.5rem] hover:-translate-y-1.5 hover:border-accent/40 hover:bg-card hover:shadow-[0_1.25rem_2.5rem_rgba(169,132,76,0.06)] dark:hover:shadow-[0_1.25rem_2.5rem_rgba(0,0,0,0.4)] transition-all duration-[400ms] group overflow-hidden w-full"
+                >
+                  {/* Hover glow highlight */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-accent/0 to-accent/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  <div className="space-y-[1.25rem]">
+                    {/* Header row: Icon & Number */}
+                    <div className="flex items-center justify-between">
+                      <div className="h-[2.75rem] w-[2.75rem] rounded-[1rem] bg-accent/10 border border-accent/20 flex items-center justify-center text-[1.25rem] shadow-sm group-hover:scale-105 transition-transform">
+                        {cat.icon}
+                      </div>
+                      <span className="text-[0.8125rem] font-mono text-accent/50 font-bold group-hover:text-accent transition-colors duration-300">
+                        {cat.num}
+                      </span>
                     </div>
-                    <span className="text-[0.8125rem] font-mono text-accent/50 font-bold group-hover:text-accent transition-colors duration-300">
-                      {cat.num}
+
+                    {/* Content: Title & Description */}
+                    <div className="space-y-[0.5rem]">
+                      <h4 className="font-serif font-bold text-[1.25rem] text-primary dark:text-foreground group-hover:text-accent transition-colors">
+                        {cat.name}
+                      </h4>
+                      <p className="text-[0.75rem] text-slate-500 dark:text-slate-400 leading-relaxed min-h-[3.25rem]">
+                        {cat.desc}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Footer: Count & Explore */}
+                  <div className="flex items-center justify-between pt-[1.25rem] mt-[1.25rem] border-t border-border/10">
+                    <span className="inline-block bg-accent/10 dark:bg-accent/5 border border-accent/20 dark:border-accent/10 text-accent text-[0.625rem] uppercase font-black tracking-widest px-[0.625rem] py-[0.25rem] rounded-md shadow-sm">
+                      {cat.count}
+                    </span>
+                    <span className="text-[0.6875rem] font-bold text-accent uppercase tracking-widest flex items-center gap-[0.25rem]">
+                      <span>Explore</span>
+                      <span className="transform group-hover:translate-x-[0.25rem] transition-transform duration-[200ms]">→</span>
                     </span>
                   </div>
-
-                  {/* Content: Title & Description */}
-                  <div className="space-y-[0.5rem]">
-                    <h4 className="font-serif font-bold text-[1.25rem] text-primary dark:text-foreground group-hover:text-accent transition-colors">
-                      {cat.name}
-                    </h4>
-                    <p className="text-[0.75rem] text-slate-500 dark:text-slate-400 leading-relaxed min-h-[3.25rem]">
-                      {cat.desc}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Footer: Count & Explore */}
-                <div className="flex items-center justify-between pt-[1.25rem] mt-[1.25rem] border-t border-border/10">
-                  <span className="inline-block bg-accent/10 dark:bg-accent/5 border border-accent/20 dark:border-accent/10 text-accent text-[0.625rem] uppercase font-black tracking-widest px-[0.625rem] py-[0.25rem] rounded-md shadow-sm">
-                    {cat.count}
-                  </span>
-                  <span className="text-[0.6875rem] font-bold text-accent uppercase tracking-widest flex items-center gap-[0.25rem]">
-                    <span>Explore</span>
-                    <span className="transform group-hover:translate-x-[0.25rem] transition-transform duration-[200ms]">→</span>
-                  </span>
-                </div>
-              </Link>
+                </Link>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Featured Lawyers Section (Dynamic, Premium Full-Image Grid) */}
       <section className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[4rem] z-[10] border-t-[0.0625rem] border-border/10">
         <div className="editorial-container">
-          <div className="text-center space-y-[0.5rem] mb-[4rem]">
+          <motion.div 
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center space-y-[0.5rem] mb-[4rem]"
+          >
             <span className="text-[0.625rem] uppercase tracking-widest text-accent font-bold">Elite Advocates</span>
             <h2 className="font-serif text-[2.25rem] sm:text-[3.25rem] font-normal tracking-tight text-primary dark:text-foreground">Featured Legal Advocates</h2>
-          </div>
+          </motion.div>
 
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[2rem] w-full">
@@ -389,7 +421,7 @@ export default function Home() {
               variants={{
                 visible: {
                   transition: {
-                    staggerChildren: 0.1
+                    staggerChildren: 0.08
                   }
                 }
               }}
@@ -400,7 +432,7 @@ export default function Home() {
                   key={lawyer._id} 
                   variants={{
                     hidden: { opacity: 0, y: 30 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
                   }}
                   className="relative aspect-[3/4] rounded-[2rem] overflow-hidden border border-border/30 hover:border-accent/40 shadow-sm hover:shadow-[0_1.5rem_3.5rem_rgba(169,132,76,0.15)] dark:hover:shadow-[0_1.5rem_3.5rem_rgba(0,0,0,0.6)] hover:-translate-y-1.5 transition-all duration-500 group cursor-pointer max-w-[24rem] sm:max-w-none w-full mx-auto"
                 >
@@ -474,12 +506,30 @@ export default function Home() {
       {/* Extra Section 1: Top Legal Experts */}
       <section className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[4rem] z-[10] border-t-[0.0625rem] border-border/10 bg-slate-50/50 dark:bg-zinc-950/20">
         <div className="editorial-container">
-          <div className="text-center space-y-[0.5rem] mb-[4rem]">
+          <motion.div 
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center space-y-[0.5rem] mb-[4rem]"
+          >
             <span className="text-[0.625rem] uppercase tracking-widest text-accent font-bold">Highly Recruited</span>
             <h2 className="font-serif text-[2.25rem] sm:text-[3.25rem] font-normal tracking-tight text-primary dark:text-foreground">Top Legal Experts</h2>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-[2rem] w-full">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              visible: {
+                transition: {
+                  staggerChildren: 0.1
+                }
+              }
+            }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-[2rem] w-full"
+          >
             {loading ? (
               [1, 2, 3].map((idx) => (
                 <div key={idx} className="flex items-center gap-[1.5rem] p-[1.5rem] bg-card/60 dark:bg-zinc-900/40 border border-border/50 rounded-[1.5rem] animate-pulse w-full max-w-[28rem] md:max-w-none mx-auto">
@@ -496,67 +546,93 @@ export default function Home() {
               ))
             ) : (
               topExperts.map((expert, idx) => (
-                <Link
-                  href={`/lawyers/${expert._id}`}
+                <motion.div
                   key={expert._id}
-                  className="relative flex items-center gap-[1.5rem] p-[1.5rem] bg-card/60 dark:bg-zinc-900/30 backdrop-blur-md border border-border/50 rounded-[1.5rem] hover:-translate-y-1 hover:border-accent/40 hover:bg-card hover:shadow-[0_1rem_2.5rem_rgba(169,132,76,0.06)] dark:hover:shadow-[0_1rem_2.5rem_rgba(0,0,0,0.4)] transition-all duration-[400ms] group cursor-pointer w-full mx-auto max-w-[28rem] md:max-w-none"
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
+                  }}
+                  className="w-full flex"
                 >
-                  {/* Rank Badge */}
-                  <span className="absolute top-[1.125rem] right-[1.125rem] font-mono text-[0.6875rem] font-black text-accent/50 group-hover:text-accent transition-colors duration-300">
-                    #0{idx + 1}
-                  </span>
+                  <Link
+                    href={`/lawyers/${expert._id}`}
+                    className="relative flex items-center gap-[1.5rem] p-[1.5rem] bg-card/60 dark:bg-zinc-900/30 backdrop-blur-md border border-border/50 rounded-[1.5rem] hover:-translate-y-1 hover:border-accent/40 hover:bg-card hover:shadow-[0_1rem_2.5rem_rgba(169,132,76,0.06)] dark:hover:shadow-[0_1rem_2.5rem_rgba(0,0,0,0.4)] transition-all duration-[400ms] group cursor-pointer w-full mx-auto max-w-[28rem] md:max-w-none"
+                  >
+                    {/* Rank Badge */}
+                    <span className="absolute top-[1.125rem] right-[1.125rem] font-mono text-[0.6875rem] font-black text-accent/50 group-hover:text-accent transition-colors duration-300">
+                      #0{idx + 1}
+                    </span>
 
-                  {/* Circular Avatar with Accent Ring */}
-                  <div className="relative h-[5rem] w-[5rem] flex-shrink-0 rounded-full overflow-hidden border-[0.125rem] border-accent/20 group-hover:border-accent transition-colors duration-500 shadow-sm">
-                    <img
-                      src={expert.image}
-                      alt={expert.user?.name}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-
-                  {/* Content details */}
-                  <div className="space-y-[0.375rem] flex-1 min-w-[0rem]">
-                    <h4 className="font-serif font-bold text-[1.125rem] text-primary dark:text-foreground group-hover:text-accent transition-colors line-clamp-1">
-                      {expert.user?.name}
-                    </h4>
-                    <p className="text-[0.625rem] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-bold block">
-                      {expert.specialization}
-                    </p>
-                    
-                    {/* Tags row */}
-                    <div className="flex items-center gap-[0.375rem] flex-wrap pt-[0.25rem]">
-                      <span className="inline-flex items-center gap-[0.125rem] bg-amber-500/10 text-amber-600 dark:text-amber-500 text-[0.625rem] font-black tracking-wider px-[0.5rem] py-[0.1875rem] rounded">
-                        <span>★</span>
-                        <span>{expert.ratingAverage?.toFixed(1) || '5.0'}</span>
-                      </span>
-                      <span className="bg-accent/10 text-accent text-[0.625rem] font-black tracking-wider px-[0.5rem] py-[0.1875rem] rounded">
-                        {expert.reviewsCount || 0} reviews
-                      </span>
+                    {/* Circular Avatar with Accent Ring */}
+                    <div className="relative h-[5rem] w-[5rem] flex-shrink-0 rounded-full overflow-hidden border-[0.125rem] border-accent/20 group-hover:border-accent transition-colors duration-500 shadow-sm">
+                      <img
+                        src={expert.image}
+                        alt={expert.user?.name}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
                     </div>
-                  </div>
 
-                  {/* Sliding Arrow link */}
-                  <span className="absolute bottom-[1rem] right-[1.25rem] text-accent transform translate-x-[-0.25rem] group-hover:translate-x-[0rem] transition-all duration-300 opacity-0 group-hover:opacity-100 font-bold text-[0.875rem]">
-                    →
-                  </span>
-                </Link>
+                    {/* Content details */}
+                    <div className="space-y-[0.375rem] flex-1 min-w-[0rem]">
+                      <h4 className="font-serif font-bold text-[1.125rem] text-primary dark:text-foreground group-hover:text-accent transition-colors line-clamp-1">
+                        {expert.user?.name}
+                      </h4>
+                      <p className="text-[0.625rem] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-bold block">
+                        {expert.specialization}
+                      </p>
+                      
+                      {/* Tags row */}
+                      <div className="flex items-center gap-[0.375rem] flex-wrap pt-[0.25rem]">
+                        <span className="inline-flex items-center gap-[0.125rem] bg-amber-500/10 text-amber-600 dark:text-amber-500 text-[0.625rem] font-black tracking-wider px-[0.5rem] py-[0.1875rem] rounded">
+                          <span>★</span>
+                          <span>{expert.ratingAverage?.toFixed(1) || '5.0'}</span>
+                        </span>
+                        <span className="bg-accent/10 text-accent text-[0.625rem] font-black tracking-wider px-[0.5rem] py-[0.1875rem] rounded">
+                          {expert.reviewsCount || 0} reviews
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Sliding Arrow link */}
+                    <span className="absolute bottom-[1rem] right-[1.25rem] text-accent transform translate-x-[-0.25rem] group-hover:translate-x-[0rem] transition-all duration-300 opacity-0 group-hover:opacity-100 font-bold text-[0.875rem]">
+                      →
+                    </span>
+                  </Link>
+                </motion.div>
               ))
             )}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Extra Section: Trust & Escrow Setup */}
       <section id="trust" className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[5rem] md:py-[6.5rem] z-[10] border-t-[0.0625rem] border-border/10 bg-transparent">
         <div className="editorial-container">
-          <div className="text-center space-y-[0.5rem] mb-[5rem]">
+          <motion.div 
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center space-y-[0.5rem] mb-[5rem]"
+          >
             <span className="text-[0.625rem] uppercase tracking-[0.25em] text-accent font-extrabold block">Secure Marketplace</span>
             <h2 className="font-serif text-[2.25rem] sm:text-[3.25rem] font-normal tracking-tight text-primary dark:text-foreground">Built on Trust & Security</h2>
             <div className="h-[0.0625rem] w-[3.5rem] bg-accent/30 mx-auto mt-[1.5rem]" />
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              visible: {
+                transition: {
+                  staggerChildren: 0.12
+                }
+              }
+            }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-0"
+          >
             {[
               {
                 title: '100% Verified Credentials',
@@ -586,35 +662,42 @@ export default function Home() {
                 )
               }
             ].map((item, i) => (
-              <div
+              <motion.div
                 key={i}
-                className="group flex flex-col items-start p-[2.5rem] border-b md:border-b-0 md:border-r border-border/10 last:border-b-0 last:border-r-0 transition-all duration-[450ms] select-none"
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
+                }}
+                className="w-full flex"
               >
-                {/* Float-up Icon */}
-                <div className="mb-[1.75rem] flex items-center justify-center">
-                  {item.icon}
+                <div className="group flex flex-col items-start p-[2.5rem] border-b md:border-b-0 md:border-r border-border/10 last:border-b-0 last:border-r-0 transition-all duration-[450ms] select-none w-full"
+                >
+                  {/* Float-up Icon */}
+                  <div className="mb-[1.75rem] flex items-center justify-center">
+                    {item.icon}
+                  </div>
+
+                  {/* Subtitle / Numbering */}
+                  <span className="font-serif italic text-[0.875rem] text-accent/60 block mb-[0.375rem] transition-colors duration-300 group-hover:text-accent">
+                    0{i + 1}.
+                  </span>
+
+                  {/* Title */}
+                  <h3 className="font-serif font-bold text-[1.45rem] tracking-tight text-primary dark:text-foreground transition-colors duration-300 group-hover:text-accent">
+                    {item.title}
+                  </h3>
+
+                  {/* Expanding divider line */}
+                  <div className="w-[2rem] h-[0.0625rem] bg-accent/30 my-[1.25rem] group-hover:w-[4rem] group-hover:bg-accent/70 transition-all duration-500 ease-out" />
+
+                  {/* Description */}
+                  <p className="text-[0.875rem] text-slate-500 dark:text-zinc-400 leading-relaxed font-body">
+                    {item.desc}
+                  </p>
                 </div>
-
-                {/* Subtitle / Numbering */}
-                <span className="font-serif italic text-[0.875rem] text-accent/60 block mb-[0.375rem] transition-colors duration-300 group-hover:text-accent">
-                  0{i + 1}.
-                </span>
-
-                {/* Title */}
-                <h3 className="font-serif font-bold text-[1.45rem] tracking-tight text-primary dark:text-foreground transition-colors duration-300 group-hover:text-accent">
-                  {item.title}
-                </h3>
-
-                {/* Expanding divider line */}
-                <div className="w-[2rem] h-[0.0625rem] bg-accent/30 my-[1.25rem] group-hover:w-[4rem] group-hover:bg-accent/70 transition-all duration-500 ease-out" />
-
-                {/* Description */}
-                <p className="text-[0.875rem] text-slate-500 dark:text-zinc-400 leading-relaxed font-body">
-                  {item.desc}
-                </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>
