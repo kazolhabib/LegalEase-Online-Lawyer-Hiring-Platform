@@ -464,37 +464,68 @@ export default function Home() {
             <h2 className="font-serif text-[2.25rem] sm:text-[3.25rem] font-normal tracking-tight text-primary dark:text-foreground">Top Legal Experts</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-[3rem]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-[2rem] w-full">
             {loading ? (
               [1, 2, 3].map((idx) => (
-                <div key={idx} className="flex items-center gap-[1rem] animate-pulse">
-                  <div className="h-[4rem] w-[4rem] rounded-full bg-slate-200 dark:bg-zinc-800" />
+                <div key={idx} className="flex items-center gap-[1.5rem] p-[1.5rem] bg-card/60 dark:bg-zinc-900/40 border border-border/50 rounded-[1.5rem] animate-pulse w-full max-w-[28rem] md:max-w-none mx-auto">
+                  <div className="h-[5rem] w-[5rem] rounded-full bg-slate-200 dark:bg-zinc-800 flex-shrink-0" />
                   <div className="space-y-[0.5rem] flex-1">
-                    <div className="h-[1rem] bg-slate-200 dark:bg-zinc-800 w-3/4" />
-                    <div className="h-[0.75rem] bg-slate-200 dark:bg-zinc-800 w-1/2" />
+                    <div className="h-[1.25rem] bg-slate-200 dark:bg-zinc-800 rounded w-3/4" />
+                    <div className="h-[0.6875rem] bg-slate-200 dark:bg-zinc-800 rounded w-1/2" />
+                    <div className="flex gap-[0.5rem] pt-[0.25rem]">
+                      <div className="h-[1rem] bg-slate-200 dark:bg-zinc-800 rounded w-1/4" />
+                      <div className="h-[1rem] bg-slate-200 dark:bg-zinc-800 rounded w-1/4" />
+                    </div>
                   </div>
                 </div>
               ))
             ) : (
               topExperts.map((expert, idx) => (
-                <div key={expert._id} className="flex items-center gap-[1.25rem] group">
-                  <img
-                    src={expert.image}
-                    alt={expert.user?.name}
-                    className="h-[4.5rem] w-[4.5rem] object-cover rounded-[0.5rem] border border-border/50 group-hover:scale-105 transition-transform duration-[300ms]"
-                  />
-                  <div className="space-y-[0.25rem]">
-                    <h4 className="font-serif font-bold text-[1.125rem] text-primary dark:text-foreground line-clamp-1">
+                <Link
+                  href={`/lawyers/${expert._id}`}
+                  key={expert._id}
+                  className="relative flex items-center gap-[1.5rem] p-[1.5rem] bg-card/60 dark:bg-zinc-900/30 backdrop-blur-md border border-border/50 rounded-[1.5rem] hover:-translate-y-1 hover:border-accent/40 hover:bg-card hover:shadow-[0_1rem_2.5rem_rgba(169,132,76,0.06)] dark:hover:shadow-[0_1rem_2.5rem_rgba(0,0,0,0.4)] transition-all duration-[400ms] group cursor-pointer w-full mx-auto max-w-[28rem] md:max-w-none"
+                >
+                  {/* Rank Badge */}
+                  <span className="absolute top-[1.125rem] right-[1.125rem] font-mono text-[0.6875rem] font-black text-accent/50 group-hover:text-accent transition-colors duration-300">
+                    #0{idx + 1}
+                  </span>
+
+                  {/* Circular Avatar with Accent Ring */}
+                  <div className="relative h-[5rem] w-[5rem] flex-shrink-0 rounded-full overflow-hidden border-[0.125rem] border-accent/20 group-hover:border-accent transition-colors duration-500 shadow-sm">
+                    <img
+                      src={expert.image}
+                      alt={expert.user?.name}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+
+                  {/* Content details */}
+                  <div className="space-y-[0.375rem] flex-1 min-w-[0rem]">
+                    <h4 className="font-serif font-bold text-[1.125rem] text-primary dark:text-foreground group-hover:text-accent transition-colors line-clamp-1">
                       {expert.user?.name}
                     </h4>
-                    <p className="text-[0.6875rem] text-slate-500 uppercase tracking-wider font-semibold">
+                    <p className="text-[0.625rem] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-bold block">
                       {expert.specialization}
                     </p>
-                    <p className="text-[0.6875rem] text-accent font-extrabold uppercase">
-                      ★ {expert.ratingAverage?.toFixed(1) || '5.0'} • {expert.reviewsCount || 0} reviews
-                    </p>
+                    
+                    {/* Tags row */}
+                    <div className="flex items-center gap-[0.375rem] flex-wrap pt-[0.25rem]">
+                      <span className="inline-flex items-center gap-[0.125rem] bg-amber-500/10 text-amber-600 dark:text-amber-500 text-[0.625rem] font-black tracking-wider px-[0.5rem] py-[0.1875rem] rounded">
+                        <span>★</span>
+                        <span>{expert.ratingAverage?.toFixed(1) || '5.0'}</span>
+                      </span>
+                      <span className="bg-accent/10 text-accent text-[0.625rem] font-black tracking-wider px-[0.5rem] py-[0.1875rem] rounded">
+                        {expert.reviewsCount || 0} reviews
+                      </span>
+                    </div>
                   </div>
-                </div>
+
+                  {/* Sliding Arrow link */}
+                  <span className="absolute bottom-[1rem] right-[1.25rem] text-accent transform translate-x-[-0.25rem] group-hover:translate-x-[0rem] transition-all duration-300 opacity-0 group-hover:opacity-100 font-bold text-[0.875rem]">
+                    →
+                  </span>
+                </Link>
               ))
             )}
           </div>
