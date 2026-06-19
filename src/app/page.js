@@ -31,7 +31,7 @@ const heroSlides = [
     icon: '💼'
   },
   {
-    image: 'https://images.unsplash.com/photo-1505664194779-8bebcb95c539?auto=format&fit=crop&q=80&w=700&h=940',
+    image: 'https://images.unsplash.com/photo-1479142506502-19b3a3b7ff33?auto=format&fit=crop&q=80&w=700&h=940',
     title: 'Litigation & Defense',
     desc: 'Rigorous Courtroom Strategy',
     icon: '⚖️'
@@ -173,17 +173,17 @@ export default function Home() {
   useEffect(() => {
     const fetchLawyers = async () => {
       try {
-        // Fetch featured lawyers (limit = 6)
-        const resFeatured = await fetch(`${API_URL}/lawyers?limit=6`);
+        // Fetch featured lawyers (limit = 8)
+        const resFeatured = await fetch(`${API_URL}/lawyers?limit=8`);
         if (resFeatured.ok) {
           const data = await resFeatured.json();
           if (data.lawyers && data.lawyers.length > 0) {
             setFeaturedLawyers(data.lawyers);
           } else {
-            setFeaturedLawyers(fallbackLawyers.slice(0, 6));
+            setFeaturedLawyers(fallbackLawyers.slice(0, 8));
           }
         } else {
-          setFeaturedLawyers(fallbackLawyers.slice(0, 6));
+          setFeaturedLawyers(fallbackLawyers.slice(0, 8));
         }
 
         // Fetch top experts sorted by hiresCount (limit = 3)
@@ -200,7 +200,7 @@ export default function Home() {
         }
       } catch (err) {
         console.error('Failed to load lawyers from API, using fallback:', err);
-        setFeaturedLawyers(fallbackLawyers.slice(0, 6));
+        setFeaturedLawyers(fallbackLawyers.slice(0, 8));
         setTopExperts(fallbackLawyers.slice(0, 3));
       } finally {
         setLoading(false);
@@ -383,7 +383,7 @@ export default function Home() {
             <motion.div 
               animate={{ y: -10 }}
               transition={{ duration: 1.2, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1] }}
-              className="absolute bottom-[4rem] left-[-3rem] backdrop-blur-2xl bg-card/90 dark:bg-zinc-900/75 border border-border/40 dark:border-white/[0.08] p-[1.25rem] rounded-[1.25rem] shadow-[0_1rem_3rem_rgba(0,0,0,0.08)] dark:shadow-[0_1rem_3rem_rgba(0,0,0,0.5)] max-w-[14.5rem] space-y-[0.75rem] text-left will-change-transform"
+              className="absolute bottom-[4rem] left-[-8rem] backdrop-blur-2xl bg-card/90 dark:bg-zinc-900/75 border border-border/40 dark:border-white/[0.08] p-[1.25rem] rounded-[1.25rem] shadow-[0_1rem_3rem_rgba(0,0,0,0.08)] dark:shadow-[0_1rem_3rem_rgba(0,0,0,0.5)] max-w-[14.5rem] space-y-[0.75rem] text-left will-change-transform"
             >
               <div className="flex items-center gap-[0.75rem]">
                 <div className="relative flex-shrink-0">
@@ -409,7 +409,7 @@ export default function Home() {
             <motion.div 
               animate={{ y: -8 }}
               transition={{ duration: 1, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.2 }}
-              className="absolute top-[4rem] right-[-2rem] backdrop-blur-xl bg-emerald-500/[0.08] dark:bg-emerald-500/[0.05] border border-emerald-500/20 px-[1rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(16,185,129,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
+              className="absolute top-[4rem] right-[-5.5rem] backdrop-blur-xl bg-emerald-500/[0.08] dark:bg-emerald-500/[0.05] border border-emerald-500/20 px-[1rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(16,185,129,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
             >
               <span className="relative flex h-[0.5rem] w-[0.5rem]">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -424,7 +424,7 @@ export default function Home() {
             <motion.div 
               animate={{ y: 10 }}
               transition={{ duration: 1.1, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.35 }}
-              className="absolute bottom-[9rem] right-[-3rem] backdrop-blur-xl bg-accent/[0.08] dark:bg-accent/[0.05] border border-accent/20 px-[1.125rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(169,132,76,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
+              className="absolute bottom-[9rem] right-[-6.5rem] backdrop-blur-xl bg-accent/[0.08] dark:bg-accent/[0.05] border border-accent/20 px-[1.125rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(169,132,76,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
             >
               <svg className="w-[0.875rem] h-[0.875rem] text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
@@ -438,7 +438,7 @@ export default function Home() {
             <motion.div 
               animate={{ rotate: 8, y: -8 }}
               transition={{ duration: 1.4, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.5 }}
-              className="absolute top-[14rem] left-[-1.5rem] w-[2.25rem] h-[2.25rem] rounded-[0.625rem] bg-accent/[0.08] dark:bg-accent/[0.05] border border-accent/15 backdrop-blur-md flex items-center justify-center shadow-sm will-change-transform"
+              className="absolute top-[14rem] left-[-4.5rem] w-[2.25rem] h-[2.25rem] rounded-[0.625rem] bg-accent/[0.08] dark:bg-accent/[0.05] border border-accent/15 backdrop-blur-md flex items-center justify-center shadow-sm will-change-transform"
             >
               <span className="text-[0.875rem]">⚖️</span>
             </motion.div>
@@ -771,6 +771,78 @@ export default function Home() {
                 </motion.div>
               ))
             )}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Extra Section: Platform Impact & Stats */}
+      <section className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[5rem] z-[10] border-t-[0.0625rem] border-border/10 bg-gradient-to-br from-primary/[0.01] via-transparent to-accent/[0.03] dark:from-zinc-900/10 dark:to-accent/[0.02]">
+        <div className="editorial-container">
+          <motion.div 
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center space-y-[0.5rem] mb-[4.5rem]"
+          >
+            <span className="text-[0.625rem] uppercase tracking-[0.25em] text-accent font-extrabold block">Verifiable Excellence</span>
+            <h2 className="font-serif text-[2.25rem] sm:text-[3.25rem] font-normal tracking-tight text-primary dark:text-foreground">Our Impact in Numbers</h2>
+            <div className="h-[0.0625rem] w-[3.5rem] bg-accent/30 mx-auto mt-[1.5rem]" />
+          </motion.div>
+
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              visible: {
+                transition: {
+                  staggerChildren: 0.1
+                }
+              }
+            }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[1.5rem] sm:gap-[2rem] w-full"
+          >
+            {[
+              { value: '150+', label: 'Verified Lawyers', desc: 'Elite practitioners vetted by our security team for credentials and active license.' },
+              { value: '5,000+', label: 'Hiring Cases', desc: 'Consultations resolved with verified dispute resolution and legal advice.' },
+              { value: '$2.5M+', label: 'Secured Escrow', desc: 'Protected funds securely held via Stripe and released upon service completion.' },
+              { value: '99.8%', label: 'Satisfaction Rate', desc: 'Clients expressing complete trust and success in their hired legal counsel.' }
+            ].map((stat, idx) => (
+              <motion.div
+                key={idx}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
+                }}
+                className="group relative flex flex-col justify-between p-[2rem] bg-card/40 dark:bg-zinc-900/10 backdrop-blur-md border border-border/40 dark:border-white/[0.04] rounded-[1.5rem] hover:-translate-y-1.5 hover:border-accent/40 hover:shadow-[0_1.5rem_3.5rem_rgba(169,132,76,0.06)] dark:hover:shadow-[0_1.5rem_3.5rem_rgba(0,0,0,0.4)] transition-all duration-500 w-full text-center"
+              >
+                <div className="space-y-[1rem]">
+                  {/* Floating Rank Indicator */}
+                  <span className="absolute top-[1.25rem] right-[1.5rem] text-[0.625rem] font-mono font-bold text-slate-300 dark:text-zinc-700 group-hover:text-accent/50 transition-colors duration-300">
+                    0{idx + 1}
+                  </span>
+                  
+                  {/* Number Stat */}
+                  <div className="font-serif text-[3rem] sm:text-[3.5rem] font-black text-editorial-gradient tracking-tight leading-none">
+                    {stat.value}
+                  </div>
+                  
+                  {/* Divider line */}
+                  <div className="w-[2rem] h-[0.0625rem] bg-accent/30 mx-auto group-hover:w-[4rem] group-hover:bg-accent/70 transition-all duration-500 ease-out" />
+                  
+                  {/* Label */}
+                  <h4 className="font-serif text-[1.125rem] font-bold text-primary dark:text-foreground">
+                    {stat.label}
+                  </h4>
+                  
+                  {/* Desc */}
+                  <p className="text-[0.8125rem] text-slate-500 dark:text-zinc-400 leading-relaxed font-body">
+                    {stat.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>

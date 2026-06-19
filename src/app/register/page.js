@@ -76,7 +76,7 @@ export default function RegisterPage() {
   }, []);
 
   const initGoogleSignIn = useCallback(() => {
-    if (!window.google || googleInitializedRef.current) {
+    if (!window.google || window.__google_initialized__) {
       renderGoogleButton();
       return;
     }
@@ -85,7 +85,7 @@ export default function RegisterPage() {
       client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '810619721461-16ub90cr5ivqb12s8o5mvjm8mss0n9kq.apps.googleusercontent.com',
       callback: handleGoogleCallback,
     });
-    googleInitializedRef.current = true;
+    window.__google_initialized__ = true;
     renderGoogleButton();
   }, [handleGoogleCallback, renderGoogleButton]);
 

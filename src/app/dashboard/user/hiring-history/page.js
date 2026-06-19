@@ -197,7 +197,7 @@ export default function UserHiringHistoryPage() {
                         <button
                           onClick={() => handleStripePay(hire._id)}
                           disabled={processingId !== null}
-                          className="px-[0.75rem] py-[0.375rem] text-[0.625rem] font-bold bg-primary text-white hover:scale-105 active:scale-95 transition-all uppercase tracking-wider rounded-[0.375rem] cursor-pointer disabled:opacity-50"
+                          className="px-[0.75rem] py-[0.375rem] text-[0.625rem] font-bold bg-primary text-primary-foreground hover:scale-105 active:scale-95 transition-all uppercase tracking-wider rounded-[0.375rem] cursor-pointer disabled:opacity-50"
                         >
                           Stripe Pay
                         </button>

@@ -108,6 +108,34 @@ npm run dev
 
 ---
 
+## Evaluation & Testing (For Mentors)
+
+To verify the platform's features, role-based workflows, and database updates, you can use the credentials and steps below.
+
+### 1. Test Credentials (Password: `123456` for all)
+
+* **Admin Role:** `admin@gmail.com`
+* **Client/User Role:** `client@gmail.com`
+* **Lawyer Role:** `rezwan@legalease.com` (Advocate Rezwanul Haque)
+
+### 2. Manual Testing Flow
+1. **Reset Database:** Run `node seed.js` in the backend server directory to restore clean seed data.
+2. **Initiate Hiring:** Log in as Client (`client@gmail.com`), browse/search for Advocate Rezwanul Haque, visit his profile, and click **Initiate Hiring Case** -> **Confirm Hire**.
+3. **Accept Request:** Log in as Lawyer (`rezwan@legalease.com`), visit the **Dashboard** -> **Inbound Consultations**, and click **Accept**.
+4. **Complete Payment:** Log in as Client, visit **Dashboard** -> **Hiring History**, and click **Mock Pay** (this changes status to `Paid` and updates lawyer status to `Busy`).
+5. **Admin Analytics:** Log in as Admin (`admin@gmail.com`) and visit `/dashboard/admin/analytics` to view system charts and statistics.
+
+### 3. Automated E2E Testing
+An automated test runner is included in the project root to perform the entire E2E flow via Puppeteer.
+1. Make sure both client and server are running.
+2. Launch Chrome with debugging port 9222 active.
+3. Run the following command in the client directory:
+   ```bash
+   node run-test.js
+   ```
+
+---
+
 ## License 
 
 This project is licensed under the ISC License.

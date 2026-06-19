@@ -553,48 +553,116 @@ export default function LawyerDetailsPage({ params }) {
 
       {/* Confirmation Hiring Modal */}
       {showHireModal && (
-        <div className="fixed inset-[0rem] z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-[1rem]">
-          <div className="bg-background border border-border w-full max-w-[26rem] rounded-[1rem] shadow-[0_1rem_3rem_rgba(0,0,0,0.2)] overflow-hidden animate-[fadeIn_200ms_ease-out]">
-            <div className="px-[1.5rem] py-[1.25rem] border-b border-border flex items-center justify-between">
-              <h3 className="font-serif font-bold text-[1.25rem] text-primary dark:text-foreground">
-                Confirm Hiring Case
+        <div className="fixed inset-[0rem] z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm px-[1rem]">
+          <div className="bg-background border border-border/80 w-full max-w-[26rem] rounded-[1.25rem] shadow-[0_1.5rem_3.5rem_rgba(0,0,0,0.3)] overflow-hidden animate-[fadeIn_200ms_ease-out]">
+            <div className="px-[1.5rem] py-[1.25rem] border-b border-border/50 flex items-center justify-between">
+              <h3 className="font-serif font-bold text-[1.125rem] text-primary dark:text-foreground">
+                {hireSuccess ? 'Hiring Complete' : 'Confirm Hiring Case'}
               </h3>
               <button
                 onClick={() => setShowHireModal(false)}
-                className="text-slate-400 hover:text-foreground text-[0.875rem] font-bold"
+                className="text-slate-400 hover:text-foreground text-[0.875rem] font-bold p-1 rounded-full hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
               >
                 ✕
               </button>
             </div>
 
             <div className="p-[1.5rem] space-y-[1.25rem]">
-              {hireMessage && (
-                <div className={`p-[0.75rem] text-[0.75rem] rounded-[0.5rem] text-center font-medium ${
-                  hireSuccess ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-500 border border-rose-500/20'
-                }`}>
+              {hireMessage && !hireSuccess && (
+                <div className="p-[0.75rem] text-[0.75rem] rounded-[0.5rem] text-center font-medium bg-rose-500/10 text-rose-500 border border-rose-500/20">
                   {hireMessage}
                 </div>
               )}
 
-              {!hireSuccess && (
-                <>
-                  <p className="text-[0.75rem] text-slate-500 leading-relaxed">
-                    You are initiating a hiring request for <span className="font-bold text-foreground">{lawyer.user?.name}</span>. 
-                    The hourly consultation rate is set at <span className="font-bold text-accent">${lawyer.rate}/hr</span>.
-                  </p>
+              {hireSuccess ? (
+                <div className="text-center py-[0.5rem] space-y-[1.25rem]">
+                  <div className="relative mx-auto w-[4rem] h-[4rem] flex items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 shadow-[0_0_1.5rem_rgba(16,185,129,0.15)]">
+                    <svg className="w-[1.75rem] h-[1.75rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="absolute inset-0 rounded-full border-2 border-emerald-500 animate-ping opacity-20" />
+                  </div>
                   
-                  <div className="p-[1rem] bg-slate-50 dark:bg-zinc-900 rounded-[0.75rem] space-y-[0.375rem] text-[0.75rem]">
+                  <div className="space-y-[0.375rem]">
+                    <h4 className="font-serif font-bold text-[1.25rem] text-primary dark:text-foreground">Hiring Requested!</h4>
+                    <p className="text-[0.75rem] text-slate-500 max-w-[20rem] mx-auto leading-relaxed">
+                      Your consultation request has been sent to <span className="font-bold text-foreground">{lawyer.user?.name}</span>. Once accepted, you can pay the fee.
+                    </p>
+                  </div>
+
+                  <div className="p-[1rem] bg-slate-50 dark:bg-zinc-900 border border-border/30 rounded-[0.75rem] space-y-[0.5rem] text-[0.75rem] text-left">
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Advocate:</span>
+                      <span className="text-slate-500">Advocate Name:</span>
                       <span className="font-bold text-foreground">{lawyer.user?.name}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Specialization:</span>
-                      <span className="font-bold text-foreground">{lawyer.specialization}</span>
+                      <span className="text-slate-500">Escrow Security:</span>
+                      <span className="text-emerald-500 font-bold flex items-center gap-[0.25rem]">
+                        <svg className="w-[0.75rem] h-[0.75rem]" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M2.166 4.9L10 1.154l7.834 3.746A1 1 0 0118.5 5.75v5.5c0 4.13-2.923 7.82-6.834 9.1L10 20.846l-1.666-.5C4.423 19.07 1.5 15.38 1.5 11.25V5.75a1 1 0 01.666-.85zM10 3.322L3.5 6.435v4.815c0 3.25 2.152 6.16 5.25 7.23L10 18.892l1.25-.412c3.098-1.07 5.25-3.98 5.25-7.23V6.435L10 3.322zM9 13.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l6-6a1 1 0 00-1.414-1.414L9 13.586z" clipRule="evenodd" />
+                        </svg>
+                        Mock Escrow Active
+                      </span>
                     </div>
-                    <div className="flex justify-between border-t border-border/10 pt-[0.375rem] mt-[0.375rem]">
-                      <span className="text-slate-500">Total Fee:</span>
+                    <div className="flex justify-between border-t border-border/10 pt-[0.5rem] mt-[0.5rem]">
+                      <span className="text-slate-500 font-semibold">Total Fee:</span>
                       <span className="font-bold text-accent">${lawyer.rate} USD</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-[0.75rem] pt-[0.5rem]">
+                    <button
+                      onClick={() => setShowHireModal(false)}
+                      className="relative flex-1 py-[0.55rem] border border-border text-foreground text-[0.75rem] font-bold rounded-[0.5rem] hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer group overflow-hidden"
+                    >
+                      <span className="absolute inset-0 bg-slate-100 dark:bg-zinc-800 scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300" />
+                      <span className="relative z-10">Dismiss</span>
+                    </button>
+                    <Link
+                      href="/dashboard/user/hiring-history"
+                      className="relative flex-1 py-[0.55rem] bg-primary text-white dark:bg-accent dark:text-navy text-center text-[0.75rem] font-bold rounded-[0.5rem] hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer group overflow-hidden inline-flex items-center justify-center"
+                    >
+                      <span className="absolute inset-0 bg-accent dark:bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300" />
+                      <span className="relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-navy">
+                        View History
+                      </span>
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="flex items-center gap-[1rem] p-[0.875rem] bg-slate-50 dark:bg-zinc-900 border border-border/40 rounded-[0.75rem]">
+                    <img
+                      src={lawyer.image}
+                      alt={lawyer.user?.name}
+                      className="w-[3rem] h-[3rem] rounded-full object-cover border-2 border-accent/30"
+                    />
+                    <div>
+                      <h4 className="font-serif font-bold text-[0.9375rem] text-primary dark:text-foreground">
+                        {lawyer.user?.name}
+                      </h4>
+                      <p className="text-[0.625rem] uppercase tracking-wider text-slate-500 font-extrabold">
+                        {lawyer.specialization}
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="text-[0.75rem] text-slate-500 leading-relaxed">
+                    You are initiating a secure hiring consultation. The advocate will review your details before accepting.
+                  </p>
+                  
+                  <div className="p-[1rem] bg-slate-50 dark:bg-zinc-900 border border-border/40 rounded-[0.75rem] space-y-[0.5rem] text-[0.75rem]">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Hourly consultation:</span>
+                      <span className="font-bold text-foreground">${lawyer.rate}/hr</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Mock Escrow hold:</span>
+                      <span className="font-bold text-foreground">Active</span>
+                    </div>
+                    <div className="flex justify-between border-t border-border/10 pt-[0.5rem] mt-[0.5rem]">
+                      <span className="text-slate-500 font-bold">Total Consultation Fee:</span>
+                      <span className="font-extrabold text-accent text-[0.8125rem]">${lawyer.rate} USD</span>
                     </div>
                   </div>
 
