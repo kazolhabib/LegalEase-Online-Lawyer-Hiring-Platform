@@ -3,6 +3,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
@@ -160,14 +161,28 @@ export default function UserHiringHistoryPage() {
               {hires.map((hire) => (
                 <tr key={hire._id} className="hover:bg-foreground/[0.01] transition-colors">
                   <td className="px-[1rem] py-[1rem]">
-                    <div className="flex items-center gap-[0.75rem]">
-                      <img
-                        src={hire.lawyer?.image || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=533'}
-                        alt={hire.lawyer?.user?.name}
-                        className="h-[2rem] w-[2rem] object-cover rounded-[0.5rem]"
-                      />
-                      <span className="font-bold text-foreground">{hire.lawyer?.user?.name}</span>
-                    </div>
+                    {hire.lawyer?._id ? (
+                      <Link 
+                        href={`/lawyers/${hire.lawyer._id}`}
+                        className="flex items-center gap-[0.75rem] hover:text-accent transition-colors group cursor-pointer"
+                      >
+                        <img
+                          src={hire.lawyer.image || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=533'}
+                          alt={hire.lawyer.user?.name}
+                          className="h-[2rem] w-[2rem] object-cover rounded-[0.5rem] group-hover:scale-105 transition-transform duration-350"
+                        />
+                        <span className="font-bold text-foreground group-hover:text-accent">{hire.lawyer.user?.name}</span>
+                      </Link>
+                    ) : (
+                      <div className="flex items-center gap-[0.75rem]">
+                        <img
+                          src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=533"
+                          alt="Deleted Advocate"
+                          className="h-[2rem] w-[2rem] object-cover rounded-[0.5rem]"
+                        />
+                        <span className="font-bold text-foreground/50">Deleted Advocate</span>
+                      </div>
+                    )}
                   </td>
                   <td className="px-[1rem] py-[1rem] text-slate-500 font-medium">{hire.lawyer?.specialization}</td>
                   <td className="px-[1rem] py-[1rem] font-bold text-accent">${hire.fee}</td>
