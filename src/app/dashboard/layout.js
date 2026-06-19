@@ -33,6 +33,7 @@ export default function DashboardLayout({ children }) {
   // Define sidebar navigation items based on role
   const clientLinks = [
     { name: 'Hiring History', path: '/dashboard/user/hiring-history' },
+    { name: 'Shortlisted Lawyers', path: '/dashboard/user/shortlist' },
     { name: 'Update Profile', path: '/dashboard/user/update-profile' },
     { name: 'My Reviews', path: '/dashboard/user/comments' },
   ];
@@ -40,10 +41,12 @@ export default function DashboardLayout({ children }) {
   const lawyerLinks = [
     { name: 'Hiring Requests', path: '/dashboard/lawyer/hiring-history' },
     { name: 'Manage Legal Profile', path: '/dashboard/lawyer/manage-legal-profile' },
+    { name: 'Update Profile', path: '/dashboard/user/update-profile' },
   ];
 
   const adminLinks = [
     { name: 'Manage Users', path: '/dashboard/admin/manage-users' },
+    { name: 'Manage Listings', path: '/dashboard/admin/manage-listings' },
     { name: 'All Transactions', path: '/dashboard/admin/all-transactions' },
     { name: 'Platform Analytics', path: '/dashboard/admin/analytics' },
   ];

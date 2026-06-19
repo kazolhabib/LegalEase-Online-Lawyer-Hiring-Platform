@@ -82,16 +82,113 @@ export default function Navbar() {
             })}
             
             {user && (
-              <Link
-                href="/dashboard"
-                className={`px-[1rem] py-[0.5rem] rounded-[0.75rem] text-[0.75rem] font-semibold tracking-wide transition-all duration-[200ms] ${
-                  pathname.startsWith('/dashboard') 
-                    ? 'bg-primary text-white dark:bg-accent dark:text-navy shadow-[0_0.125rem_0.375rem_rgba(0,0,0,0.05)]' 
-                    : 'text-foreground/75 hover:bg-foreground/5 hover:text-foreground'
-                }`}
-              >
-                Dashboard
-              </Link>
+              <div className="relative group/db">
+                <button
+                  className={`px-[1rem] py-[0.5rem] rounded-[0.75rem] text-[0.75rem] font-semibold tracking-wide transition-all duration-[200ms] flex items-center gap-[0.25rem] cursor-pointer ${
+                    pathname.startsWith('/dashboard') 
+                      ? 'bg-primary text-white dark:bg-accent dark:text-navy shadow-[0_0.125rem_0.375rem_rgba(0,0,0,0.05)]' 
+                      : 'text-foreground/75 hover:bg-foreground/5 hover:text-foreground'
+                  }`}
+                >
+                  <span>Dashboard</span>
+                  <svg className="w-[0.625rem] h-[0.625rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </button>
+                
+                {/* Dropdown menu */}
+                <div className="absolute left-[50%] -translate-x-1/2 top-[100%] pt-[0.5rem] w-[12rem] opacity-0 pointer-events-none group-hover/db:opacity-100 group-hover/db:pointer-events-auto transition-all duration-300 scale-95 origin-top group-hover/db:scale-100">
+                  <div className="backdrop-blur-xl bg-card/95 dark:bg-zinc-900/95 border border-border/80 dark:border-white/[0.08] p-[0.5rem] rounded-[1rem] shadow-[0_1rem_2.5rem_rgba(0,0,0,0.08)] dark:shadow-[0_1rem_2.5rem_rgba(0,0,0,0.4)] flex flex-col gap-[0.125rem]">
+                    <Link
+                      href="/dashboard"
+                      className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
+                    >
+                      Profile Overview
+                    </Link>
+                    
+                    {user.role === 'admin' && (
+                      <>
+                        <Link
+                          href="/dashboard/admin/manage-users"
+                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
+                        >
+                          Manage Users
+                        </Link>
+                        <Link
+                          href="/dashboard/admin/manage-listings"
+                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
+                        >
+                          Manage Listings
+                        </Link>
+                        <Link
+                          href="/dashboard/admin/all-transactions"
+                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
+                        >
+                          All Transactions
+                        </Link>
+                        <Link
+                          href="/dashboard/admin/analytics"
+                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
+                        >
+                          Platform Analytics
+                        </Link>
+                      </>
+                    )}
+
+                    {user.role === 'lawyer' && (
+                      <>
+                        <Link
+                          href="/dashboard/lawyer/hiring-history"
+                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
+                        >
+                          Hiring Requests
+                        </Link>
+                        <Link
+                          href="/dashboard/lawyer/manage-legal-profile"
+                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
+                        >
+                          Manage Service Profile
+                        </Link>
+                        <Link
+                          href="/dashboard/user/update-profile"
+                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
+                        >
+                          Update Profile
+                        </Link>
+                      </>
+                    )}
+
+                    {user.role !== 'admin' && user.role !== 'lawyer' && (
+                      <>
+                        <Link
+                          href="/dashboard/user/hiring-history"
+                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
+                        >
+                          Hiring History
+                        </Link>
+                        <Link
+                          href="/dashboard/user/shortlist"
+                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
+                        >
+                          Shortlisted Lawyers
+                        </Link>
+                        <Link
+                          href="/dashboard/user/update-profile"
+                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
+                        >
+                          Update Profile
+                        </Link>
+                        <Link
+                          href="/dashboard/user/comments"
+                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
+                        >
+                          My Reviews
+                        </Link>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
             )}
           </div>
 

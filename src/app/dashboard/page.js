@@ -70,7 +70,7 @@ export default function DashboardIndexPage() {
               href="/dashboard/user/update-profile"
               className="px-[1.5rem] py-[0.5rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.75rem] font-bold rounded-[0.5rem] hover:scale-[1.01] transition-all cursor-pointer text-center flex-1"
             >
-              Update Credentials
+              Update Profile
             </Link>
           )}
         </div>

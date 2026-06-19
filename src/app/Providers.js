@@ -166,7 +166,7 @@ function AuthProvider({ children }) {
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
     setUser(data.user);
-    return data.user;
+    return { user: data.user, isNewUser: data.isNewUser };
   };
 
   const logout = () => {

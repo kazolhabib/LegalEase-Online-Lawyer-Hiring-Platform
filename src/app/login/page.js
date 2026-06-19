@@ -23,8 +23,12 @@ export default function LoginPage() {
     setSubmitting(true);
     setError('');
     try {
-      await googleLogin(idToken);
-      router.push('/');
+      const result = await googleLogin(idToken);
+      if (result && result.isNewUser) {
+        router.push('/register?stage=role_select');
+      } else {
+        router.push('/');
+      }
     } catch (err) {
       setError(err.message || 'Google authentication failed.');
     } finally {

@@ -21,42 +21,63 @@ export default function LawyerManageProfilePage() {
   const [status, setStatus] = useState('Available');
   const [badge, setBadge] = useState('Rising Star');
   const [profileId, setProfileId] = useState(null);
+  const [isVerified, setIsVerified] = useState(false);
+  const [isPublished, setIsPublished] = useState(true);
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [paying, setPaying] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  const fetchProfile = async () => {
+    if (!user) return;
+    try {
+      const res = await fetch(`${API_URL}/lawyers?includeUnpublished=true`);
+      if (res.ok) {
+        const data = await res.json();
+        // Find profile where user matches logged in user ID
+        const myProfile = data.lawyers?.find(l => l.user?._id === user.id || l.user?._id === user._id);
+        if (myProfile) {
+          setProfileId(myProfile._id);
+          setBio(myProfile.bio || '');
+          setSpecialization(myProfile.specialization || 'Corporate Law');
+          setRate(myProfile.rate || '');
+          setImage(myProfile.image || '');
+          setStatus(myProfile.status || 'Available');
+          setBadge(myProfile.badge || 'Rising Star');
+          setIsVerified(myProfile.isVerified ?? false);
+          setIsPublished(myProfile.isPublished ?? true);
+        } else {
+          setIsVerified(false);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load lawyer profile:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Fetch current lawyer profile if it exists
   useEffect(() => {
-    const fetchProfile = async () => {
-      if (!user) return;
-      try {
-        const res = await fetch(`${API_URL}/lawyers`);
-        if (res.ok) {
-          const data = await res.json();
-          // Find profile where user matches logged in user ID
-          const myProfile = data.lawyers?.find(l => l.user?._id === user.id || l.user?._id === user._id);
-          if (myProfile) {
-            setProfileId(myProfile._id);
-            setBio(myProfile.bio || '');
-            setSpecialization(myProfile.specialization || 'Corporate Law');
-            setRate(myProfile.rate || '');
-            setImage(myProfile.image || '');
-            setStatus(myProfile.status || 'Available');
-            setBadge(myProfile.badge || 'Rising Star');
-          }
-        }
-      } catch (err) {
-        console.error('Failed to load lawyer profile:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchProfile();
   }, [user]);
+
+  // Handle URL payment redirect params
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const payment = urlParams.get('payment');
+      if (payment === 'success') {
+        setSuccess('Stripe verification payment successful! Welcome to LegalEase.');
+        fetchProfile();
+      } else if (payment === 'cancelled') {
+        setError('Stripe payment was cancelled. Please try again.');
+      }
+    }
+  }, []);
 
   // imgBB Image Upload handler
   const handleImageUpload = async (e) => {
@@ -93,6 +114,67 @@ export default function LawyerManageProfilePage() {
     }
   };
 
+  const handlePayVerifyStripe = async () => {
+    setPaying(true);
+    setError('');
+    setSuccess('');
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_URL}/payments/create-verification-session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      if (res.ok) {
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          setError('Stripe payment URL could not be generated.');
+        }
+      } else {
+        setError(data.msg || 'Stripe verification session generation failed.');
+      }
+    } catch (err) {
+      console.error('Stripe verify error:', err);
+      setError('Stripe service error. Please use Mock Payment option.');
+    } finally {
+      setPaying(false);
+    }
+  };
+
+  const handlePayVerifyMock = async () => {
+    setPaying(true);
+    setError('');
+    setSuccess('');
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_URL}/payments/mock-pay-verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSuccess('Mock payment successful! Profile verified.');
+        setIsVerified(true);
+        setIsPublished(true);
+        fetchProfile();
+      } else {
+        setError(data.msg || 'Mock payment verification failed.');
+      }
+    } catch (err) {
+      console.error('Mock verify error:', err);
+      setError('Connection failed. Please try again.');
+    } finally {
+      setPaying(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!bio.trim() || !image.trim() || rate === '') {
@@ -117,7 +199,8 @@ export default function LawyerManageProfilePage() {
           rate: Number(rate),
           image,
           status,
-          badge
+          badge,
+          isPublished
         })
       });
 
@@ -164,6 +247,7 @@ export default function LawyerManageProfilePage() {
         setImage('');
         setStatus('Available');
         setBadge('Rising Star');
+        setIsVerified(false);
       } else {
         const data = await res.json();
         setError(data.msg || 'Failed to delete profile.');
@@ -200,6 +284,48 @@ export default function LawyerManageProfilePage() {
 
       {loading ? (
         <div className="animate-spin rounded-full h-[1.5rem] w-[1.5rem] border-b-[0.125rem] border-accent" />
+      ) : !isVerified ? (
+        <div className="max-w-[32rem] border border-border/80 rounded-[1.5rem] p-[2.5rem] bg-background/30 text-center space-y-[2rem]">
+          <div className="mx-auto h-[4.5rem] w-[4.5rem] rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[2rem]">
+            🛡️
+          </div>
+          
+          <div className="space-y-[0.75rem]">
+            <h3 className="font-serif text-[1.5rem] font-bold text-primary dark:text-foreground">
+              Verify Your Legal Profile
+            </h3>
+            <p className="text-[0.8125rem] text-slate-500 leading-relaxed">
+              To list your legal practice, accept cases, and consult clients on LegalEase, we require a one-time platform verification. This fee covers credential checking, bar vetting, and secure escrow registration.
+            </p>
+          </div>
+
+          <div className="p-[1rem] bg-accent/5 rounded-[1rem] border border-accent/10 flex justify-between items-center text-[0.8125rem]">
+            <span className="font-semibold text-slate-600 dark:text-zinc-300">One-time Verification Fee</span>
+            <span className="font-serif font-black text-accent text-[1.25rem]">$99.00</span>
+          </div>
+
+          <div className="space-y-[0.75rem]">
+            <button
+              onClick={handlePayVerifyStripe}
+              disabled={paying}
+              className="w-full py-[0.875rem] rounded-[0.75rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.8125rem] font-bold hover:scale-[1.01] active:scale-[0.99] transition-all shadow-[0_0.25rem_1rem_rgba(0,0,0,0.05)] disabled:opacity-50 cursor-pointer flex items-center justify-center gap-[0.5rem]"
+            >
+              {paying ? 'Processing...' : '💳 Pay with Stripe'}
+            </button>
+            
+            <button
+              onClick={handlePayVerifyMock}
+              disabled={paying}
+              className="w-full py-[0.875rem] rounded-[0.75rem] border border-border hover:border-accent bg-transparent text-primary dark:text-foreground text-[0.8125rem] font-bold hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 cursor-pointer flex items-center justify-center gap-[0.5rem]"
+            >
+              {paying ? 'Processing...' : '⚡ Instantly Verify (Mock Payment)'}
+            </button>
+          </div>
+
+          <p className="text-[0.625rem] text-slate-400">
+            Secure, encrypted payments. By verifying, you agree to our Terms of Practice.
+          </p>
+        </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-[1.25rem] max-w-[32rem]">
           
@@ -303,6 +429,25 @@ export default function LawyerManageProfilePage() {
                 <option value="Gold Partner">Gold Partner</option>
                 <option value="Trial Expert">Trial Expert</option>
               </select>
+            </div>
+          </div>
+
+          {/* Publish / Unpublish Toggle Switch */}
+          <div className="flex items-center gap-[0.75rem] p-[1rem] border border-border/60 bg-background/20 rounded-[0.75rem]">
+            <input
+              type="checkbox"
+              id="isPublished"
+              checked={isPublished}
+              onChange={(e) => setIsPublished(e.target.checked)}
+              className="h-[1rem] w-[1rem] accent-accent rounded focus:ring-accent"
+            />
+            <div className="text-left">
+              <label htmlFor="isPublished" className="text-[0.75rem] font-bold text-primary dark:text-foreground cursor-pointer block">
+                Publish Listing
+              </label>
+              <span className="text-[0.625rem] text-slate-500 block">
+                Make your professional profile visible in the public browse directory.
+              </span>
             </div>
           </div>
 

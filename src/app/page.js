@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
 
@@ -17,11 +17,40 @@ const initialCategories = [
   { name: 'Tax Consultancy', count: '... Lawyers', desc: 'Corporate tax, audits, wealth planning, and IRS disputes.', icon: '💵', num: '06' },
 ];
 
+const heroSlides = [
+  {
+    image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=700&h=940',
+    title: 'Pillars of Justice',
+    desc: 'Expert Advocacy & Counsel',
+    icon: '🏛️'
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&q=80&w=700&h=940',
+    title: 'Corporate Excellence',
+    desc: 'Securing Business Futures',
+    icon: '💼'
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1505664194779-8bebcb95c539?auto=format&fit=crop&q=80&w=700&h=940',
+    title: 'Litigation & Defense',
+    desc: 'Rigorous Courtroom Strategy',
+    icon: '⚖️'
+  }
+];
+
 export default function Home() {
   const [featuredLawyers, setFeaturedLawyers] = useState([]);
   const [topExperts, setTopExperts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState(initialCategories);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   const fallbackLawyers = [
     {
@@ -144,27 +173,34 @@ export default function Home() {
   useEffect(() => {
     const fetchLawyers = async () => {
       try {
-        const res = await fetch(`${API_URL}/lawyers?limit=8`);
-        if (res.ok) {
-          const data = await res.json();
+        // Fetch featured lawyers (limit = 6)
+        const resFeatured = await fetch(`${API_URL}/lawyers?limit=6`);
+        if (resFeatured.ok) {
+          const data = await resFeatured.json();
           if (data.lawyers && data.lawyers.length > 0) {
             setFeaturedLawyers(data.lawyers);
-            // Sort by reviews count and average rating to identify top experts
-            const sorted = [...data.lawyers]
-              .sort((a, b) => (b.reviewsCount || 0) - (a.reviewsCount || 0) || (b.ratingAverage || 0) - (a.ratingAverage || 0))
-              .slice(0, 3);
-            setTopExperts(sorted);
           } else {
-            setFeaturedLawyers(fallbackLawyers);
+            setFeaturedLawyers(fallbackLawyers.slice(0, 6));
+          }
+        } else {
+          setFeaturedLawyers(fallbackLawyers.slice(0, 6));
+        }
+
+        // Fetch top experts sorted by hiresCount (limit = 3)
+        const resTop = await fetch(`${API_URL}/lawyers?sort=hires_desc&limit=3`);
+        if (resTop.ok) {
+          const data = await resTop.json();
+          if (data.lawyers && data.lawyers.length > 0) {
+            setTopExperts(data.lawyers);
+          } else {
             setTopExperts(fallbackLawyers.slice(0, 3));
           }
         } else {
-          setFeaturedLawyers(fallbackLawyers);
           setTopExperts(fallbackLawyers.slice(0, 3));
         }
       } catch (err) {
         console.error('Failed to load lawyers from API, using fallback:', err);
-        setFeaturedLawyers(fallbackLawyers);
+        setFeaturedLawyers(fallbackLawyers.slice(0, 6));
         setTopExperts(fallbackLawyers.slice(0, 3));
       } finally {
         setLoading(false);
@@ -196,7 +232,7 @@ export default function Home() {
             </span>
             <h1 className="font-serif text-[3rem] sm:text-[4.75rem] font-medium tracking-tight leading-[1.05] text-primary dark:text-foreground italic">
               Find & Hire <br />
-              <span className="text-editorial-gradient not-italic font-bold">Elite Legal Counsel</span>
+              <span className="text-editorial-gradient not-italic font-bold">Expert Legal Counsel</span>
             </h1>
             <p className="text-[0.9375rem] text-slate-500 dark:text-slate-400 leading-relaxed max-w-[32rem]">
               Get matched with top-tier verified lawyers in corporate, criminal, and family law. Safe, secure, and professional escrow consultancy.
@@ -278,41 +314,70 @@ export default function Home() {
             <div className="absolute bottom-[0.5rem] right-[1rem] w-[3rem] h-[3rem] border-b-[0.125rem] border-r-[0.125rem] border-accent/25 rounded-br-[1rem] pointer-events-none" />
 
             {/* Main arched image with premium frame */}
-            <div className="relative group">
+            <div className="relative group flex flex-col items-center">
               {/* Outer golden gradient border frame */}
               <div className="absolute inset-[-0.1875rem] rounded-t-[13rem] rounded-b-[2.75rem] bg-gradient-to-br from-accent/40 via-accent/15 to-accent/40 dark:from-accent/30 dark:via-accent/10 dark:to-accent/30 blur-[0.0625rem]" />
               
               <div className="relative w-[26rem] h-[32rem] rounded-t-[13rem] rounded-b-[2.75rem] overflow-hidden border border-accent/25 dark:border-accent/15 shadow-[0_2rem_5rem_rgba(169,132,76,0.1),0_0_0_0.0625rem_rgba(169,132,76,0.08)] dark:shadow-[0_2rem_5rem_rgba(0,0,0,0.6),0_0_0_0.0625rem_rgba(169,132,76,0.05)]">
-                <img 
-                  src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=700&h=940" 
-                  alt="Pillars of Justice" 
-                  className="w-full h-full object-cover transition-transform duration-[2500ms] ease-out group-hover:scale-[1.06]"
-                />
-                {/* Multi-layer gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/5 to-transparent opacity-75" />
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/[0.04] via-transparent to-accent/[0.06] opacity-0 group-hover:opacity-100 transition-opacity duration-[1500ms]" />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentSlide}
+                    initial={{ opacity: 0, scale: 1.02 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.8 }}
+                    className="absolute inset-0 w-full h-full"
+                  >
+                    <img 
+                      src={heroSlides[currentSlide].image} 
+                      alt={heroSlides[currentSlide].title} 
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Dark gradient overlay & info */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+                    <div className="absolute bottom-[2.5rem] left-0 right-0 px-[2rem] text-center z-10">
+                      <span className="text-[1.75rem] mb-[0.25rem] block">{heroSlides[currentSlide].icon}</span>
+                      <h3 className="font-serif text-[1.5rem] font-medium text-primary dark:text-foreground">{heroSlides[currentSlide].title}</h3>
+                      <p className="text-[0.8125rem] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">{heroSlides[currentSlide].desc}</p>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
                 
                 {/* Inner vignette ring */}
                 <div className="absolute inset-0 shadow-[inset_0_0_4rem_rgba(0,0,0,0.15)] dark:shadow-[inset_0_0_4rem_rgba(0,0,0,0.4)] rounded-t-[13rem] rounded-b-[2.75rem] pointer-events-none" />
               </div>
-
-              {/* Floating accent dots decorations */}
-              <motion.div 
-                animate={{ y: -10 }}
-                transition={{ duration: 0.9, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1] }}
-                className="absolute top-[2rem] right-[-0.75rem] w-[0.5rem] h-[0.5rem] rounded-full bg-accent/40 shadow-[0_0_0.75rem_rgba(169,132,76,0.3)] will-change-transform"
-              />
-              <motion.div 
-                animate={{ y: 12 }}
-                transition={{ duration: 1.1, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.15 }}
-                className="absolute bottom-[6rem] left-[-0.5rem] w-[0.375rem] h-[0.375rem] rounded-full bg-accent/30 shadow-[0_0_0.5rem_rgba(169,132,76,0.2)] will-change-transform"
-              />
-              <motion.div 
-                animate={{ y: -8 }}
-                transition={{ duration: 0.8, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.3 }}
-                className="absolute top-[10rem] right-[-1.25rem] w-[0.25rem] h-[0.25rem] rounded-full bg-accent/50 will-change-transform"
-              />
+              
+              {/* Slide indicators */}
+              <div className="flex justify-center gap-[0.5rem] mt-[1rem] relative z-20">
+                {heroSlides.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentSlide(idx)}
+                    className={`w-[0.5rem] h-[0.5rem] rounded-full transition-all duration-300 ${
+                      currentSlide === idx ? 'bg-accent w-[1.5rem]' : 'bg-border hover:bg-accent/50'
+                    }`}
+                    aria-label={`Go to slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
             </div>
+
+            {/* Floating accent dots decorations */}
+            <motion.div 
+              animate={{ y: -10 }}
+              transition={{ duration: 0.9, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1] }}
+              className="absolute top-[2rem] right-[-0.75rem] w-[0.5rem] h-[0.5rem] rounded-full bg-accent/40 shadow-[0_0_0.75rem_rgba(169,132,76,0.3)] will-change-transform"
+            />
+            <motion.div 
+              animate={{ y: 12 }}
+              transition={{ duration: 1.1, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.15 }}
+              className="absolute bottom-[6rem] left-[-0.5rem] w-[0.375rem] h-[0.375rem] rounded-full bg-accent/30 shadow-[0_0_0.5rem_rgba(169,132,76,0.2)] will-change-transform"
+            />
+            <motion.div 
+              animate={{ y: -8 }}
+              transition={{ duration: 0.8, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.3 }}
+              className="absolute top-[10rem] right-[-1.25rem] w-[0.25rem] h-[0.25rem] rounded-full bg-accent/50 will-change-transform"
+            />
 
             {/* Overlapping glass card: Active Lawyer Profile */}
             <motion.div 
@@ -691,6 +756,9 @@ export default function Home() {
                         </span>
                         <span className="bg-accent/10 text-accent text-[0.625rem] font-black tracking-wider px-[0.5rem] py-[0.1875rem] rounded">
                           {expert.reviewsCount || 0} reviews
+                        </span>
+                        <span className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 text-[0.625rem] font-black tracking-wider px-[0.5rem] py-[0.1875rem] rounded">
+                          {expert.hiresCount || 0} hires
                         </span>
                       </div>
                     </div>

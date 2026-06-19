@@ -2,14 +2,15 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../Providers';
+import Script from 'next/script';
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { register, updateRole, user, loading } = useAuth();
+  const { register, googleLogin, updateRole, user, loading } = useAuth();
   
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -21,6 +22,18 @@ export default function RegisterPage() {
   // Registration flow state: 'form' | 'role_select'
   const [stage, setStage] = useState('form');
   const [registeredUser, setRegisteredUser] = useState(null);
+  
+  const googleInitializedRef = useRef(false);
+
+  // Check URL query parameters for stage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stageParam = new URLSearchParams(window.location.search).get('stage');
+      if (stageParam === 'role_select') {
+        setStage('role_select');
+      }
+    }
+  }, []);
 
   useEffect(() => {
     // If user is already registered and role is already set, redirect
@@ -28,6 +41,59 @@ export default function RegisterPage() {
       router.push('/');
     }
   }, [user, loading, router, stage]);
+
+  const handleGoogleCallback = useCallback(async (response) => {
+    const idToken = response.credential;
+    setSubmitting(true);
+    setError('');
+    try {
+      const result = await googleLogin(idToken);
+      if (result && result.isNewUser) {
+        setRegisteredUser(result.user);
+        setStage('role_select');
+      } else {
+        router.push('/');
+      }
+    } catch (err) {
+      setError(err.message || 'Google authentication failed.');
+    } finally {
+      setSubmitting(false);
+    }
+  }, [googleLogin, router]);
+
+  const renderGoogleButton = useCallback(() => {
+    if (!window.google) return;
+    const btnEl = document.getElementById("google-signup-btn");
+    if (!btnEl) return;
+    
+    window.google.accounts.id.renderButton(btnEl, { 
+      theme: 'outline', 
+      size: 'large', 
+      text: 'signup_with',
+      shape: 'rectangular',
+      width: 320
+    });
+  }, []);
+
+  const initGoogleSignIn = useCallback(() => {
+    if (!window.google || googleInitializedRef.current) {
+      renderGoogleButton();
+      return;
+    }
+    
+    window.google.accounts.id.initialize({
+      client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '810619721461-16ub90cr5ivqb12s8o5mvjm8mss0n9kq.apps.googleusercontent.com',
+      callback: handleGoogleCallback,
+    });
+    googleInitializedRef.current = true;
+    renderGoogleButton();
+  }, [handleGoogleCallback, renderGoogleButton]);
+
+  useEffect(() => {
+    if (window.google) {
+      initGoogleSignIn();
+    }
+  }, [initGoogleSignIn]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -157,6 +223,19 @@ export default function RegisterPage() {
             </button>
           </form>
 
+          {/* Divider */}
+          <div className="relative flex items-center justify-center my-[1.5rem]">
+            <div className="absolute inset-x-0 h-[0.0625rem] bg-border/40" />
+            <span className="relative px-[1rem] bg-background text-[0.6875rem] font-bold text-slate-400 uppercase tracking-widest">
+              or
+            </span>
+          </div>
+
+          {/* Social Authentication */}
+          <div className="w-full flex justify-center py-[0.25rem]">
+            <div id="google-signup-btn"></div>
+          </div>
+
           <p className="text-center text-[0.75rem] text-slate-500">
             Already have an account?{' '}
             <Link href="/login" className="font-extrabold text-accent hover:underline">
@@ -173,7 +252,7 @@ export default function RegisterPage() {
               Choose Your Role
             </h2>
             <p className="text-[0.875rem] text-slate-500 dark:text-slate-400">
-              Welcome, <span className="font-bold text-foreground">{registeredUser?.name}</span>. How will you use LegalEase?
+              Welcome, <span className="font-bold text-foreground">{registeredUser?.name || user?.name}</span>. How will you use LegalEase?
             </p>
           </div>
 
@@ -234,6 +313,12 @@ export default function RegisterPage() {
           </div>
         </div>
       )}
+
+      <Script 
+        src="https://accounts.google.com/gsi/client" 
+        onLoad={initGoogleSignIn} 
+        strategy="lazyOnload"
+      />
     </div>
   );
 }

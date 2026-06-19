@@ -174,7 +174,19 @@ export default function LawyerHiringHistoryPage() {
                       <span className="text-[0.6875rem] text-slate-400 italic">Request Rejected</span>
                     )}
                     {request.status === 'paid' && (
-                      <span className="text-[0.6875rem] text-emerald-500 font-bold">Booking Confirmed & Paid</span>
+                      <div className="text-right">
+                        <span className="text-[0.6875rem] text-emerald-500 font-bold block">Booking Confirmed & Paid</span>
+                        {request.transactionId && (
+                          <span className="text-[0.5625rem] font-mono text-slate-400 block">
+                            TX: {request.transactionId}
+                          </span>
+                        )}
+                        {request.datePaid && (
+                          <span className="text-[0.5625rem] text-slate-400 block">
+                            Settled: {new Date(request.datePaid).toLocaleDateString()}
+                          </span>
+                        )}
+                      </div>
                     )}
                   </td>
                 </tr>

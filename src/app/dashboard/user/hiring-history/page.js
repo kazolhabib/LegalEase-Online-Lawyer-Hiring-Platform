@@ -204,9 +204,12 @@ export default function UserHiringHistoryPage() {
                       </div>
                     )}
                     {hire.status === 'paid' && (
-                      <div className="text-[0.6875rem] font-mono text-emerald-500 font-bold">
-                        Paid • TX: <span className="opacity-70 truncate max-w-[5rem] inline-block align-bottom">{hire.transactionId}</span>
-                      </div>
+                      <button
+                        disabled
+                        className="px-[1rem] py-[0.375rem] text-[0.625rem] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase tracking-wider rounded-[0.375rem] cursor-not-allowed opacity-75"
+                      >
+                        Paid
+                      </button>
                     )}
                     {hire.status === 'pending' && (
                       <span className="text-[0.6875rem] text-slate-400 italic font-medium">Awaiting Lawyer Review</span>

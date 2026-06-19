@@ -31,6 +31,49 @@ function BrowseLawyersContent() {
   });
   const [loading, setLoading] = useState(true);
 
+  // Shortlist States
+  const [shortlistedIds, setShortlistedIds] = useState([]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('legalease_shortlist');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          setShortlistedIds(parsed.map(l => l._id));
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+  }, []);
+
+  const toggleShortlist = (lawyer, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('legalease_shortlist');
+      let currentList = [];
+      if (saved) {
+        try {
+          currentList = JSON.parse(saved);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      
+      const exists = currentList.find(l => l._id === lawyer._id);
+      let newList;
+      if (exists) {
+        newList = currentList.filter(l => l._id !== lawyer._id);
+      } else {
+        newList = [...currentList, lawyer];
+      }
+      localStorage.setItem('legalease_shortlist', JSON.stringify(newList));
+      setShortlistedIds(newList.map(l => l._id));
+    }
+  };
+
   // Initialize filters from URL parameters FIRST, then mark ready
   useEffect(() => {
     const urlSearch = searchParams.get('search');
@@ -289,12 +332,23 @@ function BrowseLawyersContent() {
                     }`} />
                     {lawyer.status === 'Busy' && (
                       <span className="absolute bottom-[0.5rem] left-[0.5rem] px-[0.375rem] py-[0.125rem] bg-rose-500 text-white text-[0.5rem] font-bold uppercase tracking-wider rounded-sm">
-                        Fully Booked
+                        Busy
                       </span>
                     )}
                     <span className="absolute top-[0.75rem] left-[0.75rem] px-[0.375rem] py-[0.1875rem] bg-accent text-white dark:text-navy text-[0.5rem] uppercase font-bold tracking-widest">
                       {lawyer.badge || 'Verified'}
                     </span>
+
+                    {/* Star / Shortlist Button */}
+                    <button
+                      onClick={(e) => toggleShortlist(lawyer, e)}
+                      className="absolute top-[0.75rem] right-[0.75rem] h-[1.75rem] w-[1.75rem] rounded-full bg-black/40 backdrop-blur-md border border-white/10 hover:bg-black/60 flex items-center justify-center text-[1rem] transition-all duration-200 shadow-sm cursor-pointer z-10"
+                      title={shortlistedIds.includes(lawyer._id) ? "Remove from Shortlist" : "Add to Shortlist"}
+                    >
+                      <span className={shortlistedIds.includes(lawyer._id) ? "text-amber-400 font-bold" : "text-white"}>
+                        {shortlistedIds.includes(lawyer._id) ? "★" : "☆"}
+                      </span>
+                    </button>
                   </div>
 
                   <div className="space-y-[0.375rem]">
