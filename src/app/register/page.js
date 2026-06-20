@@ -145,9 +145,47 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="w-full min-h-[calc(100vh-16rem)] flex items-center justify-center px-[1rem] sm:px-[2rem] py-[4rem] relative">
+    <div className="w-full min-h-[calc(100vh-16rem)] flex items-center justify-center px-[1rem] sm:px-[2rem] py-[4rem] relative overflow-hidden">
+      
+      {/* Premium Background Elements */}
+      <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center opacity-60 dark:opacity-40 transition-opacity duration-700">
+        
+        {/* Smooth CSS Animations */}
+        <style>{`
+          @keyframes wave-drift {
+            0% { transform: translateX(0) translateY(0); }
+            50% { transform: translateX(-4%) translateY(2%); }
+            100% { transform: translateX(0) translateY(0); }
+          }
+          @keyframes orb-float-1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(4%, 8%) scale(1.05); }
+          }
+          @keyframes orb-float-2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-4%, -8%) scale(0.95); }
+          }
+        `}</style>
+
+        {/* Glow Orbs */}
+        <div className="absolute top-[0%] left-[10%] w-[30rem] h-[30rem] rounded-full bg-accent/20 dark:bg-accent/10 blur-[120px] mix-blend-multiply dark:mix-blend-screen" style={{ animation: 'orb-float-1 15s ease-in-out infinite' }} />
+        <div className="absolute bottom-[0%] right-[10%] w-[25rem] h-[25rem] rounded-full bg-primary/10 dark:bg-white/5 blur-[100px] mix-blend-multiply dark:mix-blend-screen" style={{ animation: 'orb-float-2 18s ease-in-out infinite' }} />
+        
+        {/* Abstract Topographic/Wave Vector */}
+        <svg className="absolute w-[120%] h-[120%] opacity-30 dark:opacity-20" style={{ overflow: 'visible' }} viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d="M-20,20 Q25,40 50,20 T120,20" fill="none" stroke="var(--accent)" strokeWidth="0.1" style={{ animation: 'wave-drift 14s ease-in-out infinite' }} />
+          <path d="M-20,35 Q30,15 60,35 T120,35" fill="none" stroke="var(--accent)" strokeWidth="0.1" style={{ animation: 'wave-drift 18s ease-in-out infinite reverse' }} />
+          <path d="M-20,50 Q35,70 70,50 T120,50" fill="none" stroke="var(--accent)" strokeWidth="0.1" style={{ animation: 'wave-drift 22s ease-in-out infinite' }} />
+          <path d="M-20,65 Q40,45 80,65 T120,65" fill="none" stroke="var(--accent)" strokeWidth="0.1" style={{ animation: 'wave-drift 17s ease-in-out infinite reverse' }} />
+          <path d="M-20,80 Q45,100 90,80 T120,80" fill="none" stroke="var(--accent)" strokeWidth="0.1" style={{ animation: 'wave-drift 25s ease-in-out infinite' }} />
+        </svg>
+
+        {/* Elegant Grid Overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(169,132,76,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(169,132,76,0.04)_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_10%,transparent_100%)]" />
+      </div>
+
       {stage === 'form' ? (
-        <div className="w-full max-w-[28rem] space-y-[2rem]">
+        <div className="w-full max-w-[32rem] space-y-[2rem] relative z-10 backdrop-blur-2xl bg-card/80 dark:bg-zinc-900/80 p-[2rem] sm:p-[3rem] rounded-[2rem] shadow-[0_2rem_4rem_rgba(0,0,0,0.06)] dark:shadow-[0_2rem_4rem_rgba(0,0,0,0.4)] border border-border/60 dark:border-white/[0.05]">
           {/* Header */}
           <div className="text-center space-y-[0.5rem]">
             <span className="text-[0.625rem] uppercase tracking-widest text-accent font-bold">Get Started</span>
@@ -245,7 +283,7 @@ export default function RegisterPage() {
         </div>
       ) : (
         /* Role Selection Stage (Interactive Premium Layout) */
-        <div className="w-full max-w-[32rem] space-y-[2.5rem] text-center animate-[fadeIn_300ms_ease-out]">
+        <div className="w-full max-w-[40rem] space-y-[2.5rem] text-center animate-[fadeIn_300ms_ease-out] relative z-10 backdrop-blur-2xl bg-card/80 dark:bg-zinc-900/80 p-[2rem] sm:p-[3rem] rounded-[2rem] shadow-[0_2rem_4rem_rgba(0,0,0,0.06)] dark:shadow-[0_2rem_4rem_rgba(0,0,0,0.4)] border border-border/60 dark:border-white/[0.05]">
           <div className="space-y-[0.5rem]">
             <span className="text-[0.625rem] uppercase tracking-widest text-accent font-bold">One Last Step</span>
             <h2 className="font-serif text-[2.5rem] sm:text-[3.25rem] font-normal tracking-tight text-primary dark:text-foreground italic leading-[1.1]">

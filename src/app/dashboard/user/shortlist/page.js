@@ -6,17 +6,39 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+
 export default function ClientShortlistPage() {
   const [shortlist, setShortlist] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchShortlist = () => {
+  const fetchShortlist = async () => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('legalease_shortlist');
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
-          setShortlist(parsed);
+          
+          // Validate each shortlisted lawyer still exists in the database
+          const validatedList = [];
+          for (const lawyer of parsed) {
+            try {
+              const res = await fetch(`${API_URL}/lawyers/${lawyer._id}`);
+              if (res.ok) {
+                const freshData = await res.json();
+                // Update with fresh data from server
+                validatedList.push(freshData);
+              }
+              // If not ok (404), skip this lawyer - it no longer exists
+            } catch {
+              // Network error - keep the cached version
+              validatedList.push(lawyer);
+            }
+          }
+          
+          // Update localStorage with only valid entries
+          localStorage.setItem('legalease_shortlist', JSON.stringify(validatedList));
+          setShortlist(validatedList);
         } catch (err) {
           console.error('Failed to parse shortlist:', err);
         }
