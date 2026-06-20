@@ -11,6 +11,21 @@ const hasCustomAvatar = (avatarUrl) => {
   return avatarUrl && avatarUrl.trim() !== '' && !avatarUrl.includes('unsplash.com/photo-1535713875002-d1d0cf377fde');
 };
 
+const DropdownItem = ({ href, icon, title, subtitle }) => (
+  <Link
+    href={href}
+    className="group/item flex items-start gap-[0.75rem] px-[0.75rem] py-[0.625rem] rounded-[0.75rem] hover:bg-foreground/5 dark:hover:bg-white/[0.04] transition-all duration-[200ms]"
+  >
+    <div className="flex-shrink-0 w-[2.25rem] h-[2.25rem] rounded-[0.625rem] bg-accent/10 text-accent flex items-center justify-center group-hover/item:bg-accent group-hover/item:text-white dark:group-hover/item:text-navy transition-all duration-[300ms] shadow-sm">
+      {icon}
+    </div>
+    <div className="flex flex-col text-left justify-center min-h-[2.25rem]">
+      <span className="text-[0.75rem] font-bold text-foreground group-hover/item:text-accent transition-colors duration-[200ms] leading-tight">{title}</span>
+      {subtitle && <span className="text-[0.625rem] text-muted leading-tight mt-[0.125rem] group-hover/item:text-foreground/70 transition-colors duration-[200ms]">{subtitle}</span>}
+    </div>
+  </Link>
+);
+
 export default function Navbar() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
@@ -97,93 +112,102 @@ export default function Navbar() {
                 </button>
                 
                 {/* Dropdown menu */}
-                <div className="absolute left-[50%] -translate-x-1/2 top-[100%] pt-[0.5rem] w-[12rem] opacity-0 pointer-events-none group-hover/db:opacity-100 group-hover/db:pointer-events-auto transition-all duration-300 scale-95 origin-top group-hover/db:scale-100">
-                  <div className="backdrop-blur-xl bg-card/95 dark:bg-zinc-900/95 border border-border/80 dark:border-white/[0.08] p-[0.5rem] rounded-[1rem] shadow-[0_1rem_2.5rem_rgba(0,0,0,0.08)] dark:shadow-[0_1rem_2.5rem_rgba(0,0,0,0.4)] flex flex-col gap-[0.125rem]">
-                    <Link
+                <div className="absolute left-[50%] -translate-x-1/2 top-[100%] pt-[0.5rem] w-[18rem] opacity-0 pointer-events-none group-hover/db:opacity-100 group-hover/db:pointer-events-auto transition-all duration-300 scale-95 origin-top group-hover/db:scale-100 z-[60]">
+                  <div className="backdrop-blur-2xl bg-card/95 dark:bg-[#121215]/95 border border-border/60 dark:border-white/[0.06] p-[0.625rem] rounded-[1.25rem] shadow-[0_1.5rem_3rem_rgba(0,0,0,0.12)] dark:shadow-[0_1.5rem_3rem_rgba(0,0,0,0.5)] flex flex-col gap-[0.125rem]">
+                    
+                    {/* Dropdown Header */}
+                    <div className="px-[0.75rem] py-[0.5rem] mb-[0.25rem] border-b border-border/40 dark:border-white/[0.04] flex flex-col gap-[0.125rem]">
+                      <p className="text-[0.625rem] font-extrabold text-accent uppercase tracking-widest">
+                        {user.role === 'admin' ? 'Admin Portal' : user.role === 'lawyer' ? 'Lawyer Console' : 'Client Dashboard'}
+                      </p>
+                      <p className="text-[0.6875rem] font-medium text-muted truncate">{user.email || user.name}</p>
+                    </div>
+
+                    <DropdownItem 
                       href="/dashboard"
-                      className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
-                    >
-                      Profile Overview
-                    </Link>
+                      icon={<svg className="w-[1.125rem] h-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" /></svg>}
+                      title="Profile Overview"
+                      subtitle="Overview of your account & status"
+                    />
                     
                     {user.role === 'admin' && (
                       <>
-                        <Link
+                        <DropdownItem 
                           href="/dashboard/admin/manage-users"
-                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
-                        >
-                          Manage Users
-                        </Link>
-                        <Link
+                          icon={<svg className="w-[1.125rem] h-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>}
+                          title="Manage Users"
+                          subtitle="Control portal users & permissions"
+                        />
+                        <DropdownItem 
                           href="/dashboard/admin/manage-listings"
-                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
-                        >
-                          Manage Listings
-                        </Link>
-                        <Link
+                          icon={<svg className="w-[1.125rem] h-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>}
+                          title="Manage Listings"
+                          subtitle="Verify & edit lawyer details"
+                        />
+                        <DropdownItem 
                           href="/dashboard/admin/all-transactions"
-                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
-                        >
-                          All Transactions
-                        </Link>
-                        <Link
+                          icon={<svg className="w-[1.125rem] h-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>}
+                          title="All Transactions"
+                          subtitle="View platform payment history"
+                        />
+                        <DropdownItem 
                           href="/dashboard/admin/analytics"
-                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
-                        >
-                          Platform Analytics
-                        </Link>
+                          icon={<svg className="w-[1.125rem] h-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10a2 2 0 01-2 2h-2a2 2 0 01-2-2zm9 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>}
+                          title="Platform Analytics"
+                          subtitle="Analyze system growth metrics"
+                        />
                       </>
                     )}
 
                     {user.role === 'lawyer' && (
                       <>
-                        <Link
+                        <DropdownItem 
                           href="/dashboard/lawyer/hiring-history"
-                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
-                        >
-                          Hiring Requests
-                        </Link>
-                        <Link
+                          icon={<svg className="w-[1.125rem] h-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>}
+                          title="Hiring Requests"
+                          subtitle="View & respond to client offers"
+                        />
+                        <DropdownItem 
                           href="/dashboard/lawyer/manage-legal-profile"
-                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
-                        >
-                          Manage Service Profile
-                        </Link>
-                        <Link
+                          icon={<svg className="w-[1.125rem] h-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" /></svg>}
+                          title="Manage Service Profile"
+                          subtitle="Configure your legal parameters"
+                        />
+                        <DropdownItem 
                           href="/dashboard/user/update-profile"
-                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
-                        >
-                          Update Profile
-                        </Link>
+                          icon={<svg className="w-[1.125rem] h-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>}
+                          title="Update Profile"
+                          subtitle="Modify personal account details"
+                        />
                       </>
                     )}
 
                     {user.role !== 'admin' && user.role !== 'lawyer' && (
                       <>
-                        <Link
+                        <DropdownItem 
                           href="/dashboard/user/hiring-history"
-                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
-                        >
-                          Hiring History
-                        </Link>
-                        <Link
+                          icon={<svg className="w-[1.125rem] h-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
+                          title="Hiring History"
+                          subtitle="Track your cases & lawyer hirings"
+                        />
+                        <DropdownItem 
                           href="/dashboard/user/shortlist"
-                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
-                        >
-                          Shortlisted Lawyers
-                        </Link>
-                        <Link
+                          icon={<svg className="w-[1.125rem] h-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>}
+                          title="Shortlisted Lawyers"
+                          subtitle="View saved lawyers for fast hiring"
+                        />
+                        <DropdownItem 
                           href="/dashboard/user/update-profile"
-                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
-                        >
-                          Update Profile
-                        </Link>
-                        <Link
+                          icon={<svg className="w-[1.125rem] h-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>}
+                          title="Update Profile"
+                          subtitle="Modify personal account details"
+                        />
+                        <DropdownItem 
                           href="/dashboard/user/comments"
-                          className="px-[0.75rem] py-[0.4rem] rounded-[0.5rem] text-[0.6875rem] font-semibold text-foreground/80 hover:bg-foreground/5 hover:text-accent transition-colors"
-                        >
-                          My Reviews
-                        </Link>
+                          icon={<svg className="w-[1.125rem] h-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.907c.961 0 1.364 1.25.586 1.81l-3.97 2.883a1 1 0 00-.364 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.971-2.883a1 1 0 00-1.178 0l-3.97 2.883c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.364-1.118L2.98 9.92c-.778-.56-.375-1.81.586-1.81h4.907a1 1 0 00.95-.69l1.519-4.674z" /></svg>}
+                          title="My Reviews"
+                          subtitle="Manage lawyer feedback & ratings"
+                        />
                       </>
                     )}
                   </div>

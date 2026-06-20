@@ -1,0 +1,62 @@
+--- BODY TEXT ---
+
+A10_CAT-014
+Request edit access
++5
+ 
+ 
+Share
+Ask Gemini
+FileEditViewToolsHelpAccessibility
+Document tabs
+ 
+Tab 1
+A10_CAT-014
+🎬Video Explanation: B13 A10 LegalEase Assignment Requirement Video.mp4
+Project Overview and Discussion
+Project Theme:
+Why should we develop the project?
+How does the system work?
+Ensure the Following things to get 100% mark ( No mark will contain)
+Deployment Guideline
+Layout & Page Structure
+1. Navbar Requirements
+2. Banner Section
+3. Footer Requirements
+Authentication System
+Registration Requirements
+Login Requirements
+Main Pages
+Home Page
+Browse Lawyers Page
+Lawyer Details Page
+Dashboard Layout:
+Dashboard for User (Role: user)
+Dashboard for Lawyer (Role: lawyer)
+Dashboard for Admin (Role: admin)
+Other Requirements
+Additional
+Loading Page
+Error Page
+Dashboard UI Requirements:
+Challenge Requirement Guideline
+1. Comment System on Lawyers
+2. Search & Filtering
+3. Pagination
+4. Payment Feature
+5. JWT or Token Verification
+What to Submit
+Optional Requirement Guideline
+Banner hidden 
+Copied selection to clipboard
+Copied selection to clipboard
+Copied selection to clipboard
+Copied selection to clipboard
+Copied selection to clipboard
+
+--- CUSTOM LINES ---
+
+
+
+--- SCREEN READER TEXT ---
+

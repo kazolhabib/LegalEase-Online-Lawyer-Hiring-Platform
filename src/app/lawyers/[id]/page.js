@@ -387,17 +387,26 @@ export default function LawyerDetailsPage({ params }) {
           <div className="pt-[1rem]">
             {user ? (
               user.role === 'user' ? (
-                <button
-                  onClick={() => setShowHireModal(true)}
-                  className="relative px-[2.5rem] py-[0.875rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.8125rem] font-bold uppercase tracking-wider rounded-[0.75rem] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-accent/10 cursor-pointer group overflow-hidden"
-                >
-                  {/* Sliding Accent Background */}
-                  <span className="absolute inset-0 bg-accent dark:bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
-                  
-                  <span className="relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-navy">
-                    Initiate Hiring Case
-                  </span>
-                </button>
+                lawyer.status === 'Busy' ? (
+                  <button
+                    disabled
+                    className="px-[2.5rem] py-[0.875rem] bg-slate-200 dark:bg-zinc-800/40 text-slate-400 dark:text-zinc-500 text-[0.8125rem] font-bold uppercase tracking-wider rounded-[0.75rem] cursor-not-allowed opacity-60 border border-border/10"
+                  >
+                    Attorney Currently Busy
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setShowHireModal(true)}
+                    className="relative px-[2.5rem] py-[0.875rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.8125rem] font-bold uppercase tracking-wider rounded-[0.75rem] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-accent/10 cursor-pointer group overflow-hidden"
+                  >
+                    {/* Sliding Accent Background */}
+                    <span className="absolute inset-0 bg-accent dark:bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                    
+                    <span className="relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-navy">
+                      Initiate Hiring Case
+                    </span>
+                  </button>
+                )
               ) : (
                 <div className="text-[0.75rem] text-slate-400 italic">
                   Currently logged in as a {user.role}. Only clients can initiate hiring cases.

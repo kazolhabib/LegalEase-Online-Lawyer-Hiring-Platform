@@ -1,0 +1,166 @@
+﻿A10_CAT-014
+🎬Video Explanation: B13 A10 LegalEase Assignment Requirement Video.mp4
+________________
+Demo 📽 [Click]
+Project Name: LegalEase – Online Lawyer Hiring Platform
+_________________________________________________________________________________________________
+Project Overview and Discussion
+Project Theme:
+LegalEase is a digital platform that connects legal seekers, clients, and businesses with talented lawyers. The platform allows users to browse, discover, and hire legal experts. Lawyers can offer and manage their legal services after a one-time verification payment, while an admin oversees the entire system.
+Why should we develop the project?
+Traditional legal hiring is often limited to law firms or physical consultations. An online marketplace democratizes access to legal aid, enables emerging lawyers to reach global clients, and provides a secure, streamlined hiring experience. The project demonstrates advanced MERN stack concepts including role-based access, payment integration, and interactive features like comments and analytics.
+How does the system work?
+* Users (Clients) browse lawyers, view details, hire via Stripe, comment on hired professionals, and track hiring history.
+* Lawyers pay a one-time publishing fee, then upload/manage their listings. They can publish/unpublish, edit, delete, and see case/hiring history.
+* Admin manages users (role changes), all lawyer listings (publish/unpublish/delete), and all transactions.
+* Authentication uses JWT with email/password and Google login.
+* Dashboards are role-specific with CRUD operations, payment flows, and analytics.
+Ensure the Following things to get 100% mark ( No mark will contain)
+* Include at least 20 meaningful commits on the client side & 12 meaningful commits on the server side with descriptive messages.
+* Include a README file with the project name, purpose, live URL, key features, and any npm packages you have used.
+* Secure Frontend configuration keys using environment variables.
+* Secure your MongoDB credentials using the environment variable.
+* Create a design that encourages recruiters. Color contrast should please the eye & ensure that the website has proper alignment, space, and the website does not express gobindo design.
+* If we found your project similar to any project of your module / conceptual / assignment. You will get 0 and may miss the chance of any upcoming reward.
+Deployment Guideline
+If your Deployment is not okay you will get 0 and may miss the chance of our upcoming rewards.
+* Ensure that your server is working perfectly on production and not throwing any CORS / 404 / 504 Errors.
+* Ensure that your Live Link is working perfectly and that it is not showing errors on Landing in your system.
+* ensure that the page doesn't throw any error on reloading from any routes.
+* Logged in User must not redirect to Login on reloading any private route
+_________________________________________________________________________________________________
+Layout & Page Structure
+1. Navbar Requirements
+* Logo / site name (links to Home)
+* Navigation links: Home, Browse Lawyers, Dashboard (dropdown based on role), Login/Logout
+* Search bar (global search for lawyers by specialization or name)
+* Responsive mobile menu (hamburger icon)
+* Active route highlighting
+2. Banner Section
+* Beautiful hero banner featuring professional legal icons (Slider or Carousel preferred)
+3. Footer Requirements
+* Copyright information
+* Quick links (About, Contact, Privacy Policy)
+* Social media icons (dummy links)
+* Newsletter signup placeholder (frontend only)
+_________________________________________________________________________________________________
+Authentication System
+Registration Requirements
+* Users can register with email + password or Google Login (OAuth).
+* Required fields: Full Name, Email, Password, Confirm Password.
+* After registration, the option to choose a role between User (Client) and Lawyer.
+* Email must be unique.
+* Successful registration returns a JWT token and redirects to Home.
+Login Requirements
+* Login via email/password or Google.
+* For email/password: validate credentials, generate JWT (expires in 7 days).
+* Google Login: integrate BetterAuth / NextAuth to handle OAuth flow, then issue JWT.
+* Role-based redirection after login (users to Home, lawyers/admin to respective dashboards optional).
+* Logout clears token and client-side state.
+_________________________________________________________________________________________________
+Main Pages
+Home Page
+Hero Section – Large banner with tagline "Find & Hire Expert Legal Counsel" and CTA button "Browse Lawyers".
+* Dynamic Section – "Featured Lawyers" (fetch latest 6 lawyers from DB, random or by admin selection). Auto-refreshes on page reload.
+* Animation with Framer Motion – Hero text fade-in, lawyer cards staggered reveal on scroll, hover scaling effects.
+* Extra Section 1 – "Top Legal Experts" (display 3 lawyers with most hires, using avatar and name).
+* Extra Section 2 – "Legal Categories" (grid of categories: Criminal, Corporate, Family, etc., each linking to browse page with filter).
+_________________________________________________________________________________________________
+Browse Lawyers Page
+Allow users (clients, lawyers, admin, guests) to explore, search, filter, and sort all available lawyers.
+* Public Access – No login required to view the page. However, hire and comment actions require authentication.
+* Display Lawyers in Grid Layout
+* Each lawyer card shows: professional avatar, name, specialization, hourly rate, and a "Busy" badge if currently fully booked.
+* Responsive grid: 2 columns on mobile, 3 on tablet, 4 on desktop.
+* Loading & Error States
+* Skeleton cards while fetching.
+* Friendly message when no lawyers match filters.
+* Click on Lawyer Card – Navigates to Lawyer Details page.
+_________________________________________________________________________________________________
+Lawyer Details Page
+Show complete information about a single lawyer and allow authenticated actions (hire, comment).
+* Public Read-Only Preview – Anyone can view lawyer details. Hiring and comment sections require login + role/permissions.
+* Lawyer Information Display
+* High-resolution professional photo (from imgBB)
+* Name
+* Specialization/Category
+* Bio / Professional Summary
+* Consultation Fee
+* Status (Available / Busy)
+* Date Joined
+* Hire Button
+* On click: pop up a modal to confirm hiring request. 
+* Loading & Error States
+* Skeleton loader while fetching data
+_________________________________________________________________________________________________
+Dashboard Layout: 
+Route: /dashboard - Show user profile
+The dashboard will contain a Side Navbar with dashboard route links for users with specific roles. The necessary routes for users are provided below.
+Dashboard for User (Role: user)
+* Route: /dashboard/user/hiring-history 
+Hiring History – Table with lawyer name, specialisation, fee, hiring date, status - “ pending” (default), “accepted”, “rejected” will appear based on Lawyer's Action. 
+[ See further in the Lawyer's dashboard. If the lawyer accepts the hiring request, the user can pay him.  ]
+* Route: /dashboard/user/update-profile 
+Profile Management – Edit profile. There will be an “Update Profile” button on the  /dashboard page to update the users’ Full Name and Profile Picture by navigating the user to the/dashboard/user/update-profile page, showing the profile update form. 
+* Route: /dashboard/user/comments
+Comment Management – List of logged-in users’ comments on lawyer profiles will appear here. Could be in table or card-grid format. There will be “Edit” and “Delete” buttons in those table rows or cards to update or delete the comment. You may use a pop-up modal or dialogue box, or redirect the user to another page to show the edit form and handle the update or delete operation. 
+
+
+Dashboard for Lawyer (Role: lawyer)
+
+   * Route: /dashboard/lawyer/hiring-history 
+Hiring History – In this page, a table will appear with hiring requests from user, contains these columns – client name (user who sent hiring request), request date. Each row will have a button to accept or reject the hiring request from a normal user.
+   * Route: /dashboard/lawyer/manage-legal-profile
+Profile Management -> Manage Services – Table/list of own legal services, actions (edit, delete). Lawyer can change what kind of Legal service he provides, will appear in his details page. Informations such as - name, bio, fee, specialization, image upload (imgBB)
+
+
+
+
+Dashboard for Admin (Role: admin)
+
+
+      * Route: /dashboard/admin/manage-users 
+Manage Users – Appear user list in a Table. Each row will contain name, email, role, change role button &, delete user button. Make Change role and delete button functional
+      * Route: /dashboard/admin/all-transactions
+View All Transactions – Table: Each row will contain -> ttransaction ID, user/lawyer email, amount, date.
+      * Route: /dashboard/admin/analytics
+Analytics Overview – Cards: total users, total lawyers, total hires, total revenue.
+_________________________________________________________________________________________________
+Other Requirements
+         * Image Upload: Use the imgBB API for storing lawyer photos.
+         * Payment System (Stripe): for paying the hiring fee.
+         * Transaction History: For users, lawyers, and admins.
+_________________________________________________________________________________________________
+Additional
+Loading Page
+         * Global loading spinner, skeleton loaders.
+Error Page
+         * Custom 404 page, error boundary fallback, API error toasts.
+_________________________________________________________________________________________________
+Dashboard UI Requirements:
+         * Responsive design, consistent colour theme, full-width dashboard, charts.
+Challenge Requirement Guideline
+1. Comment System on Lawyers
+         * Only users who have hired can comment.
+         * API endpoint checks the hiring record.
+2. Search & Filtering
+         * In the browse lawyer page, implement search and filtering by name/specialization, fee range, and availability.
+3. Pagination
+         * 6–12 lawyers per page with navigation controls.
+4. Payment Feature
+         * When a lawyer accepts a normal user's hiring request at his dashboard page /dashboard/lawyer/hiring-history. 
+From the /dashboard/user/hiring-history page, a normal user will be able to pay the lawyer's fee by clicking the pay button on the table row or the card. 
+And after successful payment, the Pay button will be disabled and will contain the text “Paid”. 
+5. JWT or Token Verification
+            * Use JWT or any token provided by better-auth to make api calls secure and role-specific. 
+_________________________________________________________________________________________________
+What to Submit
+            * Admin Email
+            * Admin Password
+            * Links: Live link, GitHub (server & client).
+Optional Requirement Guideline
+            * Shortlist System: Add/remove lawyers to the shortlist.
+            * “Hired” Badge: Auto-badge and unpublish.
+            * Email Notification: Dummy emails for hire/publish.
+            * Dark Mode Toggle: Persistent dark mode switch.
+            *
