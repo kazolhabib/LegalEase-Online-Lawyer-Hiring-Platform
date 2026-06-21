@@ -39,8 +39,8 @@ export default function DashboardLayout({ children }) {
   ];
 
   const lawyerLinks = [
+    { name: 'Create Service Listing', path: '/dashboard/lawyer/manage-legal-profile' },
     { name: 'Hiring Requests', path: '/dashboard/lawyer/hiring-history' },
-    { name: 'Manage Legal Profile', path: '/dashboard/lawyer/manage-legal-profile' },
     { name: 'Update Profile', path: '/dashboard/user/update-profile' },
   ];
 

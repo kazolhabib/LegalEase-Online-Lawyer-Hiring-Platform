@@ -3,6 +3,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../Providers';
 
@@ -30,6 +31,8 @@ export default function LawyerManageProfilePage() {
   const [paying, setPaying] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [createdProfileId, setCreatedProfileId] = useState(null);
 
   const fetchProfile = async () => {
     if (!user) return;
@@ -62,21 +65,29 @@ export default function LawyerManageProfilePage() {
 
   // Fetch current lawyer profile if it exists
   useEffect(() => {
-    fetchProfile();
+    const profileTimer = setTimeout(() => {
+      fetchProfile();
+    }, 0);
+
+    return () => clearTimeout(profileTimer);
   }, [user]);
 
   // Handle URL payment redirect params
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const urlParams = new URLSearchParams(window.location.search);
-      const payment = urlParams.get('payment');
-      if (payment === 'success') {
-        setSuccess('Stripe verification payment successful! Welcome to LegalEase.');
-        fetchProfile();
-      } else if (payment === 'cancelled') {
-        setError('Stripe payment was cancelled. Please try again.');
+    const paymentTimer = setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const payment = urlParams.get('payment');
+        if (payment === 'success') {
+          setSuccess('Stripe verification payment successful! Welcome to LegalEase.');
+          fetchProfile();
+        } else if (payment === 'cancelled') {
+          setError('Stripe payment was cancelled. Please try again.');
+        }
       }
-    }
+    }, 0);
+
+    return () => clearTimeout(paymentTimer);
   }, []);
 
   // imgBB Image Upload handler
@@ -207,10 +218,9 @@ export default function LawyerManageProfilePage() {
       const data = await res.json();
       if (res.ok) {
         setProfileId(data._id);
-        setSuccess('Legal profile configured successfully!');
-        setTimeout(() => {
-          router.push('/dashboard');
-        }, 1500);
+        setCreatedProfileId(data._id);
+        setShowSuccessModal(true);
+        setSuccess('');
       } else {
         setError(data.msg || 'Failed to submit profile.');
       }
@@ -266,8 +276,8 @@ export default function LawyerManageProfilePage() {
     <div className="space-y-[2rem]">
       {/* Header */}
       <div className="border-b border-border/10 pb-[1rem]">
-        <h2 className="font-serif text-[1.75rem] font-bold text-primary dark:text-foreground">Manage Legal Profile</h2>
-        <p className="text-[0.75rem] text-slate-500">Configure the legal services you provide on the platform.</p>
+        <h2 className="font-serif text-[1.75rem] font-bold text-primary dark:text-foreground">Create Service Listing</h2>
+        <p className="text-[0.75rem] text-slate-500">Create and publish the attorney service profile clients will see on the Browse Lawyers page.</p>
       </div>
 
       {success && (
@@ -292,10 +302,10 @@ export default function LawyerManageProfilePage() {
           
           <div className="space-y-[0.75rem]">
             <h3 className="font-serif text-[1.5rem] font-bold text-primary dark:text-foreground">
-              Verify Your Legal Profile
+              Verify Before Publishing Your Listing
             </h3>
             <p className="text-[0.8125rem] text-slate-500 leading-relaxed">
-              To list your legal practice, accept cases, and consult clients on LegalEase, we require a one-time platform verification. This fee covers credential checking, bar vetting, and secure escrow registration.
+              To publish your services, accept cases, and consult clients on LegalEase, complete the one-time platform verification first. After verification, you can add your practice area, fee, image, and professional bio.
             </p>
           </div>
 
@@ -495,6 +505,42 @@ export default function LawyerManageProfilePage() {
           )}
 
         </form>
+      )}
+
+      {showSuccessModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center px-[1rem] bg-black/70 backdrop-blur-sm">
+          <div className="w-full max-w-[30rem] rounded-[1.5rem] border border-accent/20 bg-card dark:bg-zinc-950 p-[2rem] text-center shadow-[0_2rem_5rem_rgba(0,0,0,0.35)]">
+            <div className="mx-auto mb-[1.25rem] flex h-[4rem] w-[4rem] items-center justify-center rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-500">
+              <svg className="h-[2rem] w-[2rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75 10.5 18.75 19.5 5.25" />
+              </svg>
+            </div>
+
+            <span className="text-[0.625rem] uppercase tracking-[0.25em] text-accent font-extrabold">Listing Published</span>
+            <h3 className="mt-[0.5rem] font-serif text-[2rem] font-bold text-primary dark:text-foreground">
+              Service profile created successfully
+            </h3>
+            <p className="mt-[0.75rem] text-[0.8125rem] leading-relaxed text-slate-500">
+              Your attorney service listing is ready for clients to discover on the Browse Lawyers page.
+            </p>
+
+            <div className="mt-[1.75rem] grid grid-cols-1 sm:grid-cols-2 gap-[0.75rem]">
+              <button
+                type="button"
+                onClick={() => setShowSuccessModal(false)}
+                className="rounded-[0.75rem] border border-border px-[1rem] py-[0.75rem] text-[0.75rem] font-bold text-foreground hover:bg-foreground/5 transition-all cursor-pointer"
+              >
+                Keep Editing
+              </button>
+              <Link
+                href={`/browse?highlight=${createdProfileId || profileId}`}
+                className="rounded-[0.75rem] bg-primary px-[1rem] py-[0.75rem] text-[0.75rem] font-bold text-white hover:scale-[1.01] transition-all dark:bg-accent dark:text-navy"
+              >
+                View Your Service Profile
+              </Link>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -130,7 +130,11 @@ export default function RegisterPage() {
     setSubmitting(true);
     try {
       await updateRole(selectedRole);
-      router.push('/');
+      if (selectedRole === 'lawyer') {
+        router.push('/dashboard/lawyer/manage-legal-profile');
+      } else {
+        router.push('/');
+      }
     } catch (err) {
       setError(err.message || 'Failed to assign role.');
     } finally {

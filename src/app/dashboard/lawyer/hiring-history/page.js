@@ -3,6 +3,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
 
@@ -11,6 +12,7 @@ export default function LawyerHiringHistoryPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [needsProfile, setNeedsProfile] = useState(false);
   const [processingId, setProcessingId] = useState(null);
 
   const statusClassName = (status) => (
@@ -89,6 +91,8 @@ export default function LawyerHiringHistoryPage() {
 
   const fetchRequests = async () => {
     setLoading(true);
+    setError('');
+    setNeedsProfile(false);
     try {
       const token = localStorage.getItem('token');
       const res = await fetch(`${API_URL}/hires/lawyer`, {
@@ -100,7 +104,14 @@ export default function LawyerHiringHistoryPage() {
         const data = await res.json();
         setRequests(data);
       } else {
-        setError('Failed to fetch your consultation requests.');
+        const data = await res.json().catch(() => ({}));
+        const message = data.msg || data.message || '';
+        if (res.status === 404 || /profile|lawyer|listing|not found/i.test(message)) {
+          setNeedsProfile(true);
+          setRequests([]);
+        } else {
+          setError(message || 'Failed to fetch your consultation requests.');
+        }
       }
     } catch (err) {
       console.error('Failed to load lawyer hires:', err);
@@ -172,6 +183,40 @@ export default function LawyerHiringHistoryPage() {
           {[1, 2, 3].map((n) => (
             <div key={n} className="h-[3.5rem] bg-slate-200 dark:bg-zinc-800 animate-pulse rounded-[0.5rem]" />
           ))}
+        </div>
+      ) : needsProfile ? (
+        <div className="max-w-[40rem] rounded-[1.25rem] border border-accent/20 bg-accent/[0.06] p-[1.5rem] sm:p-[2rem] space-y-[1.25rem]">
+          <div className="flex items-start gap-[1rem]">
+            <div className="h-[3rem] w-[3rem] rounded-[0.875rem] bg-accent/10 border border-accent/20 text-accent flex items-center justify-center shrink-0">
+              <svg className="h-[1.5rem] w-[1.5rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m6-6H6" />
+              </svg>
+            </div>
+            <div className="space-y-[0.5rem]">
+              <h3 className="font-serif text-[1.5rem] font-bold text-primary dark:text-foreground">
+                Create your public service listing first
+              </h3>
+              <p className="text-[0.8125rem] text-slate-500 leading-relaxed">
+                Clients can hire you only after your attorney profile is configured and published. Add your practice area, hourly fee, professional bio, and profile image so your service appears on the Browse Lawyers page.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-[0.75rem] text-[0.6875rem]">
+            {['Verify profile', 'Add service details', 'Publish listing'].map((step, index) => (
+              <div key={step} className="rounded-[0.75rem] border border-border/40 bg-background/30 p-[0.875rem]">
+                <span className="font-serif italic text-accent/70">0{index + 1}.</span>
+                <p className="mt-[0.25rem] font-bold text-foreground">{step}</p>
+              </div>
+            ))}
+          </div>
+
+          <Link
+            href="/dashboard/lawyer/manage-legal-profile"
+            className="inline-flex items-center justify-center rounded-[0.75rem] bg-primary px-[1.25rem] py-[0.75rem] text-[0.75rem] font-bold text-white transition-all hover:scale-[1.01] dark:bg-accent dark:text-navy"
+          >
+            Create Service Listing
+          </Link>
         </div>
       ) : requests.length === 0 ? (
         <div className="text-left text-slate-400 text-[0.8125rem] italic py-[2rem]">

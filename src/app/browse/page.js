@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -25,6 +25,8 @@ const getLawyerImage = (lawyer) => lawyer.image || getFallbackLawyerImage(lawyer
 
 function BrowseLawyersContent() {
   const searchParams = useSearchParams();
+  const highlightedLawyerId = searchParams.get('highlight');
+  const highlightedCardRef = useRef(null);
 
   // Search & Filter States
   const [search, setSearch] = useState('');
@@ -149,6 +151,19 @@ function BrowseLawyersContent() {
 
     return () => clearTimeout(fetchTimer);
   }, [filtersReady, specialization, status, sort]);
+
+  useEffect(() => {
+    if (!highlightedLawyerId || loading) return;
+
+    const highlightTimer = setTimeout(() => {
+      highlightedCardRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }, 250);
+
+    return () => clearTimeout(highlightTimer);
+  }, [highlightedLawyerId, loading, lawyers]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -338,14 +353,22 @@ function BrowseLawyersContent() {
               }}
               className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-[2.5rem] gap-y-[3.5rem]"
             >
-              {lawyers.map((lawyer) => (
+              {lawyers.map((lawyer) => {
+                const isHighlighted = highlightedLawyerId === lawyer._id;
+
+                return (
                 <motion.div
                   key={lawyer._id}
+                  ref={isHighlighted ? highlightedCardRef : null}
                   variants={{
                     hidden: { opacity: 0, y: 15 },
                     visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
                   }}
-                  className="group flex flex-col"
+                  className={`group flex flex-col rounded-[1.25rem] transition-all duration-500 ${
+                    isHighlighted
+                      ? 'ring-[0.1875rem] ring-accent shadow-[0_0_0_0.5rem_rgba(169,132,76,0.12),0_1.5rem_4rem_rgba(169,132,76,0.18)] p-[0.75rem] bg-accent/[0.04]'
+                      : ''
+                  }`}
                 >
                   <div className="relative aspect-[3/4] overflow-hidden bg-slate-100 dark:bg-zinc-900 mb-[1rem]">
                     <img
@@ -411,7 +434,8 @@ function BrowseLawyersContent() {
                     </div>
                   </div>
                 </motion.div>
-              ))}
+                );
+              })}
             </motion.div>
           )}
 

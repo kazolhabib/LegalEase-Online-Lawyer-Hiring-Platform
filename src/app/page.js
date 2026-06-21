@@ -383,7 +383,7 @@ export default function Home() {
             <motion.div 
               animate={{ y: -10 }}
               transition={{ duration: 1.2, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1] }}
-              className="absolute bottom-[4rem] left-[-3rem] lg:left-[-5rem] xl:left-[-8rem] backdrop-blur-2xl bg-card/90 dark:bg-zinc-900/75 border border-border/40 dark:border-white/[0.08] p-[1rem] xl:p-[1.25rem] rounded-[1.25rem] shadow-[0_1rem_3rem_rgba(0,0,0,0.08)] dark:shadow-[0_1rem_3rem_rgba(0,0,0,0.5)] max-w-[13rem] xl:max-w-[14.5rem] space-y-[0.75rem] text-left will-change-transform"
+              className="absolute bottom-[4rem] left-[-1rem] lg:left-[-2.5rem] xl:left-[-4.75rem] backdrop-blur-2xl bg-card/90 dark:bg-zinc-900/75 border border-border/40 dark:border-white/[0.08] p-[1rem] xl:p-[1.25rem] rounded-[1.25rem] shadow-[0_1rem_3rem_rgba(0,0,0,0.08)] dark:shadow-[0_1rem_3rem_rgba(0,0,0,0.5)] max-w-[13rem] xl:max-w-[14.5rem] space-y-[0.75rem] text-left will-change-transform"
             >
               <div className="flex items-center gap-[0.75rem]">
                 <div className="relative flex-shrink-0">

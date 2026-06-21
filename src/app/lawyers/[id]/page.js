@@ -173,7 +173,36 @@ export default function LawyerDetailsPage({ params }) {
   const [rating, setRating] = useState(5);
   const [reviewText, setReviewText] = useState('');
   const [reviewError, setReviewError] = useState('');
+  const [reviewSuccess, setReviewSuccess] = useState('');
   const [submittingReview, setSubmittingReview] = useState(false);
+  const [editingComment, setEditingComment] = useState(null);
+  const [editRating, setEditRating] = useState(5);
+  const [editText, setEditText] = useState('');
+  const [updatingReview, setUpdatingReview] = useState(false);
+
+  const refreshLawyerStats = async () => {
+    const profileRes = await fetch(`${API_URL}/lawyers/${id}`);
+    if (profileRes.ok) {
+      const profileData = await profileRes.json();
+      setLawyer(profileData);
+    }
+  };
+
+  const isOwnComment = (comment) => {
+    const clientId = typeof comment.client === 'string'
+      ? comment.client
+      : comment.client?._id || comment.client?.id;
+    const userId = user?.id || user?._id;
+    return Boolean(userId && clientId && String(clientId) === String(userId));
+  };
+
+  const startEditComment = (comment) => {
+    setEditingComment(comment);
+    setEditRating(comment.rating);
+    setEditText(comment.text);
+    setReviewError('');
+    setReviewSuccess('');
+  };
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -289,12 +318,9 @@ export default function LawyerDetailsPage({ params }) {
         setComments([data, ...comments]);
         setReviewText('');
         setRating(5);
+        setReviewSuccess('Feedback published successfully.');
         // Refresh lawyer stats rating
-        const profileRes = await fetch(`${API_URL}/lawyers/${id}`);
-        if (profileRes.ok) {
-          const profileData = await profileRes.json();
-          setLawyer(profileData);
-        }
+        await refreshLawyerStats();
       } else {
         setReviewError(data.msg || 'Failed to submit review. You must have a completed, paid booking with this lawyer to review.');
       }
@@ -303,6 +329,77 @@ export default function LawyerDetailsPage({ params }) {
       setReviewError('Server error submitting review. Please try again later.');
     } finally {
       setSubmittingReview(false);
+    }
+  };
+
+  const handleDeleteReview = async (commentId) => {
+    if (!window.confirm('Are you sure you want to permanently delete this review?')) {
+      return;
+    }
+    setReviewError('');
+    setReviewSuccess('');
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_URL}/comments/${commentId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (res.ok) {
+        setComments(comments.filter(comment => comment._id !== commentId));
+        setReviewSuccess('Review removed successfully.');
+        await refreshLawyerStats();
+      } else {
+        const data = await res.json();
+        setReviewError(data.msg || 'Failed to delete review.');
+      }
+    } catch (err) {
+      console.error('Delete review error:', err);
+      setReviewError('Server error deleting review.');
+    }
+  };
+
+  const handleEditReviewSubmit = async (e) => {
+    e.preventDefault();
+    if (!editText.trim()) {
+      setReviewError('Review comment text cannot be blank.');
+      return;
+    }
+    setUpdatingReview(true);
+    setReviewError('');
+    setReviewSuccess('');
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_URL}/comments/${editingComment._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          rating: editRating,
+          text: editText
+        })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setComments(comments.map(comment => (
+          comment._id === editingComment._id
+            ? { ...comment, rating: editRating, text: editText }
+            : comment
+        )));
+        setEditingComment(null);
+        setReviewSuccess('Review updated successfully.');
+        await refreshLawyerStats();
+      } else {
+        setReviewError(data.msg || 'Failed to update review.');
+      }
+    } catch (err) {
+      console.error('Update review error:', err);
+      setReviewError('Server error updating review.');
+    } finally {
+      setUpdatingReview(false);
     }
   };
 
@@ -446,7 +543,7 @@ export default function LawyerDetailsPage({ params }) {
             <div className="space-y-[1.75rem]">
               {comments.map((comment) => (
                 <div key={comment._id} className="pb-[1.5rem] border-b border-border/10 space-y-[0.75rem]">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-start justify-between gap-[1rem]">
                     <div className="flex items-center gap-[0.75rem]">
                       {comment.client?.avatar && !comment.client.avatar.includes('unsplash.com/photo-1535713875002-d1d0cf377fde') ? (
                         <img
@@ -468,8 +565,28 @@ export default function LawyerDetailsPage({ params }) {
                         </p>
                       </div>
                     </div>
-                    <div className="text-amber-500 text-[0.8125rem] font-bold">
-                      {'★'.repeat(comment.rating)}{'☆'.repeat(5 - comment.rating)}
+                    <div className="flex-shrink-0 text-right space-y-[0.5rem]">
+                      <div className="text-amber-500 text-[0.8125rem] font-bold">
+                        {'★'.repeat(comment.rating)}{'☆'.repeat(5 - comment.rating)}
+                      </div>
+                      {isOwnComment(comment) && (
+                        <div className="flex justify-end gap-[0.5rem]">
+                          <button
+                            type="button"
+                            onClick={() => startEditComment(comment)}
+                            className="px-[0.65rem] py-[0.3rem] text-[0.5625rem] font-extrabold uppercase tracking-wider text-accent border border-accent/25 rounded-full hover:bg-accent hover:text-navy transition-all cursor-pointer"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteReview(comment._id)}
+                            className="px-[0.65rem] py-[0.3rem] text-[0.5625rem] font-extrabold uppercase tracking-wider text-rose-500 border border-rose-500/25 rounded-full hover:bg-rose-500 hover:text-white transition-all cursor-pointer"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <p className="text-[0.8125rem] text-slate-500 dark:text-slate-400 leading-relaxed pl-[2.75rem]">
@@ -493,6 +610,12 @@ export default function LawyerDetailsPage({ params }) {
                 {reviewError && (
                   <div className="p-[0.75rem] text-[0.6875rem] bg-rose-500/10 text-rose-500 rounded-[0.5rem] text-center font-medium">
                     {reviewError}
+                  </div>
+                )}
+
+                {reviewSuccess && (
+                  <div className="p-[0.75rem] text-[0.6875rem] bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded-[0.5rem] text-center font-medium">
+                    {reviewSuccess}
                   </div>
                 )}
 
@@ -559,6 +682,89 @@ export default function LawyerDetailsPage({ params }) {
           )}
         </div>
       </div>
+
+      {/* Edit Review Modal */}
+      {editingComment && (
+        <div className="fixed inset-[0rem] z-[110] flex items-center justify-center bg-black/70 backdrop-blur-sm px-[1rem]">
+          <form
+            onSubmit={handleEditReviewSubmit}
+            className="w-full max-w-[30rem] rounded-[1.25rem] border border-border/80 bg-background shadow-[0_1.5rem_3.5rem_rgba(0,0,0,0.35)] overflow-hidden"
+          >
+            <div className="px-[1.5rem] py-[1.25rem] border-b border-border/50 flex items-center justify-between">
+              <div>
+                <p className="text-[0.5625rem] uppercase tracking-[0.18em] text-accent font-extrabold">Client Feedback</p>
+                <h3 className="font-serif font-bold text-[1.25rem] text-primary dark:text-foreground">
+                  Edit Your Review
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingComment(null)}
+                className="text-slate-400 hover:text-foreground text-[0.875rem] font-bold p-1 rounded-full hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+              >
+                x
+              </button>
+            </div>
+
+            <div className="p-[1.5rem] space-y-[1rem]">
+              {reviewError && (
+                <div className="p-[0.75rem] text-[0.6875rem] bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded-[0.5rem] text-center font-medium">
+                  {reviewError}
+                </div>
+              )}
+
+              <div className="space-y-[0.375rem]">
+                <label className="text-[0.5625rem] uppercase tracking-wider font-extrabold text-slate-500">Service Rating</label>
+                <div className="flex gap-[0.25rem]">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setEditRating(star)}
+                      className="text-[1.65rem] focus:outline-none cursor-pointer transition-transform active:scale-95"
+                    >
+                      <span className={star <= editRating ? 'text-amber-500' : 'text-slate-300 dark:text-zinc-700'}>
+                        ★
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-[0.375rem]">
+                <label className="text-[0.5625rem] uppercase tracking-wider font-extrabold text-slate-500">Review Comments</label>
+                <textarea
+                  rows={5}
+                  value={editText}
+                  onChange={(e) => setEditText(e.target.value)}
+                  required
+                  className="w-full px-[0.875rem] py-[0.75rem] text-[0.8125rem] rounded-[0.75rem] border border-border bg-background focus:outline-none focus:ring-[0.0625rem] focus:ring-accent focus:border-accent resize-none"
+                />
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-[0.75rem] pt-[0.25rem]">
+                <button
+                  type="button"
+                  onClick={() => setEditingComment(null)}
+                  className="flex-1 py-[0.65rem] border border-border text-foreground text-[0.75rem] font-bold rounded-[0.5rem] hover:bg-foreground/5 transition-all cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={updatingReview}
+                  className="relative flex-1 py-[0.65rem] bg-primary text-white dark:bg-accent dark:text-navy text-[0.75rem] font-bold rounded-[0.5rem] hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer disabled:opacity-50 group overflow-hidden disabled:pointer-events-none"
+                >
+                  <span className="absolute inset-0 bg-accent dark:bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500" />
+                  <span className="relative z-10 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-navy">
+                    {updatingReview ? 'Saving...' : 'Save Review'}
+                  </span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* Confirmation Hiring Modal */}
       {showHireModal && (
