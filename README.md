@@ -2,7 +2,9 @@
 
 **LegalEase** is a full-stack digital marketplace that connects clients and businesses with verified legal professionals. Users can browse, discover, and hire lawyers across multiple specializations, while lawyers can manage their services and track inbound cases. An admin dashboard provides complete oversight of users, transactions, and platform analytics.
 
- **Live URL:** [https://legalease-online-lawyer-hiring.vercel.app](https://legalease-online-lawyer-hiring.vercel.app)
+**Live Frontend:** [https://legalease-lawyer-hiring-platform.netlify.app/](https://legalease-lawyer-hiring-platform.netlify.app/)
+
+**Live Backend:** [https://legalease-online-lawyer-hiring-platform.onrender.com/](https://legalease-online-lawyer-hiring-platform.onrender.com/)
 
 ---
 
@@ -71,6 +73,12 @@ Create a `.env.local` file:
 NEXT_PUBLIC_API_URL=http://localhost:5001/api
 ```
 
+For the deployed Render backend, use:
+
+```env
+NEXT_PUBLIC_API_URL=https://legalease-online-lawyer-hiring-platform.onrender.com/api
+```
+
 Run the development server:
 
 ```bash
@@ -103,6 +111,8 @@ npm run dev
 
 ## Links
 
+- **Live Frontend:** [Netlify Deployment](https://legalease-lawyer-hiring-platform.netlify.app/)
+- **Live Backend:** [Render Deployment](https://legalease-online-lawyer-hiring-platform.onrender.com/)
 - **Client Repository:** [GitHub – Client](https://github.com/kazolhabib/LegalEase-Online-Lawyer-Hiring-Platform)
 - **Server Repository:** [GitHub – Server](https://github.com/kazolhabib/LegalEase-Online-Lawyer-Hiring-Platform-Server)
 
