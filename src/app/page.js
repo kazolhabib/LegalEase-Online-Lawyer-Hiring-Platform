@@ -409,7 +409,7 @@ export default function Home() {
             <motion.div 
               animate={{ y: -8 }}
               transition={{ duration: 1, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.2 }}
-              className="absolute top-[4rem] right-[0.75rem] lg:right-[-0.75rem] xl:right-[0.75rem] 2xl:right-[-5.5rem] backdrop-blur-xl bg-emerald-500/[0.08] dark:bg-emerald-500/[0.05] border border-emerald-500/20 px-[0.875rem] xl:px-[1rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(16,185,129,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
+              className="absolute top-[4rem] right-[0.75rem] lg:right-[1rem] xl:right-[1rem] backdrop-blur-xl bg-emerald-500/[0.08] dark:bg-emerald-500/[0.05] border border-emerald-500/20 px-[0.875rem] xl:px-[1rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(16,185,129,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
             >
               <span className="relative flex h-[0.5rem] w-[0.5rem]">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -425,7 +425,7 @@ export default function Home() {
             <motion.div 
               animate={{ y: 10 }}
               transition={{ duration: 1.1, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.35 }}
-              className="absolute bottom-[9rem] right-[0.5rem] lg:right-[-1rem] xl:right-[1rem] 2xl:right-[-6.5rem] backdrop-blur-xl bg-accent/[0.08] dark:bg-accent/[0.05] border border-accent/20 px-[1rem] xl:px-[1.125rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(169,132,76,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
+              className="absolute bottom-[9rem] right-[0.5rem] lg:right-[1rem] xl:right-[1rem] backdrop-blur-xl bg-accent/[0.08] dark:bg-accent/[0.05] border border-accent/20 px-[1rem] xl:px-[1.125rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(169,132,76,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
             >
               <svg className="w-[0.875rem] h-[0.875rem] text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
