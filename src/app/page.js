@@ -219,13 +219,13 @@ export default function Home() {
         <div className="absolute top-[-5rem] left-[15%] w-[35rem] h-[35rem] bg-accent/5 dark:bg-accent/[0.03] rounded-full blur-[10rem] pointer-events-none -z-10" />
         <div className="absolute bottom-[2rem] right-[5%] w-[30rem] h-[30rem] bg-accent/5 dark:bg-accent/[0.02] rounded-full blur-[9rem] pointer-events-none -z-10" />
 
-        <div className="editorial-container flex flex-col md:flex-row items-center justify-between gap-[3rem] md:gap-[4rem]">
+        <div className="editorial-container flex flex-col lg:flex-row items-center justify-between gap-[3rem] md:gap-[4rem] lg:gap-[3rem] xl:gap-[4rem]">
           {/* Content */}
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65 }}
-            className="max-w-[42rem] space-y-[1.75rem] text-left"
+            className="w-full max-w-[42rem] space-y-[1.75rem] text-left"
           >
             <span className="text-[0.6875rem] uppercase tracking-[0.25em] text-accent font-extrabold block">
               The Premier Legal Marketplace
@@ -294,19 +294,19 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.95, x: 15 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 0.75, ease: "easeOut" }}
-            className="hidden md:flex flex-shrink-0 justify-center items-center relative py-[2rem]"
+            className="hidden md:flex flex-shrink-0 justify-center items-center relative py-[2rem] md:w-full md:max-w-[38rem] lg:w-[31rem] lg:max-w-none xl:w-[37rem] 2xl:w-[41rem] md:mr-[0rem] lg:mr-[1.75rem] xl:mr-[0rem]"
           >
             {/* Ambient glow behind the image */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
-              <div className="w-[32rem] h-[32rem] bg-accent/[0.06] dark:bg-accent/[0.04] rounded-full blur-[6rem]" />
+              <div className="w-[24rem] h-[24rem] lg:w-[28rem] lg:h-[28rem] xl:w-[32rem] xl:h-[32rem] bg-accent/[0.06] dark:bg-accent/[0.04] rounded-full blur-[6rem]" />
             </div>
 
             {/* Rotating golden orbit ring */}
             <div className="absolute inset-[-2rem] flex items-center justify-center pointer-events-none">
-              <div className="w-[30rem] h-[36rem] rounded-[50%] border border-accent/[0.12] dark:border-accent/[0.08] animate-[spin_45s_linear_infinite]" />
+              <div className="w-[24rem] h-[30rem] lg:w-[27rem] lg:h-[33rem] xl:w-[30rem] xl:h-[36rem] rounded-[50%] border border-accent/[0.12] dark:border-accent/[0.08] animate-[spin_45s_linear_infinite]" />
             </div>
             <div className="absolute inset-[-1rem] flex items-center justify-center pointer-events-none">
-              <div className="w-[28rem] h-[34rem] rounded-[50%] border border-dashed border-accent/[0.08] dark:border-accent/[0.05] animate-[spin_60s_linear_infinite_reverse]" />
+              <div className="w-[22rem] h-[28rem] lg:w-[25rem] lg:h-[31rem] xl:w-[28rem] xl:h-[34rem] rounded-[50%] border border-dashed border-accent/[0.08] dark:border-accent/[0.05] animate-[spin_60s_linear_infinite_reverse]" />
             </div>
 
             {/* Decorative corner accents */}
@@ -318,7 +318,7 @@ export default function Home() {
               {/* Outer golden gradient border frame */}
               <div className="absolute inset-[-0.1875rem] rounded-t-[13rem] rounded-b-[2.75rem] bg-gradient-to-br from-accent/40 via-accent/15 to-accent/40 dark:from-accent/30 dark:via-accent/10 dark:to-accent/30 blur-[0.0625rem]" />
               
-              <div className="relative w-[26rem] h-[32rem] rounded-t-[13rem] rounded-b-[2.75rem] overflow-hidden border border-accent/25 dark:border-accent/15 shadow-[0_2rem_5rem_rgba(169,132,76,0.1),0_0_0_0.0625rem_rgba(169,132,76,0.08)] dark:shadow-[0_2rem_5rem_rgba(0,0,0,0.6),0_0_0_0.0625rem_rgba(169,132,76,0.05)]">
+              <div className="relative w-[22rem] h-[28rem] lg:w-[23.5rem] lg:h-[29.5rem] xl:w-[26rem] xl:h-[32rem] rounded-t-[11rem] lg:rounded-t-[12rem] xl:rounded-t-[13rem] rounded-b-[2.25rem] xl:rounded-b-[2.75rem] overflow-hidden border border-accent/25 dark:border-accent/15 shadow-[0_2rem_5rem_rgba(169,132,76,0.1),0_0_0_0.0625rem_rgba(169,132,76,0.08)] dark:shadow-[0_2rem_5rem_rgba(0,0,0,0.6),0_0_0_0.0625rem_rgba(169,132,76,0.05)]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentSlide}
@@ -344,7 +344,7 @@ export default function Home() {
                 </AnimatePresence>
                 
                 {/* Inner vignette ring */}
-                <div className="absolute inset-0 shadow-[inset_0_0_4rem_rgba(0,0,0,0.15)] dark:shadow-[inset_0_0_4rem_rgba(0,0,0,0.4)] rounded-t-[13rem] rounded-b-[2.75rem] pointer-events-none" />
+                <div className="absolute inset-0 shadow-[inset_0_0_4rem_rgba(0,0,0,0.15)] dark:shadow-[inset_0_0_4rem_rgba(0,0,0,0.4)] rounded-t-[11rem] lg:rounded-t-[12rem] xl:rounded-t-[13rem] rounded-b-[2.25rem] xl:rounded-b-[2.75rem] pointer-events-none" />
               </div>
               
               {/* Slide indicators */}
@@ -366,7 +366,7 @@ export default function Home() {
             <motion.div 
               animate={{ y: -10 }}
               transition={{ duration: 0.9, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1] }}
-              className="absolute top-[2rem] right-[-0.75rem] w-[0.5rem] h-[0.5rem] rounded-full bg-accent/40 shadow-[0_0_0.75rem_rgba(169,132,76,0.3)] will-change-transform"
+              className="absolute top-[2rem] right-[1rem] xl:right-[-0.75rem] w-[0.5rem] h-[0.5rem] rounded-full bg-accent/40 shadow-[0_0_0.75rem_rgba(169,132,76,0.3)] will-change-transform"
             />
             <motion.div 
               animate={{ y: 12 }}
@@ -376,14 +376,14 @@ export default function Home() {
             <motion.div 
               animate={{ y: -8 }}
               transition={{ duration: 0.8, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.3 }}
-              className="absolute top-[10rem] right-[-1.25rem] w-[0.25rem] h-[0.25rem] rounded-full bg-accent/50 will-change-transform"
+              className="absolute top-[10rem] right-[0.5rem] xl:right-[-1.25rem] w-[0.25rem] h-[0.25rem] rounded-full bg-accent/50 will-change-transform"
             />
 
             {/* Overlapping glass card: Active Lawyer Profile */}
             <motion.div 
               animate={{ y: -10 }}
               transition={{ duration: 1.2, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1] }}
-              className="absolute bottom-[4rem] left-[-8rem] backdrop-blur-2xl bg-card/90 dark:bg-zinc-900/75 border border-border/40 dark:border-white/[0.08] p-[1.25rem] rounded-[1.25rem] shadow-[0_1rem_3rem_rgba(0,0,0,0.08)] dark:shadow-[0_1rem_3rem_rgba(0,0,0,0.5)] max-w-[14.5rem] space-y-[0.75rem] text-left will-change-transform"
+              className="absolute bottom-[4rem] left-[-3rem] lg:left-[-5rem] xl:left-[-8rem] backdrop-blur-2xl bg-card/90 dark:bg-zinc-900/75 border border-border/40 dark:border-white/[0.08] p-[1rem] xl:p-[1.25rem] rounded-[1.25rem] shadow-[0_1rem_3rem_rgba(0,0,0,0.08)] dark:shadow-[0_1rem_3rem_rgba(0,0,0,0.5)] max-w-[13rem] xl:max-w-[14.5rem] space-y-[0.75rem] text-left will-change-transform"
             >
               <div className="flex items-center gap-[0.75rem]">
                 <div className="relative flex-shrink-0">
@@ -409,14 +409,15 @@ export default function Home() {
             <motion.div 
               animate={{ y: -8 }}
               transition={{ duration: 1, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.2 }}
-              className="absolute top-[4rem] right-[-5.5rem] backdrop-blur-xl bg-emerald-500/[0.08] dark:bg-emerald-500/[0.05] border border-emerald-500/20 px-[1rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(16,185,129,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
+              className="absolute top-[4rem] right-[0.75rem] lg:right-[-0.75rem] xl:right-[0.75rem] 2xl:right-[-5.5rem] backdrop-blur-xl bg-emerald-500/[0.08] dark:bg-emerald-500/[0.05] border border-emerald-500/20 px-[0.875rem] xl:px-[1rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(16,185,129,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
             >
               <span className="relative flex h-[0.5rem] w-[0.5rem]">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-[0.5rem] w-[0.5rem] bg-emerald-500" />
               </span>
               <span className="text-[0.6875rem] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
-                148 Experts Online
+                <span className="hidden lg:inline">148 Experts Online</span>
+                <span className="lg:hidden">Online</span>
               </span>
             </motion.div>
 
@@ -424,7 +425,7 @@ export default function Home() {
             <motion.div 
               animate={{ y: 10 }}
               transition={{ duration: 1.1, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.35 }}
-              className="absolute bottom-[9rem] right-[-6.5rem] backdrop-blur-xl bg-accent/[0.08] dark:bg-accent/[0.05] border border-accent/20 px-[1.125rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(169,132,76,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
+              className="absolute bottom-[9rem] right-[0.5rem] lg:right-[-1rem] xl:right-[1rem] 2xl:right-[-6.5rem] backdrop-blur-xl bg-accent/[0.08] dark:bg-accent/[0.05] border border-accent/20 px-[1rem] xl:px-[1.125rem] py-[0.5rem] rounded-full shadow-[0_0.5rem_1.5rem_rgba(169,132,76,0.08)] dark:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.3)] flex items-center gap-[0.5rem] will-change-transform"
             >
               <svg className="w-[0.875rem] h-[0.875rem] text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
@@ -438,7 +439,7 @@ export default function Home() {
             <motion.div 
               animate={{ rotate: 8, y: -8 }}
               transition={{ duration: 1.4, repeat: Infinity, repeatType: "mirror", ease: [0.45, 0, 0.55, 1], delay: 0.5 }}
-              className="absolute top-[14rem] left-[-4.5rem] w-[2.25rem] h-[2.25rem] rounded-[0.625rem] bg-accent/[0.08] dark:bg-accent/[0.05] border border-accent/15 backdrop-blur-md flex items-center justify-center shadow-sm will-change-transform"
+              className="absolute top-[14rem] left-[-1.5rem] lg:left-[-3rem] xl:left-[-4.5rem] w-[2.25rem] h-[2.25rem] rounded-[0.625rem] bg-accent/[0.08] dark:bg-accent/[0.05] border border-accent/15 backdrop-blur-md flex items-center justify-center shadow-sm will-change-transform"
             >
               <span className="text-[0.875rem]">⚖️</span>
             </motion.div>

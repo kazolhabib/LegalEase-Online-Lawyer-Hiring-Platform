@@ -41,14 +41,19 @@ export default function UserHiringHistoryPage() {
   };
 
   useEffect(() => {
-    fetchHistory();
-    // Check for payment status in URL query
     const payment = searchParams.get('payment');
-    if (payment === 'success') {
-      setSuccessMsg('Stripe payment confirmed successfully! Your booking is locked.');
-    } else if (payment === 'cancelled') {
-      setError('Stripe payment transaction was cancelled.');
-    }
+    const historyTimer = setTimeout(() => {
+      fetchHistory();
+
+      // Check for payment status in URL query
+      if (payment === 'success') {
+        setSuccessMsg('Stripe payment confirmed successfully! Your booking is locked.');
+      } else if (payment === 'cancelled') {
+        setError('Stripe payment transaction was cancelled.');
+      }
+    }, 0);
+
+    return () => clearTimeout(historyTimer);
   }, [searchParams]);
 
   // Handle Mock Pay
@@ -114,6 +119,77 @@ export default function UserHiringHistoryPage() {
     }
   };
 
+  const getStatusClass = (status) => (
+    status === 'paid' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
+    status === 'accepted' ? 'bg-indigo-500/10 text-indigo-500 border border-indigo-500/20' :
+    status === 'rejected' ? 'bg-rose-500/10 text-rose-500 border border-rose-500/20' :
+    'bg-amber-500/10 text-amber-500 border border-amber-500/20'
+  );
+
+  const renderAttorney = (hire, compact = false) => (
+    hire.lawyer?._id ? (
+      <Link
+        href={`/lawyers/${hire.lawyer._id}`}
+        className="flex items-center gap-[0.75rem] hover:text-accent transition-colors group cursor-pointer min-w-0"
+      >
+        <img
+          src={hire.lawyer.image || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=533'}
+          alt={hire.lawyer.user?.name}
+          className={`${compact ? 'h-[3rem] w-[3rem]' : 'h-[2rem] w-[2rem]'} object-cover rounded-[0.5rem] group-hover:scale-105 transition-transform duration-350 flex-shrink-0`}
+        />
+        <span className="font-bold text-foreground group-hover:text-accent leading-tight break-words min-w-0">
+          {hire.lawyer.user?.name}
+        </span>
+      </Link>
+    ) : (
+      <div className="flex items-center gap-[0.75rem] min-w-0">
+        <img
+          src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=533"
+          alt="Deleted Advocate"
+          className={`${compact ? 'h-[3rem] w-[3rem]' : 'h-[2rem] w-[2rem]'} object-cover rounded-[0.5rem] flex-shrink-0`}
+        />
+        <span className="font-bold text-foreground/50 leading-tight">Deleted Advocate</span>
+      </div>
+    )
+  );
+
+  const renderActions = (hire, align = 'right') => (
+    <>
+      {hire.status === 'accepted' && (
+        <div className={`flex items-center ${align === 'right' ? 'justify-end' : 'justify-stretch'} gap-[0.5rem] flex-wrap`}>
+          <button
+            onClick={() => handleMockPay(hire._id)}
+            disabled={processingId !== null}
+            className="px-[0.75rem] py-[0.375rem] text-[0.625rem] font-bold bg-accent text-navy hover:scale-105 active:scale-95 transition-all uppercase tracking-wider rounded-[0.375rem] cursor-pointer disabled:opacity-50 flex-1 sm:flex-none"
+          >
+            Mock Pay
+          </button>
+          <button
+            onClick={() => handleStripePay(hire._id)}
+            disabled={processingId !== null}
+            className="px-[0.75rem] py-[0.375rem] text-[0.625rem] font-bold bg-primary text-primary-foreground hover:scale-105 active:scale-95 transition-all uppercase tracking-wider rounded-[0.375rem] cursor-pointer disabled:opacity-50 flex-1 sm:flex-none"
+          >
+            Stripe Pay
+          </button>
+        </div>
+      )}
+      {hire.status === 'paid' && (
+        <button
+          disabled
+          className="px-[1rem] py-[0.375rem] text-[0.625rem] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase tracking-wider rounded-[0.375rem] cursor-not-allowed opacity-75"
+        >
+          Paid
+        </button>
+      )}
+      {hire.status === 'pending' && (
+        <span className="text-[0.6875rem] text-slate-400 italic font-medium">Awaiting Lawyer Review</span>
+      )}
+      {hire.status === 'rejected' && (
+        <span className="text-[0.6875rem] text-rose-500/80 italic font-medium">Request Rejected</span>
+      )}
+    </>
+  );
+
   return (
     <div className="space-y-[2rem]">
       {/* Header */}
@@ -145,99 +221,81 @@ export default function UserHiringHistoryPage() {
           You have not submitted any legal hiring cases yet.
         </div>
       ) : (
-        <div className="w-full border border-border/10 rounded-[1rem] overflow-hidden bg-background/25">
-          <table className="w-full text-[0.75rem] text-left border-collapse">
+        <>
+        <div className="grid grid-cols-1 gap-[1rem] lg:hidden">
+          {hires.map((hire) => (
+            <article
+              key={hire._id}
+              className="rounded-[1rem] border border-border/40 bg-background/25 p-[1rem] space-y-[1rem] shadow-[0_0.75rem_2rem_rgba(0,0,0,0.04)]"
+            >
+              <div className="flex items-start justify-between gap-[1rem]">
+                <div className="min-w-0 flex-1">
+                  {renderAttorney(hire, true)}
+                </div>
+                <span className={`flex-shrink-0 inline-block px-[0.5rem] py-[0.1875rem] rounded-full text-[0.5625rem] font-extrabold uppercase tracking-wider ${getStatusClass(hire.status)}`}>
+                  {hire.status}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-[0.75rem] text-[0.75rem]">
+                <div className="rounded-[0.75rem] bg-foreground/[0.02] border border-border/10 p-[0.75rem]">
+                  <p className="text-[0.5625rem] uppercase tracking-wider font-extrabold text-slate-400 mb-[0.25rem]">Specialization</p>
+                  <p className="text-slate-500 font-semibold leading-tight">{hire.lawyer?.specialization || 'N/A'}</p>
+                </div>
+                <div className="rounded-[0.75rem] bg-foreground/[0.02] border border-border/10 p-[0.75rem]">
+                  <p className="text-[0.5625rem] uppercase tracking-wider font-extrabold text-slate-400 mb-[0.25rem]">Fee</p>
+                  <p className="font-extrabold text-accent">${hire.fee}</p>
+                </div>
+                <div className="col-span-2 rounded-[0.75rem] bg-foreground/[0.02] border border-border/10 p-[0.75rem]">
+                  <p className="text-[0.5625rem] uppercase tracking-wider font-extrabold text-slate-400 mb-[0.25rem]">Request Date</p>
+                  <p className="text-foreground font-semibold">{new Date(hire.dateCreated).toLocaleDateString()}</p>
+                </div>
+              </div>
+
+              <div className="pt-[0.75rem] border-t border-border/10">
+                {renderActions(hire, 'left')}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="hidden lg:block w-full border border-border/10 rounded-[1rem] overflow-hidden bg-background/25">
+          <table className="w-full text-[0.75rem] text-left border-collapse table-fixed">
             <thead>
               <tr className="bg-foreground/[0.02] border-b border-border/10 text-slate-400 font-extrabold uppercase tracking-wider text-[0.5625rem]">
-                <th className="px-[1rem] py-[1rem]">Attorney</th>
-                <th className="px-[1rem] py-[1rem]">Specialization</th>
-                <th className="px-[1rem] py-[1rem]">Fee</th>
-                <th className="px-[1rem] py-[1rem]">Request Date</th>
-                <th className="px-[1rem] py-[1rem]">Status</th>
-                <th className="px-[1rem] py-[1rem] text-right">Actions</th>
+                <th className="px-[1rem] py-[1rem] w-[26%]">Attorney</th>
+                <th className="px-[1rem] py-[1rem] w-[20%]">Specialization</th>
+                <th className="px-[1rem] py-[1rem] w-[12%]">Fee</th>
+                <th className="px-[1rem] py-[1rem] w-[16%]">Request Date</th>
+                <th className="px-[1rem] py-[1rem] w-[12%]">Status</th>
+                <th className="px-[1rem] py-[1rem] text-right w-[14%]">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/10">
               {hires.map((hire) => (
                 <tr key={hire._id} className="hover:bg-foreground/[0.01] transition-colors">
                   <td className="px-[1rem] py-[1rem]">
-                    {hire.lawyer?._id ? (
-                      <Link 
-                        href={`/lawyers/${hire.lawyer._id}`}
-                        className="flex items-center gap-[0.75rem] hover:text-accent transition-colors group cursor-pointer"
-                      >
-                        <img
-                          src={hire.lawyer.image || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=533'}
-                          alt={hire.lawyer.user?.name}
-                          className="h-[2rem] w-[2rem] object-cover rounded-[0.5rem] group-hover:scale-105 transition-transform duration-350"
-                        />
-                        <span className="font-bold text-foreground group-hover:text-accent">{hire.lawyer.user?.name}</span>
-                      </Link>
-                    ) : (
-                      <div className="flex items-center gap-[0.75rem]">
-                        <img
-                          src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=533"
-                          alt="Deleted Advocate"
-                          className="h-[2rem] w-[2rem] object-cover rounded-[0.5rem]"
-                        />
-                        <span className="font-bold text-foreground/50">Deleted Advocate</span>
-                      </div>
-                    )}
+                    {renderAttorney(hire)}
                   </td>
-                  <td className="px-[1rem] py-[1rem] text-slate-500 font-medium">{hire.lawyer?.specialization}</td>
+                  <td className="px-[1rem] py-[1rem] text-slate-500 font-medium break-words">{hire.lawyer?.specialization}</td>
                   <td className="px-[1rem] py-[1rem] font-bold text-accent">${hire.fee}</td>
                   <td className="px-[1rem] py-[1rem] text-slate-400">
                     {new Date(hire.dateCreated).toLocaleDateString()}
                   </td>
                   <td className="px-[1rem] py-[1rem]">
-                    <span className={`inline-block px-[0.5rem] py-[0.125rem] rounded-full text-[0.625rem] font-extrabold uppercase tracking-wider ${
-                      hire.status === 'paid' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
-                      hire.status === 'accepted' ? 'bg-indigo-500/10 text-indigo-500 border border-indigo-500/20' :
-                      hire.status === 'rejected' ? 'bg-rose-500/10 text-rose-500 border border-rose-500/20' :
-                      'bg-amber-500/10 text-amber-500 border border-amber-500/20'
-                    }`}>
+                    <span className={`inline-block px-[0.5rem] py-[0.125rem] rounded-full text-[0.625rem] font-extrabold uppercase tracking-wider ${getStatusClass(hire.status)}`}>
                       {hire.status}
                     </span>
                   </td>
                   <td className="px-[1rem] py-[1rem] text-right">
-                    {hire.status === 'accepted' && (
-                      <div className="flex items-center justify-end gap-[0.5rem]">
-                        <button
-                          onClick={() => handleMockPay(hire._id)}
-                          disabled={processingId !== null}
-                          className="px-[0.75rem] py-[0.375rem] text-[0.625rem] font-bold bg-accent text-navy hover:scale-105 active:scale-95 transition-all uppercase tracking-wider rounded-[0.375rem] cursor-pointer disabled:opacity-50"
-                        >
-                          Mock Pay
-                        </button>
-                        <button
-                          onClick={() => handleStripePay(hire._id)}
-                          disabled={processingId !== null}
-                          className="px-[0.75rem] py-[0.375rem] text-[0.625rem] font-bold bg-primary text-primary-foreground hover:scale-105 active:scale-95 transition-all uppercase tracking-wider rounded-[0.375rem] cursor-pointer disabled:opacity-50"
-                        >
-                          Stripe Pay
-                        </button>
-                      </div>
-                    )}
-                    {hire.status === 'paid' && (
-                      <button
-                        disabled
-                        className="px-[1rem] py-[0.375rem] text-[0.625rem] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase tracking-wider rounded-[0.375rem] cursor-not-allowed opacity-75"
-                      >
-                        Paid
-                      </button>
-                    )}
-                    {hire.status === 'pending' && (
-                      <span className="text-[0.6875rem] text-slate-400 italic font-medium">Awaiting Lawyer Review</span>
-                    )}
-                    {hire.status === 'rejected' && (
-                      <span className="text-[0.6875rem] text-rose-500/80 italic font-medium">Request Rejected</span>
-                    )}
+                    {renderActions(hire)}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        </>
       )}
     </div>
   );

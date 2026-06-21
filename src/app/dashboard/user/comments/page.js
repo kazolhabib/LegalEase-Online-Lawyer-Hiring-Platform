@@ -42,7 +42,11 @@ export default function UserCommentsPage() {
   };
 
   useEffect(() => {
-    fetchComments();
+    const commentsTimer = setTimeout(() => {
+      fetchComments();
+    }, 0);
+
+    return () => clearTimeout(commentsTimer);
   }, []);
 
   const handleDelete = async (commentId) => {
@@ -116,6 +120,29 @@ export default function UserCommentsPage() {
     }
   };
 
+  const renderRating = (rating) => (
+    <span className="text-amber-500 font-bold tracking-[0.0625rem]">
+      {'★'.repeat(rating)}{'☆'.repeat(5 - rating)}
+    </span>
+  );
+
+  const renderReviewActions = (comment, stretch = false) => (
+    <div className={`flex ${stretch ? 'gap-[0.75rem]' : 'justify-end gap-[0.5rem]'} flex-wrap`}>
+      <button
+        onClick={() => startEdit(comment)}
+        className={`${stretch ? 'flex-1 py-[0.5rem]' : 'px-[0.5rem] py-[0.25rem]'} text-[0.625rem] font-bold text-accent border border-accent/20 rounded hover:bg-accent hover:text-navy cursor-pointer transition-all uppercase tracking-wider`}
+      >
+        Edit
+      </button>
+      <button
+        onClick={() => handleDelete(comment._id)}
+        className={`${stretch ? 'flex-1 py-[0.5rem]' : 'px-[0.5rem] py-[0.25rem]'} text-[0.625rem] font-bold text-red-500 border border-red-500/20 rounded hover:bg-red-500 hover:text-white cursor-pointer transition-all uppercase tracking-wider`}
+      >
+        Delete
+      </button>
+    </div>
+  );
+
   return (
     <div className="space-y-[2rem]">
       {/* Header */}
@@ -147,15 +174,53 @@ export default function UserCommentsPage() {
           You have not written any review comments yet.
         </div>
       ) : (
-        <div className="w-full border border-border/10 rounded-[1rem] overflow-hidden bg-background/25">
-          <table className="w-full text-[0.75rem] text-left border-collapse">
+        <>
+        <div className="grid grid-cols-1 gap-[1rem] lg:hidden">
+          {comments.map((comment) => (
+            <article
+              key={comment._id}
+              className="rounded-[1rem] border border-border/40 bg-background/25 p-[1rem] space-y-[1rem] shadow-[0_0.75rem_2rem_rgba(0,0,0,0.04)]"
+            >
+              <div className="flex items-start justify-between gap-[1rem]">
+                <div className="min-w-0">
+                  <p className="text-[0.5625rem] uppercase tracking-wider font-extrabold text-slate-400 mb-[0.25rem]">Lawyer</p>
+                  <h3 className="font-bold text-foreground leading-tight break-words">
+                    {comment.lawyer?.user?.name || 'Removed Lawyer'}
+                  </h3>
+                </div>
+                <div className="flex-shrink-0 text-right">
+                  <p className="text-[0.5625rem] uppercase tracking-wider font-extrabold text-slate-400 mb-[0.25rem]">Rating</p>
+                  {renderRating(comment.rating)}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-[0.75rem] text-[0.75rem]">
+                <div className="rounded-[0.75rem] bg-foreground/[0.02] border border-border/10 p-[0.75rem] sm:col-span-2">
+                  <p className="text-[0.5625rem] uppercase tracking-wider font-extrabold text-slate-400 mb-[0.25rem]">Review Content</p>
+                  <p className="text-slate-500 font-medium leading-relaxed break-words">{comment.text}</p>
+                </div>
+                <div className="rounded-[0.75rem] bg-foreground/[0.02] border border-border/10 p-[0.75rem] sm:col-span-2">
+                  <p className="text-[0.5625rem] uppercase tracking-wider font-extrabold text-slate-400 mb-[0.25rem]">Date Published</p>
+                  <p className="text-foreground font-semibold">{new Date(comment.dateCreated).toLocaleDateString()}</p>
+                </div>
+              </div>
+
+              <div className="pt-[0.75rem] border-t border-border/10">
+                {renderReviewActions(comment, true)}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="hidden lg:block w-full border border-border/10 rounded-[1rem] overflow-hidden bg-background/25">
+          <table className="w-full text-[0.75rem] text-left border-collapse table-fixed">
             <thead>
               <tr className="bg-foreground/[0.02] border-b border-border/10 text-slate-400 font-extrabold uppercase tracking-wider text-[0.5625rem]">
-                <th className="px-[1rem] py-[1rem]">Lawyer</th>
-                <th className="px-[1rem] py-[1rem]">Rating</th>
-                <th className="px-[1rem] py-[1rem]">Review Content</th>
-                <th className="px-[1rem] py-[1rem]">Date Published</th>
-                <th className="px-[1rem] py-[1rem] text-right">Actions</th>
+                <th className="px-[1rem] py-[1rem] w-[24%]">Lawyer</th>
+                <th className="px-[1rem] py-[1rem] w-[16%]">Rating</th>
+                <th className="px-[1rem] py-[1rem] w-[28%]">Review Content</th>
+                <th className="px-[1rem] py-[1rem] w-[17%]">Date Published</th>
+                <th className="px-[1rem] py-[1rem] text-right w-[15%]">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/10">
@@ -167,35 +232,23 @@ export default function UserCommentsPage() {
                     </span>
                   </td>
                   <td className="px-[1rem] py-[1rem]">
-                    <span className="text-amber-500 font-bold">
-                      {'★'.repeat(comment.rating)}{'☆'.repeat(5 - comment.rating)}
-                    </span>
+                    {renderRating(comment.rating)}
                   </td>
-                  <td className="px-[1rem] py-[1rem] max-w-[15rem] truncate text-slate-500 font-medium">
+                  <td className="px-[1rem] py-[1rem] text-slate-500 font-medium break-words">
                     {comment.text}
                   </td>
                   <td className="px-[1rem] py-[1rem] text-slate-400">
                     {new Date(comment.dateCreated).toLocaleDateString()}
                   </td>
-                  <td className="px-[1rem] py-[1rem] text-right space-x-[0.5rem]">
-                    <button
-                      onClick={() => startEdit(comment)}
-                      className="px-[0.5rem] py-[0.25rem] text-[0.625rem] font-bold text-accent border border-accent/20 rounded hover:bg-accent hover:text-navy cursor-pointer transition-all uppercase tracking-wider"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(comment._id)}
-                      className="px-[0.5rem] py-[0.25rem] text-[0.625rem] font-bold text-red-500 border border-red-500/20 rounded hover:bg-red-500 hover:text-white cursor-pointer transition-all uppercase tracking-wider"
-                    >
-                      Delete
-                    </button>
+                  <td className="px-[1rem] py-[1rem] text-right">
+                    {renderReviewActions(comment)}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        </>
       )}
 
       {/* Edit Review Modal */}
