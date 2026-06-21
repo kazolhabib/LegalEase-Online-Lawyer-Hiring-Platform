@@ -69,6 +69,7 @@ export default function RegisterPage() {
     if (!window.google) return;
     const btnEl = document.getElementById("google-signup-btn");
     if (!btnEl) return;
+    btnEl.innerHTML = '';
     
     window.google.accounts.id.renderButton(btnEl, { 
       theme: 'filled_black', 
@@ -81,16 +82,12 @@ export default function RegisterPage() {
   }, []);
 
   const initGoogleSignIn = useCallback(() => {
-    if (!window.google || window.__google_initialized__) {
-      renderGoogleButton();
-      return;
-    }
+    if (!window.google) return;
     
     window.google.accounts.id.initialize({
       client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '810619721461-16ub90cr5ivqb12s8o5mvjm8mss0n9kq.apps.googleusercontent.com',
       callback: handleGoogleCallback,
     });
-    window.__google_initialized__ = true;
     renderGoogleButton();
   }, [handleGoogleCallback, renderGoogleButton]);
 
@@ -169,6 +166,9 @@ export default function RegisterPage() {
           @keyframes orb-float-2 {
             0%, 100% { transform: translate(0, 0) scale(1); }
             50% { transform: translate(-4%, -8%) scale(0.95); }
+          }
+          #google-signup-btn .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf {
+            background: transparent !important;
           }
         `}</style>
 
@@ -276,17 +276,11 @@ export default function RegisterPage() {
 
           {/* Social Authentication */}
           <div className="w-full flex justify-center py-[0.25rem]">
-            <div className="group relative h-[2.75rem] w-full max-w-[20rem] overflow-hidden rounded-[0.5rem] transition-all duration-300 hover:-translate-y-[0.0625rem] hover:shadow-[0_0.875rem_1.75rem_rgba(0,0,0,0.18)] active:translate-y-0 active:scale-[0.99]">
+            <div className="group relative min-h-[2.75rem] w-full max-w-[20rem] overflow-hidden rounded-[0.5rem] bg-[#202124] transition-all duration-300 hover:-translate-y-[0.0625rem] hover:shadow-[0_0.875rem_1.75rem_rgba(0,0,0,0.18)] active:translate-y-0 active:scale-[0.99]">
               <div
                 id="google-signup-btn"
-                className="absolute inset-0 z-10 opacity-0 cursor-pointer"
+                className="flex justify-center"
               />
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center gap-[0.75rem] rounded-[0.5rem] border border-border/70 bg-[#202124] text-white text-[0.875rem] font-semibold transition-all duration-300 group-hover:border-accent/50 group-hover:bg-[#26282d] group-hover:text-accent">
-                <span className="flex h-[1.5rem] w-[1.5rem] items-center justify-center rounded-full bg-transparent text-[1.125rem] font-black transition-transform duration-300 group-hover:scale-110">
-                  G
-                </span>
-                <span>Sign up with Google</span>
-              </div>
             </div>
           </div>
 
@@ -369,7 +363,7 @@ export default function RegisterPage() {
       )}
 
       <Script 
-        src="https://accounts.google.com/gsi/client" 
+        src="https://accounts.google.com/gsi/client?hl=en" 
         onLoad={initGoogleSignIn} 
         strategy="lazyOnload"
       />
