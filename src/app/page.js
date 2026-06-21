@@ -848,6 +848,140 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Extra Section: Legal Assurance Framework */}
+      <section className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[5rem] md:py-[6.5rem] z-[10] border-t-[0.0625rem] border-border/10 bg-slate-50/40 dark:bg-zinc-950/20 overflow-hidden">
+        <div className="hidden sm:block absolute top-[10%] left-[-8rem] h-[22rem] w-[22rem] rounded-full bg-accent/[0.04] blur-[7rem] pointer-events-none" />
+        <div className="hidden sm:block absolute bottom-[5%] right-[-10rem] h-[26rem] w-[26rem] rounded-full bg-primary/[0.03] dark:bg-accent/[0.025] blur-[8rem] pointer-events-none" />
+
+        <div className="editorial-container relative">
+          <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-[3rem] lg:gap-[4rem] items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="space-y-[1.75rem]"
+            >
+              <div className="space-y-[0.75rem]">
+                <span className="text-[0.625rem] uppercase tracking-[0.25em] text-accent font-extrabold block">Legal Assurance Framework</span>
+                <h2 className="font-serif text-[2.25rem] sm:text-[3.25rem] font-normal tracking-tight text-primary dark:text-foreground leading-[1.05]">
+                  Every Case Moves Through a Verified Legal Path
+                </h2>
+              </div>
+
+              <p className="text-[0.9375rem] text-slate-500 dark:text-zinc-400 leading-relaxed max-w-[35rem]">
+                LegalEase keeps each consultation organized from the first request to final payment, with documented counsel review, protected client details, and clear case status at every step.
+              </p>
+
+              <div className="grid grid-cols-2 gap-[0.75rem] max-w-[33rem]">
+                {[
+                  { label: 'Counsel Check', value: 'Bar verified' },
+                  { label: 'Case Trail', value: 'Status logged' },
+                  { label: 'Payment Hold', value: 'Escrow ready' },
+                  { label: 'Privacy Layer', value: 'Client protected' }
+                ].map((item) => (
+                  <div
+                    key={item.label}
+                    className="rounded-[1rem] border border-border/50 bg-background/40 p-[1rem] backdrop-blur-sm"
+                  >
+                    <p className="text-[0.5625rem] uppercase tracking-wider font-extrabold text-slate-500">{item.label}</p>
+                    <p className="mt-[0.25rem] font-serif text-[1.125rem] font-bold text-primary dark:text-foreground">{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={{
+                visible: {
+                  transition: {
+                    staggerChildren: 0.12
+                  }
+                }
+              }}
+              className="relative"
+            >
+              <div className="relative rounded-[1.5rem] border border-border/50 bg-background/45 dark:bg-zinc-950/30 p-[1rem] sm:p-[1.25rem] shadow-[0_2rem_5rem_rgba(0,0,0,0.04)] dark:shadow-[0_2rem_5rem_rgba(0,0,0,0.35)] backdrop-blur-md overflow-hidden">
+                <div className="absolute inset-x-[1.25rem] top-[5.4rem] hidden sm:block h-[0.0625rem] bg-gradient-to-r from-transparent via-accent/35 to-transparent" />
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-[1rem]">
+                  {[
+                    {
+                      num: '01',
+                      title: 'Case Intake',
+                      desc: 'Client submits a request with consultation purpose, selected counsel, and expected fee.',
+                      tag: 'Request opened'
+                    },
+                    {
+                      num: '02',
+                      title: 'Counsel Review',
+                      desc: 'The lawyer accepts or rejects the brief before payment is requested from the client.',
+                      tag: 'Decision logged'
+                    },
+                    {
+                      num: '03',
+                      title: 'Escrow Lock',
+                      desc: 'Accepted cases move into a protected payment flow before the consultation begins.',
+                      tag: 'Funds protected'
+                    },
+                    {
+                      num: '04',
+                      title: 'Secure Record',
+                      desc: 'Status, transaction reference, and client history stay organized inside the dashboard.',
+                      tag: 'Audit ready'
+                    }
+                  ].map((step) => (
+                    <motion.div
+                      key={step.num}
+                      variants={{
+                        hidden: { opacity: 0, y: 20 },
+                        visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
+                      }}
+                      className="group relative rounded-[1.125rem] border border-border/40 bg-card/50 dark:bg-zinc-900/20 p-[1.25rem] sm:p-[1.5rem] transition-all duration-500 hover:border-accent/40 hover:-translate-y-1"
+                    >
+                      <div className="flex items-start justify-between gap-[1rem] mb-[1.25rem]">
+                        <span className="font-serif italic text-[1.75rem] leading-none text-accent/70 group-hover:text-accent transition-colors">
+                          {step.num}
+                        </span>
+                        <span className="rounded-full border border-accent/15 bg-accent/10 px-[0.625rem] py-[0.25rem] text-[0.5625rem] font-black uppercase tracking-wider text-accent">
+                          {step.tag}
+                        </span>
+                      </div>
+
+                      <h3 className="font-serif text-[1.35rem] font-bold tracking-tight text-primary dark:text-foreground">
+                        {step.title}
+                      </h3>
+                      <div className="my-[1rem] h-[0.0625rem] w-[2rem] bg-accent/30 group-hover:w-[3.5rem] group-hover:bg-accent/70 transition-all duration-500" />
+                      <p className="text-[0.8125rem] leading-relaxed text-slate-500 dark:text-zinc-400">
+                        {step.desc}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="mt-[1rem] rounded-[1rem] border border-accent/15 bg-accent/[0.06] px-[1rem] py-[0.875rem] flex flex-col sm:flex-row sm:items-center justify-between gap-[0.75rem]">
+                  <div>
+                    <p className="text-[0.5625rem] uppercase tracking-wider font-extrabold text-accent">Platform Standard</p>
+                    <p className="text-[0.8125rem] text-slate-500 dark:text-zinc-400 mt-[0.125rem]">
+                      Transparent case status for clients, lawyers, and admins.
+                    </p>
+                  </div>
+                  <Link
+                    href="/browse"
+                    className="inline-flex items-center justify-center rounded-[0.75rem] border border-accent/25 px-[1rem] py-[0.625rem] text-[0.6875rem] font-black uppercase tracking-wider text-accent hover:bg-accent hover:text-navy transition-all"
+                  >
+                    Start a Case
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Extra Section: Trust & Escrow Setup */}
       <section id="trust" className="relative w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[5rem] md:py-[6.5rem] z-[10] border-t-[0.0625rem] border-border/10 bg-transparent">
         <div className="editorial-container">

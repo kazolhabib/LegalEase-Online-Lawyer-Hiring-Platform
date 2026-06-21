@@ -5,13 +5,12 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuth, useTheme } from '../Providers';
+import { useAuth } from '../Providers';
 import Script from 'next/script';
 
 export default function LoginPage() {
   const router = useRouter();
   const { login, googleLogin, user, loading } = useAuth();
-  const { theme } = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -42,17 +41,18 @@ export default function LoginPage() {
     if (!btnEl) return;
     
     window.google.accounts.id.renderButton(btnEl, { 
-      theme: theme === 'dark' ? 'filled_black' : 'outline', 
+      theme: 'filled_black', 
       size: 'large', 
       text: 'continue_with',
       shape: 'rectangular',
-      width: 320
+      width: 320,
+      locale: 'en'
     });
-  }, [theme]);
+  }, []);
 
   const initGoogleSignIn = useCallback(() => {
     if (!window.google || window.__google_initialized__) {
-      // Already initialized, just re-render button (e.g. for theme change)
+      // Already initialized, just re-render button.
       renderGoogleButton();
       return;
     }
@@ -69,7 +69,7 @@ export default function LoginPage() {
     if (window.google) {
       initGoogleSignIn();
     }
-  }, [theme, initGoogleSignIn]);
+  }, [initGoogleSignIn]);
 
   useEffect(() => {
     // If already logged in, redirect to home

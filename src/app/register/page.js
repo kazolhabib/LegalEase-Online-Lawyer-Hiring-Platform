@@ -29,9 +29,13 @@ export default function RegisterPage() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const stageParam = new URLSearchParams(window.location.search).get('stage');
-      if (stageParam === 'role_select') {
-        setStage('role_select');
-      }
+      const stageTimer = setTimeout(() => {
+        if (stageParam === 'role_select') {
+          setStage('role_select');
+        }
+      }, 0);
+
+      return () => clearTimeout(stageTimer);
     }
   }, []);
 
@@ -67,11 +71,12 @@ export default function RegisterPage() {
     if (!btnEl) return;
     
     window.google.accounts.id.renderButton(btnEl, { 
-      theme: 'outline', 
+      theme: 'filled_black', 
       size: 'large', 
       text: 'signup_with',
       shape: 'rectangular',
-      width: 320
+      width: 320,
+      locale: 'en'
     });
   }, []);
 

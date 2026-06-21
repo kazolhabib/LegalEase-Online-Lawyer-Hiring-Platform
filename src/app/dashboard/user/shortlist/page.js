@@ -48,7 +48,11 @@ export default function ClientShortlistPage() {
   };
 
   useEffect(() => {
-    fetchShortlist();
+    const shortlistTimer = setTimeout(() => {
+      fetchShortlist();
+    }, 0);
+
+    return () => clearTimeout(shortlistTimer);
   }, []);
 
   const handleRemove = (lawyerId) => {
@@ -70,14 +74,14 @@ export default function ClientShortlistPage() {
   return (
     <div className="space-y-[2rem]">
       {/* Header */}
-      <div className="border-b border-border/10 pb-[1rem] flex items-center justify-between">
+      <div className="border-b border-border/10 pb-[1rem] flex flex-col sm:flex-row sm:items-center justify-between gap-[1rem]">
         <div>
           <h2 className="font-serif text-[1.75rem] font-bold text-primary dark:text-foreground">Shortlisted Lawyers</h2>
           <p className="text-[0.75rem] text-slate-500">View and manage the attorneys you bookmarked for consultations.</p>
         </div>
         <Link
           href="/browse"
-          className="px-[1rem] py-[0.5rem] bg-accent/10 border border-accent/20 text-accent text-[0.6875rem] font-bold uppercase tracking-wider rounded-[0.5rem] hover:bg-accent hover:text-navy transition-all"
+          className="w-full sm:w-auto text-center px-[1rem] py-[0.5rem] bg-accent/10 border border-accent/20 text-accent text-[0.6875rem] font-bold uppercase tracking-wider rounded-[0.5rem] hover:bg-accent hover:text-navy transition-all"
         >
           Explore Catalog
         </Link>
@@ -90,7 +94,7 @@ export default function ClientShortlistPage() {
           <span className="text-[2rem] block">⭐</span>
           <h4 className="font-serif font-bold text-[1.125rem]">Your Shortlist is Empty</h4>
           <p className="text-[0.75rem] text-slate-500 leading-relaxed">
-            You haven't bookmarked any legal counsel yet. Browse our verified advocates to build your shortlist of experts.
+            You haven&apos;t bookmarked any legal counsel yet. Browse our verified advocates to build your shortlist of experts.
           </p>
           <Link
             href="/browse"
@@ -106,7 +110,7 @@ export default function ClientShortlistPage() {
           variants={{
             visible: { transition: { staggerChildren: 0.05 } }
           }}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-[2rem]"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[1.25rem] sm:gap-[1.5rem] xl:gap-[2rem]"
         >
           {shortlist.map((lawyer) => (
             <motion.div
@@ -115,7 +119,7 @@ export default function ClientShortlistPage() {
                 hidden: { opacity: 0, y: 15 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
               }}
-              className="border border-border/80 bg-background/20 rounded-[1.25rem] overflow-hidden flex flex-col group hover:border-accent/40 hover:shadow-[0_1rem_2rem_rgba(0,0,0,0.05)] dark:hover:shadow-[0_1rem_2rem_rgba(0,0,0,0.4)] transition-all duration-300"
+              className="border border-border/80 bg-background/20 rounded-[1.25rem] overflow-hidden flex flex-col group hover:border-accent/40 hover:shadow-[0_1rem_2rem_rgba(0,0,0,0.05)] dark:hover:shadow-[0_1rem_2rem_rgba(0,0,0,0.4)] transition-all duration-300 w-full max-w-[28rem] mx-auto"
             >
               {/* Photo Area */}
               <div className="relative aspect-[4/3] bg-slate-100 dark:bg-zinc-900 overflow-hidden">
@@ -145,27 +149,27 @@ export default function ClientShortlistPage() {
               </div>
 
               {/* Info details */}
-              <div className="p-[1.25rem] flex-1 flex flex-col justify-between space-y-[1rem]">
+              <div className="p-[1rem] sm:p-[1.25rem] flex-1 flex flex-col justify-between space-y-[1rem]">
                 <div className="space-y-[0.25rem]">
-                  <h4 className="font-serif font-bold text-[1rem] tracking-tight text-primary dark:text-foreground line-clamp-1">
+                  <h4 className="font-serif font-bold text-[1rem] tracking-tight text-primary dark:text-foreground line-clamp-2 leading-tight">
                     {lawyer.user?.name}
                   </h4>
-                  <p className="text-[0.625rem] uppercase tracking-wider text-slate-500 font-extrabold">
+                  <p className="text-[0.625rem] uppercase tracking-wider text-slate-500 font-extrabold break-words">
                     {lawyer.specialization}
                   </p>
                   <p className="text-[0.75rem] text-accent font-bold pt-[0.25rem]">${lawyer.rate}/hr</p>
                 </div>
 
-                <div className="pt-[0.75rem] border-t border-border/10 flex gap-[0.5rem]">
+                <div className="pt-[0.75rem] border-t border-border/10 grid grid-cols-2 gap-[0.5rem]">
                   <Link
                     href={`/lawyers/${lawyer._id}`}
-                    className="flex-1 py-[0.375rem] border border-border hover:border-accent text-center text-foreground hover:text-accent text-[0.6875rem] font-bold uppercase tracking-wider rounded-[0.375rem] transition-all"
+                    className="py-[0.5rem] border border-border hover:border-accent text-center text-foreground hover:text-accent text-[0.6875rem] font-bold uppercase tracking-wider rounded-[0.375rem] transition-all"
                   >
                     Details
                   </Link>
                   <Link
                     href={`/lawyers/${lawyer._id}`}
-                    className="flex-1 py-[0.375rem] bg-primary text-white dark:bg-accent dark:text-navy text-center text-[0.6875rem] font-bold uppercase tracking-wider rounded-[0.375rem] hover:scale-[1.02] active:scale-[0.98] transition-all"
+                    className="py-[0.5rem] bg-primary text-white dark:bg-accent dark:text-navy text-center text-[0.6875rem] font-bold uppercase tracking-wider rounded-[0.375rem] hover:scale-[1.02] active:scale-[0.98] transition-all"
                   >
                     Hire
                   </Link>
