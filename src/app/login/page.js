@@ -208,7 +208,18 @@ export default function LoginPage() {
 
         {/* Social Authentication */}
         <div className="w-full flex justify-center py-[0.25rem]">
-          <div id="google-signin-btn"></div>
+          <div className="group relative h-[2.75rem] w-full max-w-[20rem] overflow-hidden rounded-[0.5rem] transition-all duration-300 hover:-translate-y-[0.0625rem] hover:shadow-[0_0.875rem_1.75rem_rgba(0,0,0,0.18)] active:translate-y-0 active:scale-[0.99]">
+            <div
+              id="google-signin-btn"
+              className="absolute inset-0 z-10 opacity-0 cursor-pointer"
+            />
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center gap-[0.75rem] rounded-[0.5rem] border border-border/70 bg-[#202124] text-white text-[0.875rem] font-semibold transition-all duration-300 group-hover:border-accent/50 group-hover:bg-[#26282d] group-hover:text-accent">
+              <span className="flex h-[1.5rem] w-[1.5rem] items-center justify-center rounded-full bg-transparent text-[1.125rem] font-black transition-transform duration-300 group-hover:scale-110">
+                G
+              </span>
+              <span>Continue with Google</span>
+            </div>
+          </div>
         </div>
 
         <p className="text-center text-[0.75rem] text-slate-500">
