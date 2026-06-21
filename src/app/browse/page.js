@@ -8,7 +8,20 @@ import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
-const DEFAULT_LAWYER_IMAGE = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=500&h=667';
+const FALLBACK_LAWYER_IMAGES = [
+  'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=500&h=667',
+  'https://images.unsplash.com/photo-1562788869-4ed32648eb72?auto=format&fit=crop&q=80&w=500&h=667',
+  'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?auto=format&fit=crop&q=80&w=500&h=667',
+  'https://images.unsplash.com/photo-1590086783191-a0694c7d1e6e?auto=format&fit=crop&q=80&w=500&h=667'
+];
+
+const getFallbackLawyerImage = (lawyer, offset = 0) => {
+  const seed = `${lawyer?._id || ''}${lawyer?.user?.name || ''}`;
+  const hash = seed.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  return FALLBACK_LAWYER_IMAGES[(hash + offset) % FALLBACK_LAWYER_IMAGES.length];
+};
+
+const getLawyerImage = (lawyer) => lawyer.image || getFallbackLawyerImage(lawyer);
 
 function BrowseLawyersContent() {
   const searchParams = useSearchParams();
@@ -336,11 +349,12 @@ function BrowseLawyersContent() {
                 >
                   <div className="relative aspect-[3/4] overflow-hidden bg-slate-100 dark:bg-zinc-900 mb-[1rem]">
                     <img
-                      src={lawyer.image || DEFAULT_LAWYER_IMAGE}
+                      src={getLawyerImage(lawyer)}
                       alt={lawyer.user?.name}
                       onError={(event) => {
-                        if (event.currentTarget.src !== DEFAULT_LAWYER_IMAGE) {
-                          event.currentTarget.src = DEFAULT_LAWYER_IMAGE;
+                        const fallbackImage = getFallbackLawyerImage(lawyer, 1);
+                        if (event.currentTarget.src !== fallbackImage) {
+                          event.currentTarget.src = fallbackImage;
                         }
                       }}
                       className="h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-[600ms] ease-out"
