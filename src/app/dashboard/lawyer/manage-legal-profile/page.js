@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../Providers';
+import { uploadImageWithFallback } from '../../../../lib/imageUpload';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
 const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY || '';
@@ -90,38 +91,26 @@ export default function LawyerManageProfilePage() {
     return () => clearTimeout(paymentTimer);
   }, []);
 
-  // imgBB Image Upload handler
+  // Image upload handler with ImgBB first and browser-compressed fallback.
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
     setUploading(true);
     setError('');
+    setSuccess('');
 
     try {
-      const formData = new FormData();
-      formData.append('image', file);
-
-      const apiKey = IMGBB_API_KEY || '44ab28a8a2352b2a2d1afc1f09e68bda';
-      const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (data.success) {
-        setImage(data.data.display_url);
-        setSuccess('Image uploaded successfully!');
-        setTimeout(() => setSuccess(''), 3000);
-      } else {
-        console.error('imgBB upload failed:', data);
-        setError(`Image upload failed: ${data.error?.message || 'Check your API Key.'}`);
-      }
+      const result = await uploadImageWithFallback(file, IMGBB_API_KEY);
+      setImage(result.url);
+      setSuccess(result.message);
+      setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
-      console.error('imgBB upload error:', err);
+      console.error('Image upload error:', err);
       setError('Image upload service error. You can paste a direct URL instead.');
     } finally {
       setUploading(false);
+      e.target.value = '';
     }
   };
 
@@ -370,7 +359,7 @@ export default function LawyerManageProfilePage() {
 
           {/* Image Upload Section */}
           <div className="space-y-[0.5rem]">
-            <label className="text-[0.625rem] uppercase tracking-wider font-extrabold text-slate-500">Profile Image (imgBB Upload)</label>
+            <label className="text-[0.625rem] uppercase tracking-wider font-extrabold text-slate-500">Profile Image Upload</label>
             
             <div className="flex items-center gap-[0.75rem]">
               <label
