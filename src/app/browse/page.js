@@ -35,17 +35,21 @@ function BrowseLawyersContent() {
   const [shortlistedIds, setShortlistedIds] = useState([]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('legalease_shortlist');
-      if (saved) {
-        try {
-          const parsed = JSON.parse(saved);
-          setShortlistedIds(parsed.map(l => l._id));
-        } catch (err) {
-          console.error(err);
+    const shortlistTimer = setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem('legalease_shortlist');
+        if (saved) {
+          try {
+            const parsed = JSON.parse(saved);
+            setShortlistedIds(parsed.map(l => l._id));
+          } catch (err) {
+            console.error(err);
+          }
         }
       }
-    }
+    }, 0);
+
+    return () => clearTimeout(shortlistTimer);
   }, []);
 
   const toggleShortlist = (lawyer, e) => {
@@ -76,12 +80,16 @@ function BrowseLawyersContent() {
 
   // Initialize filters from URL parameters FIRST, then mark ready
   useEffect(() => {
-    const urlSearch = searchParams.get('search');
-    const urlSpec = searchParams.get('specialization');
-    if (urlSearch) setSearch(urlSearch);
-    if (urlSpec) setSpecialization(urlSpec);
-    // Mark filters as ready so fetch can proceed
-    setFiltersReady(true);
+    const filtersTimer = setTimeout(() => {
+      const urlSearch = searchParams.get('search');
+      const urlSpec = searchParams.get('specialization');
+      if (urlSearch) setSearch(urlSearch);
+      if (urlSpec) setSpecialization(urlSpec);
+      // Mark filters as ready so fetch can proceed
+      setFiltersReady(true);
+    }, 0);
+
+    return () => clearTimeout(filtersTimer);
   }, [searchParams]);
 
   // Fetch lawyers when filters or page change
@@ -121,7 +129,11 @@ function BrowseLawyersContent() {
   useEffect(() => {
     // Only fetch after URL params have been applied
     if (!filtersReady) return;
-    fetchLawyers(1);
+    const fetchTimer = setTimeout(() => {
+      fetchLawyers(1);
+    }, 0);
+
+    return () => clearTimeout(fetchTimer);
   }, [filtersReady, specialization, status, sort]);
 
   const handleSearchSubmit = (e) => {
@@ -419,6 +431,126 @@ function BrowseLawyersContent() {
           )}
         </div>
       </div>
+
+      <section className="relative left-1/2 mt-[5rem] md:mt-[6.5rem] w-screen -translate-x-1/2 px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[5rem] md:py-[6rem] border-t border-border/10 bg-slate-50/30 dark:bg-zinc-950/20 overflow-hidden">
+        <div className="hidden sm:block absolute top-[4rem] left-[-8rem] h-[20rem] w-[20rem] rounded-full bg-accent/[0.04] blur-[7rem] pointer-events-none" />
+        <div className="hidden sm:block absolute bottom-[-8rem] right-[-6rem] h-[22rem] w-[22rem] rounded-full bg-primary/[0.03] dark:bg-accent/[0.025] blur-[8rem] pointer-events-none" />
+
+        <div className="editorial-container relative">
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="relative text-center space-y-[0.75rem] mb-[3.5rem]"
+          >
+            <span className="text-[0.625rem] uppercase tracking-[0.25em] text-accent font-extrabold block">Secure Marketplace</span>
+            <h2 className="font-serif text-[2.25rem] sm:text-[3.25rem] font-normal tracking-tight text-primary dark:text-foreground">
+              Built on Trust & Security
+            </h2>
+            <p className="mx-auto max-w-[34rem] text-[0.875rem] text-slate-500 dark:text-zinc-400 leading-relaxed">
+              Browse with confidence knowing every consultation begins with verified profiles, transparent fees, and protected client records.
+            </p>
+            <div className="h-[0.0625rem] w-[3.5rem] bg-accent/30 mx-auto mt-[1.5rem]" />
+          </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.12
+              }
+            }
+          }}
+          className="relative grid grid-cols-1 md:grid-cols-3 gap-[1rem] lg:gap-[1.25rem]"
+        >
+          {[
+            {
+              title: 'Verified Legal Profiles',
+              desc: 'Every listed advocate is connected to a profile review, practice category, rate, availability, and client feedback trail.',
+              stat: 'Profile checked',
+              icon: (
+                <svg className="w-[2rem] h-[2rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.4}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                </svg>
+              )
+            },
+            {
+              title: 'Transparent Hiring Flow',
+              desc: 'Clients can shortlist, inspect ratings, compare hourly fees, and move into a clear hiring request without guesswork.',
+              stat: 'No hidden steps',
+              icon: (
+                <svg className="w-[2rem] h-[2rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.4}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h10.5m-10.5 4.5h7.5" />
+                </svg>
+              )
+            },
+            {
+              title: 'Escrow-Ready Counsel',
+              desc: 'Accepted consultations move into protected payment handling, keeping both client and attorney aligned before work begins.',
+              stat: 'Payment protected',
+              icon: (
+                <svg className="w-[2rem] h-[2rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.4}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 0 0-9 0v3.75m-.75 11.25h10.5A2.25 2.25 0 0 0 19.5 19.5v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75A2.25 2.25 0 0 0 6.75 21.75Z" />
+                </svg>
+              )
+            }
+          ].map((item, index) => (
+            <motion.div
+              key={item.title}
+              variants={{
+                hidden: { opacity: 0, y: 25 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
+              }}
+              className="group rounded-[1.25rem] border border-border/50 bg-background/35 dark:bg-zinc-950/20 p-[1.5rem] sm:p-[1.75rem] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_1.25rem_3rem_rgba(169,132,76,0.06)]"
+            >
+              <div className="flex items-start justify-between gap-[1rem] mb-[1.75rem]">
+                <div className="text-accent transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105">
+                  {item.icon}
+                </div>
+                <span className="font-serif italic text-[0.875rem] text-accent/60">0{index + 1}.</span>
+              </div>
+
+              <span className="inline-flex rounded-full border border-accent/15 bg-accent/10 px-[0.625rem] py-[0.25rem] text-[0.5625rem] font-black uppercase tracking-wider text-accent mb-[1rem]">
+                {item.stat}
+              </span>
+
+              <h3 className="font-serif text-[1.35rem] font-bold tracking-tight text-primary dark:text-foreground group-hover:text-accent transition-colors">
+                {item.title}
+              </h3>
+              <div className="my-[1rem] h-[0.0625rem] w-[2rem] bg-accent/30 group-hover:w-[3.5rem] group-hover:bg-accent/70 transition-all duration-500" />
+              <p className="text-[0.8125rem] text-slate-500 dark:text-zinc-400 leading-relaxed">
+                {item.desc}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="relative mt-[1rem] sm:mt-[1.25rem] rounded-[1.25rem] border border-accent/15 bg-accent/[0.06] px-[1rem] sm:px-[1.5rem] py-[1rem] flex flex-col md:flex-row md:items-center justify-between gap-[1rem]"
+        >
+          <div>
+            <p className="text-[0.5625rem] uppercase tracking-wider font-extrabold text-accent">Need a confident first step?</p>
+            <p className="text-[0.8125rem] text-slate-500 dark:text-zinc-400 mt-[0.125rem]">
+              Start by comparing practice areas, ratings, availability, and rates before opening a case.
+            </p>
+          </div>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="inline-flex items-center justify-center rounded-[0.75rem] border border-accent/25 px-[1rem] py-[0.625rem] text-[0.6875rem] font-black uppercase tracking-wider text-accent hover:bg-accent hover:text-navy transition-all cursor-pointer"
+          >
+            Refine Search
+          </button>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 }

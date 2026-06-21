@@ -23,7 +23,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[6rem] md:py-[5rem] mt-[6.5rem] border-t-[0.0625rem] border-border/15 bg-slate-50/[0.04] dark:bg-zinc-950/[0.04] backdrop-blur-sm relative z-[10] overflow-hidden group/footer">
+    <footer className="w-full px-[1rem] sm:px-[2rem] lg:px-[3rem] py-[6rem] md:py-[5rem] mt-[1rem] border-t-[0.0625rem] border-border/15 bg-slate-50/[0.04] dark:bg-zinc-950/[0.04] backdrop-blur-sm relative z-[10] overflow-hidden group/footer">
       {/* Editorial Gradient Line at the top of the footer */}
       <div className="absolute top-0 left-0 right-0 h-[0.0625rem] bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
