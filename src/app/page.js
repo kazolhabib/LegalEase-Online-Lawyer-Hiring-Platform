@@ -696,7 +696,7 @@ export default function Home() {
                 }
               }
             }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-[2rem] w-full"
+            className="grid grid-cols-1 lg:grid-cols-3 gap-[1.25rem] sm:gap-[1.5rem] lg:gap-[2rem] w-full"
           >
             {loading ? (
               [1, 2, 3].map((idx) => (
@@ -724,7 +724,7 @@ export default function Home() {
                 >
                   <Link
                     href={`/lawyers/${expert._id}`}
-                    className="relative flex items-center gap-[1.5rem] p-[1.5rem] bg-card/60 dark:bg-zinc-900/30 backdrop-blur-md border border-border/50 rounded-[1.5rem] hover:-translate-y-1 hover:border-accent/40 hover:bg-card hover:shadow-[0_1rem_2.5rem_rgba(169,132,76,0.06)] dark:hover:shadow-[0_1rem_2.5rem_rgba(0,0,0,0.4)] transition-all duration-[400ms] group cursor-pointer w-full mx-auto max-w-[28rem] md:max-w-none"
+                    className="relative flex items-center gap-[1rem] sm:gap-[1.5rem] p-[1.25rem] sm:p-[1.5rem] bg-card/60 dark:bg-zinc-900/30 backdrop-blur-md border border-border/50 rounded-[1.25rem] sm:rounded-[1.5rem] hover:-translate-y-1 hover:border-accent/40 hover:bg-card hover:shadow-[0_1rem_2.5rem_rgba(169,132,76,0.06)] dark:hover:shadow-[0_1rem_2.5rem_rgba(0,0,0,0.4)] transition-all duration-[400ms] group cursor-pointer w-full mx-auto max-w-[34rem] lg:max-w-none"
                   >
                     {/* Rank Badge */}
                     <span className="absolute top-[1.125rem] right-[1.125rem] font-mono text-[0.6875rem] font-black text-accent/50 group-hover:text-accent transition-colors duration-300">
@@ -732,7 +732,7 @@ export default function Home() {
                     </span>
 
                     {/* Circular Avatar with Accent Ring */}
-                    <div className="relative h-[5rem] w-[5rem] flex-shrink-0 rounded-full overflow-hidden border-[0.125rem] border-accent/20 group-hover:border-accent transition-colors duration-500 shadow-sm">
+                    <div className="relative h-[4.25rem] w-[4.25rem] sm:h-[5rem] sm:w-[5rem] flex-shrink-0 rounded-full overflow-hidden border-[0.125rem] border-accent/20 group-hover:border-accent transition-colors duration-500 shadow-sm">
                       <img
                         src={expert.image}
                         alt={expert.user?.name}
@@ -742,10 +742,10 @@ export default function Home() {
 
                     {/* Content details */}
                     <div className="space-y-[0.375rem] flex-1 min-w-[0rem]">
-                      <h4 className="font-serif font-bold text-[1.125rem] text-primary dark:text-foreground group-hover:text-accent transition-colors line-clamp-1">
+                      <h4 className="font-serif font-bold text-[1rem] sm:text-[1.125rem] text-primary dark:text-foreground group-hover:text-accent transition-colors line-clamp-2 lg:line-clamp-1 leading-tight">
                         {expert.user?.name}
                       </h4>
-                      <p className="text-[0.625rem] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-bold block">
+                      <p className="text-[0.625rem] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-bold block break-words">
                         {expert.specialization}
                       </p>
                       
