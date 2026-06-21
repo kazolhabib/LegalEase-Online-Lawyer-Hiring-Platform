@@ -8,6 +8,7 @@ import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+const DEFAULT_LAWYER_IMAGE = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=500&h=667';
 
 function BrowseLawyersContent() {
   const searchParams = useSearchParams();
@@ -335,8 +336,13 @@ function BrowseLawyersContent() {
                 >
                   <div className="relative aspect-[3/4] overflow-hidden bg-slate-100 dark:bg-zinc-900 mb-[1rem]">
                     <img
-                      src={lawyer.image}
+                      src={lawyer.image || DEFAULT_LAWYER_IMAGE}
                       alt={lawyer.user?.name}
+                      onError={(event) => {
+                        if (event.currentTarget.src !== DEFAULT_LAWYER_IMAGE) {
+                          event.currentTarget.src = DEFAULT_LAWYER_IMAGE;
+                        }
+                      }}
                       className="h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-[600ms] ease-out"
                     />
                     <span className={`absolute bottom-[0.75rem] right-[0.75rem] h-[0.5rem] w-[0.5rem] rounded-full ${
