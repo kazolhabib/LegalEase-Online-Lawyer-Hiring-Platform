@@ -33,6 +33,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       className={`${outfit.variable} ${inter.variable} ${cormorant.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground transition-colors duration-300">
@@ -47,4 +48,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-
