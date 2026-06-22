@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useSyncExternalStore } from 'react';
 
 // Theme Context
 const ThemeContext = createContext({
@@ -12,24 +12,42 @@ const ThemeContext = createContext({
 
 export const useTheme = () => useContext(ThemeContext);
 
+const subscribeToClient = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
+
+const getInitialTheme = () => {
+  if (typeof window === 'undefined') {
+    return 'light';
+  }
+
+  const storedTheme = localStorage.getItem('theme');
+  if (storedTheme) {
+    return storedTheme;
+  }
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+};
+
 function CustomThemeProvider({ children }) {
-  const [theme, setTheme] = useState('light');
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(subscribeToClient, getClientSnapshot, getServerSnapshot);
+  const [theme, setTheme] = useState(null);
 
   useEffect(() => {
-    // Read from localStorage or system preference
-    const storedTheme = localStorage.getItem('theme');
-    if (storedTheme) {
-      setTheme(storedTheme);
-      document.documentElement.classList.add(storedTheme);
-    } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const initialTheme = prefersDark ? 'dark' : 'light';
-      setTheme(initialTheme);
-      document.documentElement.classList.add(initialTheme);
-    }
-    setMounted(true);
+    const initialTheme = getInitialTheme();
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(initialTheme);
+    queueMicrotask(() => setTheme(initialTheme));
   }, []);
+
+  useEffect(() => {
+    if (!theme) {
+      return;
+    }
+
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(theme);
+  }, [theme]);
 
   const toggleTheme = () => {
     const nextTheme = theme === 'light' ? 'dark' : 'light';
@@ -45,8 +63,8 @@ function CustomThemeProvider({ children }) {
     }
   };
 
-  // Prevent flash by waiting for mount
-  if (!mounted) {
+  // Prevent flash by waiting for the browser theme to be resolved.
+  if (!mounted || !theme) {
     return <div style={{ visibility: 'hidden' }}>{children}</div>;
   }
 
@@ -237,4 +255,3 @@ export default function Providers({ children }) {
     </CustomThemeProvider>
   );
 }
-

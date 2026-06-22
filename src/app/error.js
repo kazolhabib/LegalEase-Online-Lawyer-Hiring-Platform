@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 
 export default function Error({ error, reset }) {
   return (
@@ -49,7 +50,7 @@ export default function Error({ error, reset }) {
             Try Again
           </button>
 
-          <a
+          <Link
             href="/"
             className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-border text-foreground font-medium rounded-xl hover:bg-card transition-all duration-300"
             style={{ fontFamily: 'var(--font-outfit), Outfit, sans-serif' }}
@@ -58,7 +59,7 @@ export default function Error({ error, reset }) {
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
             Go Home
-          </a>
+          </Link>
         </div>
       </div>
     </div>
