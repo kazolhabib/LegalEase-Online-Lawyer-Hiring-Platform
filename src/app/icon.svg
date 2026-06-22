@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="LegalEase">
+  <rect width="64" height="64" rx="14" fill="#0b0c10"/>
+  <path fill="#a9844c" d="M18 14h9v29h18v8H18z"/>
+  <path fill="#fcfbfa" d="M34 14h4v34h-4z"/>
+  <path fill="#c5a880" d="M24 24h24v4H24z"/>
+  <path fill="#fcfbfa" d="M26 27l-6 12h12zm20 0l-6 12h12z"/>
+  <path fill="#a9844c" d="M18 39h16a8 8 0 0 1-16 0zm20 0h16a8 8 0 0 1-16 0zM28 50h16v4H28z"/>
+</svg>
